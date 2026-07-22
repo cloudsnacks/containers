@@ -1,0 +1,9 @@
+---
+name: kubectl
+description: Rootless kubectl CLI
+# renovate: datasource=github-releases depName=kubernetes/kubernetes
+version: 1.36.2
+platforms:
+  - linux/amd64
+  - linux/arm64
+test: kubectl version --client

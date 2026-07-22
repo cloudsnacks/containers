@@ -2,11 +2,14 @@
 
 Public container images for cloud work, built multi-arch and rootless with security-first defaults. Inspired by [home-operations/containers](https://github.com/home-operations/containers).
 
+**[Image size dashboard →](https://cloudsnacks.github.io/containers/)** — per-arch compressed sizes, layer breakdowns, and size history for every image, updated on each release.
+
 ## Images
 
 | Image | Description |
 |---|---|
 | `ghcr.io/cloudsnacks/actions-runner` | Rootless GitHub Actions runner for [Actions Runner Controller](https://github.com/actions/actions-runner-controller) |
+| `ghcr.io/cloudsnacks/kubectl` | Rootless kubectl CLI |
 | `ghcr.io/cloudsnacks/sandbox-agent` | Rootless base image for sandboxed coding agents (Node, Python, uv, git, gh, ripgrep) |
 
 ## Usage

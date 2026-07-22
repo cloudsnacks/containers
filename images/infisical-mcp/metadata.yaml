@@ -1,0 +1,9 @@
+---
+name: infisical-mcp
+description: Infisical MCP server (secrets management over MCP)
+# renovate: datasource=npm depName=@infisical/mcp
+version: 0.0.23
+platforms:
+  - linux/amd64
+  - linux/arm64
+test: node --check /usr/local/lib/node_modules/@infisical/mcp/dist/index.js && INFISICAL_UNIVERSAL_AUTH_CLIENT_ID=dummy INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET=dummy node /usr/local/lib/node_modules/@infisical/mcp/dist/index.js < /dev/null

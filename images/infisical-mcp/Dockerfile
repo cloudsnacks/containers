@@ -14,4 +14,4 @@ USER infisical
 
 LABEL org.opencontainers.image.description="Infisical MCP server (secrets management over MCP)"
 
-ENTRYPOINT ["node", "/usr/local/lib/node_modules/@infisical/mcp/dist/index.js"]
+CMD ["node", "/usr/local/lib/node_modules/@infisical/mcp/dist/index.js"]

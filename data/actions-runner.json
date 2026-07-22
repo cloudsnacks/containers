@@ -1,0 +1,75 @@
+{
+  "name": "actions-runner",
+  "history": [
+    {
+      "version": "2.336.0",
+      "digest": "sha256:b68df2ba5cf70bc81d58c539e4d3f5049a23af83f4f55577de9297e8b43a6e98",
+      "collectedAt": "2026-07-22T21:31:22Z",
+      "platforms": {
+        "linux/amd64": {
+          "digest": "sha256:c241d873514e193cb32f2668938fbde8821579fec5f4b4a8ad417426bd6e398d",
+          "size": 311213698,
+          "layers": [
+            {
+              "digest": "sha256:ca2678b20700c15185707964d9211b1a6406196114bf675f568b6025d37b3888",
+              "size": 29735601,
+              "command": "/bin/sh -c #(nop) ADD file:8c609c85109d07bf47cf268a175b3be8bbe34fc0c41d15d99b090d099f4dc837 in / "
+            },
+            {
+              "digest": "sha256:e55354942bd871b73a403ef29c14e6ac2f97dc517c47bb804db0bf52082d729b",
+              "size": 32673832,
+              "command": "RUN |3 RUNNER_VERSION=2.336.0 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 TARGETARCH=amd64 /bin/bash -o pipefail -c apt-get update     && apt-get install -y --no-install-recommends         ca-certificates         curl         git         git-lfs         jq         unzip         zstd     && rm -rf /var/lib/apt/lists/* # buildkit"
+            },
+            {
+              "digest": "sha256:014d81c4ccecb4a8e7bce19b3e1011280949deff8b759e74dbbf0a93705afb76",
+              "size": 3534,
+              "command": "RUN |3 RUNNER_VERSION=2.336.0 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 TARGETARCH=amd64 /bin/bash -o pipefail -c groupadd --gid 1001 runner     && useradd --uid 1001 --gid runner --create-home --shell /bin/bash runner # buildkit"
+            },
+            {
+              "digest": "sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1",
+              "size": 32,
+              "command": "WORKDIR /home/runner"
+            },
+            {
+              "digest": "sha256:7fc99e8a9ec3a0f557eb6285e1f28ef8b71d896e1870c85dae35a02a4c021655",
+              "size": 248800699,
+              "command": "RUN |3 RUNNER_VERSION=2.336.0 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 TARGETARCH=amd64 /bin/bash -o pipefail -c RUNNER_ARCH=\"$(case \"${TARGETARCH}\" in amd64) echo x64 ;; *) echo \"${TARGETARCH}\" ;; esac)\"     && curl -fsSL \"https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${RUNNER_ARCH}-${RUNNER_VERSION}.tar.gz\"         | tar -xz     && ./bin/installdependencies.sh     && curl -fsSL -o /tmp/hooks.zip \"https://github.com/actions/runner-container-hooks/releases/download/v${RUNNER_CONTAINER_HOOKS_VERSION}/actions-runner-hooks-k8s-${RUNNER_CONTAINER_HOOKS_VERSION}.zip\"     && unzip -q /tmp/hooks.zip -d ./k8s     && rm /tmp/hooks.zip     && rm -rf /var/lib/apt/lists/*     && chown -R runner:runner /home/runner # buildkit"
+            }
+          ]
+        },
+        "linux/arm64": {
+          "digest": "sha256:f77c62c01fc75a8cf2ceca18a3832a69c960fdce77a94457c4aa8fe605a6ca6d",
+          "size": 220684538,
+          "layers": [
+            {
+              "digest": "sha256:4b987da45db4d6278590ab89840c7167ea397df222f3ee4cdb77c3e15694b1a9",
+              "size": 28884180,
+              "command": "/bin/sh -c #(nop) ADD file:cdc9a547b921f36a32310f732815bbee6c6e4f5bd768ab5d49cdc0aa1b9f4785 in / "
+            },
+            {
+              "digest": "sha256:222e8fae0d775fd93be1cb0c97440a053805cfc24488ffe1e5e782e5f782a0d7",
+              "size": 32285926,
+              "command": "RUN |3 RUNNER_VERSION=2.336.0 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 TARGETARCH=arm64 /bin/bash -o pipefail -c apt-get update     && apt-get install -y --no-install-recommends         ca-certificates         curl         git         git-lfs         jq         unzip         zstd     && rm -rf /var/lib/apt/lists/* # buildkit"
+            },
+            {
+              "digest": "sha256:92e0deca2040f30564b4b1a95c3e925c4c080e22e59e67a448d8fe36a95afb26",
+              "size": 3535,
+              "command": "RUN |3 RUNNER_VERSION=2.336.0 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 TARGETARCH=arm64 /bin/bash -o pipefail -c groupadd --gid 1001 runner     && useradd --uid 1001 --gid runner --create-home --shell /bin/bash runner # buildkit"
+            },
+            {
+              "digest": "sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1",
+              "size": 32,
+              "command": "WORKDIR /home/runner"
+            },
+            {
+              "digest": "sha256:2cc24be206189361cf93882cec6da147bffa59a4d0c86c013424d2cb870ee90a",
+              "size": 159510865,
+              "command": "RUN |3 RUNNER_VERSION=2.336.0 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 TARGETARCH=arm64 /bin/bash -o pipefail -c RUNNER_ARCH=\"$(case \"${TARGETARCH}\" in amd64) echo x64 ;; *) echo \"${TARGETARCH}\" ;; esac)\"     && curl -fsSL \"https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${RUNNER_ARCH}-${RUNNER_VERSION}.tar.gz\"         | tar -xz     && ./bin/installdependencies.sh     && curl -fsSL -o /tmp/hooks.zip \"https://github.com/actions/runner-container-hooks/releases/download/v${RUNNER_CONTAINER_HOOKS_VERSION}/actions-runner-hooks-k8s-${RUNNER_CONTAINER_HOOKS_VERSION}.zip\"     && unzip -q /tmp/hooks.zip -d ./k8s     && rm /tmp/hooks.zip     && rm -rf /var/lib/apt/lists/*     && chown -R runner:runner /home/runner # buildkit"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "description": "Rootless GitHub Actions runner for Actions Runner Controller"
+}

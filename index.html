@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>cloudsnacks · image sizes</title>
+<meta name="description" content="Size tracking for cloudsnacks container images — per-arch compressed sizes, layer breakdowns, and history.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='6' width='6' height='4' fill='%232a78d6'/%3E%3Crect x='9' y='6' width='6' height='4' fill='%23eb6834'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --page: #f9f9f7;
+  --surface: #fcfcfb;
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --muted: #898781;
+  --grid: #e1e0d9;
+  --baseline: #c3c2b7;
+  --border: rgba(11, 11, 11, 0.10);
+  --amd64: #2a78d6;
+  --arm64: #eb6834;
+  --bar: #2a78d6;
+  --bar-track: rgba(11, 11, 11, 0.06);
+  --delta-good: #006300;
+  --delta-bad: #d03b3b;
+  --wash: rgba(11, 11, 11, 0.04);
+  --font-mono: "Martian Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-ui: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0d0d0d;
+  --surface: #1a1a19;
+  --ink: #ffffff;
+  --ink-2: #c3c2b7;
+  --muted: #898781;
+  --grid: #2c2c2a;
+  --baseline: #383835;
+  --border: rgba(255, 255, 255, 0.10);
+  --amd64: #3987e5;
+  --arm64: #d95926;
+  --bar: #3987e5;
+  --bar-track: rgba(255, 255, 255, 0.07);
+  --delta-good: #0ca30c;
+  --delta-bad: #d03b3b;
+  --wash: rgba(255, 255, 255, 0.05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page: #0d0d0d;
+    --surface: #1a1a19;
+    --ink: #ffffff;
+    --ink-2: #c3c2b7;
+    --muted: #898781;
+    --grid: #2c2c2a;
+    --baseline: #383835;
+    --border: rgba(255, 255, 255, 0.10);
+    --amd64: #3987e5;
+    --arm64: #d95926;
+    --bar: #3987e5;
+    --bar-track: rgba(255, 255, 255, 0.07);
+    --delta-good: #0ca30c;
+    --delta-bad: #d03b3b;
+    --wash: rgba(255, 255, 255, 0.05);
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--page);
+  background-image:
+    linear-gradient(var(--wash) 1px, transparent 1px),
+    linear-gradient(90deg, var(--wash) 1px, transparent 1px);
+  background-size: 56px 56px;
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.55;
+  min-height: 100vh;
+}
+a { color: inherit; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px 96px; }
+
+header.site {
+  display: flex; align-items: baseline; gap: 16px;
+  padding: 28px 0 18px; border-bottom: 2px solid var(--ink);
+  flex-wrap: wrap;
+}
+.wordmark {
+  font-family: var(--font-mono); font-weight: 800; font-size: 20px;
+  letter-spacing: -0.5px; text-decoration: none;
+}
+.wordmark .dim { color: var(--muted); font-weight: 300; }
+.tagline { color: var(--ink-2); font-size: 13px; flex: 1; min-width: 200px; }
+.site-links { display: flex; gap: 10px; align-items: center; }
+.site-links a, .theme-btn {
+  font-family: var(--font-mono); font-size: 11px; text-decoration: none;
+  border: 1px solid var(--border); border-radius: 4px; padding: 5px 10px;
+  background: var(--surface); color: var(--ink-2); cursor: pointer;
+}
+.site-links a:hover, .theme-btn:hover { color: var(--ink); border-color: var(--baseline); }
+
+.toolbar { display: flex; gap: 12px; align-items: center; padding: 20px 0 4px; flex-wrap: wrap; }
+.search {
+  flex: 1; min-width: 240px; position: relative;
+}
+.search input {
+  width: 100%; padding: 10px 12px 10px 34px;
+  font-family: var(--font-mono); font-size: 13px;
+  background: var(--surface); color: var(--ink);
+  border: 1px solid var(--border); border-radius: 6px; outline: none;
+}
+.search input:focus { border-color: var(--amd64); }
+.search svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); opacity: 0.5; }
+.count { font-family: var(--font-mono); font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+.legend { display: flex; gap: 16px; align-items: center; font-size: 12px; color: var(--ink-2); }
+.legend .key { display: inline-flex; align-items: center; gap: 6px; }
+.swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.swatch.amd64 { background: var(--amd64); }
+.swatch.arm64 { background: var(--arm64); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; padding-top: 20px; }
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+  padding: 18px 18px 14px; text-decoration: none; display: flex; flex-direction: column; gap: 10px;
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+.card:hover { transform: translateY(-2px); border-color: var(--baseline); }
+.card h2 {
+  margin: 0; font-family: var(--font-mono); font-size: 16px; font-weight: 700;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.chip {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+  border: 1px solid var(--border); border-radius: 999px; padding: 2px 8px; color: var(--ink-2);
+}
+.card p { margin: 0; color: var(--ink-2); font-size: 12.5px; min-height: 2.6em; }
+.card .sizes { display: flex; gap: 18px; align-items: flex-end; }
+.size-block .label { font-size: 10px; font-family: var(--font-mono); color: var(--muted); display: flex; gap: 5px; align-items: center; }
+.size-block .value { font-family: var(--font-mono); font-weight: 700; font-size: 17px; letter-spacing: -0.5px; }
+.size-block .value small { font-size: 11px; font-weight: 400; color: var(--ink-2); }
+.spark { margin-left: auto; }
+.delta { font-family: var(--font-mono); font-size: 10px; }
+.delta.up { color: var(--delta-bad); }
+.delta.down { color: var(--delta-good); }
+.delta.flat { color: var(--muted); }
+
+.empty { padding: 60px 0; text-align: center; color: var(--muted); font-family: var(--font-mono); font-size: 13px; }
+
+/* detail view */
+.back { font-family: var(--font-mono); font-size: 11px; text-decoration: none; color: var(--ink-2); display: inline-block; margin-top: 20px; }
+.back:hover { color: var(--ink); }
+.detail-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-top: 6px; }
+.detail-head h1 { font-family: var(--font-mono); font-size: 28px; font-weight: 800; margin: 0; letter-spacing: -1px; }
+.detail-head .desc { color: var(--ink-2); flex-basis: 100%; margin: 0; }
+.pull {
+  display: flex; align-items: center; gap: 8px; margin: 14px 0 0;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  padding: 8px 12px; font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-2);
+  overflow-x: auto; white-space: nowrap;
+}
+.pull button {
+  margin-left: auto; border: 1px solid var(--border); background: none; color: var(--ink-2);
+  font-family: var(--font-mono); font-size: 10px; border-radius: 4px; padding: 3px 8px; cursor: pointer;
+}
+.pull button:hover { color: var(--ink); }
+
+.versions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 16px; }
+.versions button {
+  font-family: var(--font-mono); font-size: 11px; padding: 4px 10px;
+  border: 1px solid var(--border); border-radius: 999px; background: var(--surface);
+  color: var(--ink-2); cursor: pointer;
+}
+.versions button.active { border-color: var(--ink); color: var(--ink); font-weight: 700; }
+
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 16px; }
+.tile { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+.tile .label { font-family: var(--font-mono); font-size: 10px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.tile .value { font-family: var(--font-mono); font-size: 24px; font-weight: 800; letter-spacing: -1px; margin-top: 2px; }
+.tile .value small { font-size: 12px; font-weight: 400; color: var(--ink-2); }
+.tile .sub { font-size: 11px; margin-top: 2px; }
+
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px; margin-top: 16px; }
+.panel h3 { margin: 0 0 4px; font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--ink-2); text-transform: uppercase; letter-spacing: 1px; }
+.panel .hint { font-size: 11.5px; color: var(--muted); margin: 0 0 10px; }
+.chart-wrap { position: relative; }
+.chart-wrap svg { display: block; width: 100%; height: auto; }
+.tooltip {
+  position: absolute; pointer-events: none; z-index: 5; display: none;
+  background: var(--surface); border: 1px solid var(--baseline); border-radius: 6px;
+  padding: 8px 10px; font-size: 11.5px; box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  min-width: 130px;
+}
+.tooltip .t-title { font-family: var(--font-mono); font-weight: 700; margin-bottom: 4px; }
+.tooltip .t-row { display: flex; align-items: center; gap: 6px; justify-content: space-between; }
+.tooltip .t-row .t-val { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--grid); margin-bottom: 2px; }
+.tabs button {
+  font-family: var(--font-mono); font-size: 12px; padding: 7px 14px; cursor: pointer;
+  background: none; border: none; color: var(--muted); border-bottom: 2px solid transparent;
+}
+.tabs button.active { color: var(--ink); font-weight: 700; border-bottom-color: var(--ink); }
+
+table.layers { width: 100%; border-collapse: collapse; font-size: 12px; }
+table.layers th {
+  text-align: left; font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+  color: var(--muted); text-transform: uppercase; letter-spacing: 1px;
+  padding: 8px 8px 6px; border-bottom: 1px solid var(--grid);
+}
+table.layers th.num, table.layers td.num { text-align: right; }
+table.layers td { padding: 7px 8px; border-bottom: 1px solid var(--grid); vertical-align: top; }
+table.layers tr:hover td { background: var(--wash); }
+table.layers td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.layer-bar { height: 8px; border-radius: 4px 4px 4px 4px; background: var(--bar-track); position: relative; min-width: 90px; margin-top: 4px; }
+.layer-bar i { position: absolute; inset: 0 auto 0 0; border-radius: 4px; background: var(--bar); }
+td.cmd { width: 55%; }
+.cmd code {
+  font-family: var(--font-mono); font-size: 11px; color: var(--ink-2);
+  display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  max-width: 520px; cursor: pointer;
+}
+.cmd code.open { white-space: pre-wrap; word-break: break-word; }
+.digest { font-family: var(--font-mono); font-size: 10.5px; color: var(--muted); white-space: nowrap; }
+tfoot td { font-family: var(--font-mono); font-weight: 700; }
+
+footer.site {
+  margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--grid);
+  color: var(--muted); font-size: 11.5px; font-family: var(--font-mono);
+  display: flex; gap: 12px; flex-wrap: wrap;
+}
+footer.site a { color: var(--ink-2); }
+@media (max-width: 640px) {
+  .card .sizes { flex-wrap: wrap; }
+  td.cmd .cmd code { max-width: 48vw; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="site">
+    <a class="wordmark" href="#/">cloudsnacks<span class="dim">/containers</span></a>
+    <span class="tagline">image size ledger — per-arch compressed sizes, layers, and history</span>
+    <span class="site-links">
+      <a href="https://github.com/cloudsnacks/containers" target="_blank" rel="noopener">github</a>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle theme">theme</button>
+    </span>
+  </header>
+
+  <div class="toolbar">
+    <div class="search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="search" type="search" placeholder="search images…" autocomplete="off">
+    </div>
+    <span class="legend">
+      <span class="key"><span class="swatch amd64"></span>amd64</span>
+      <span class="key"><span class="swatch arm64"></span>arm64</span>
+    </span>
+    <span class="count" id="count"></span>
+  </div>
+
+  <main id="view"></main>
+
+  <footer class="site">
+    <span>compressed (wire) sizes from registry manifests</span>
+    <span>·</span>
+    <a href="https://github.com/cloudsnacks/containers" target="_blank" rel="noopener">source</a>
+    <span>·</span>
+    <span id="updated"></span>
+  </footer>
+</div>
+
+<script>
+"use strict";
+const $ = (sel, el = document) => el.querySelector(sel);
+const state = { images: new Map(), query: "", detail: null };
+const ARCHES = ["linux/amd64", "linux/arm64"];
+const ARCH_LABEL = { "linux/amd64": "amd64", "linux/arm64": "arm64" };
+const ARCH_COLOR = { "linux/amd64": "var(--amd64)", "linux/arm64": "var(--arm64)" };
+
+/* ---------- theme ---------- */
+const themeBtn = $("#theme-toggle");
+const storedTheme = localStorage.getItem("theme");
+if (storedTheme) document.documentElement.dataset.theme = storedTheme;
+themeBtn.addEventListener("click", () => {
+  const cur = document.documentElement.dataset.theme ||
+    (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  const next = cur === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  localStorage.setItem("theme", next);
+  render();
+});
+
+/* ---------- helpers ---------- */
+function fmtBytes(n) {
+  if (n == null) return "—";
+  const units = ["B", "KiB", "MiB", "GiB"];
+  let i = 0;
+  while (n >= 1024 && i < units.length - 1) { n /= 1024; i++; }
+  return { num: n >= 100 ? n.toFixed(0) : n.toFixed(1), unit: units[i] };
+}
+function fmtSize(n) { const f = fmtBytes(n); return f === "—" ? "—" : `${f.num} ${f.unit}`; }
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+function prettifyCmd(cmd) {
+  return cmd
+    .replace(/^\/bin\/bash -o pipefail -c\s+/, "")
+    .replace(/^\/bin\/sh -c\s+/, "")
+    .replace(/^#\(nop\)\s+/, "")
+    .replace(/\s+# buildkit\s*$/, "")
+    .trim() || "(base layer)";
+}
+function shortDigest(d) { return d ? d.replace("sha256:", "").slice(0, 12) : ""; }
+function latest(img) { return img.history[img.history.length - 1]; }
+function archSize(rec, arch) { return rec?.platforms?.[arch]?.size ?? null; }
+function deltaFor(img, arch, idx) {
+  const h = img.history;
+  const i = idx ?? h.length - 1;
+  if (i < 1) return null;
+  const cur = archSize(h[i], arch), prev = archSize(h[i - 1], arch);
+  if (cur == null || prev == null) return null;
+  return cur - prev;
+}
+function deltaBadge(d) {
+  if (d == null) return "";
+  if (d === 0) return `<span class="delta flat">±0</span>`;
+  const cls = d > 0 ? "up" : "down";
+  const arrow = d > 0 ? "▲" : "▼";
+  return `<span class="delta ${cls}">${arrow} ${fmtSize(Math.abs(d))}</span>`;
+}
+
+/* ---------- data ---------- */
+async function load() {
+  try {
+    const names = await (await fetch("data/index.json", { cache: "no-cache" })).json();
+    const files = await Promise.all(names.map(async n => {
+      try { return await (await fetch(`data/${n}.json`, { cache: "no-cache" })).json(); }
+      catch { return null; }
+    }));
+    for (const img of files) {
+      if (img && img.history?.length) state.images.set(img.name, img);
+    }
+    const dates = [...state.images.values()]
+      .flatMap(i => i.history.map(h => h.collectedAt)).sort();
+    if (dates.length) $("#updated").textContent = `updated ${dates[dates.length - 1].slice(0, 10)}`;
+  } catch (e) {
+    console.error("failed to load data", e);
+  }
+  render();
+}
+
+/* ---------- sparkline ---------- */
+function sparkline(img, w = 150, h = 38) {
+  const hist = img.history;
+  const values = ARCHES.flatMap(a => hist.map(r => archSize(r, a))).filter(v => v != null);
+  if (!values.length) return "";
+  const min = Math.min(...values), max = Math.max(...values);
+  const pad = 4;
+  const y = v => max === min ? h / 2 : pad + (h - 2 * pad) * (1 - (v - min) / (max - min));
+  const x = i => hist.length === 1 ? w / 2 : pad + (w - 2 * pad) * (i / (hist.length - 1));
+  let out = `<svg class="spark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true">`;
+  for (const arch of ARCHES) {
+    const pts = hist.map((r, i) => [x(i), archSize(r, arch)]).filter(p => p[1] != null)
+      .map(([px, v]) => `${px.toFixed(1)},${y(v).toFixed(1)}`);
+    if (!pts.length) continue;
+    if (pts.length === 1) {
+      const [px, py] = pts[0].split(",");
+      out += `<circle cx="${px}" cy="${py}" r="3" fill="${ARCH_COLOR[arch]}"/>`;
+    } else {
+      out += `<polyline points="${pts.join(" ")}" fill="none" stroke="${ARCH_COLOR[arch]}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`;
+    }
+  }
+  return out + "</svg>";
+}
+
+/* ---------- overview ---------- */
+function renderOverview() {
+  $("#search").placeholder = "search images…";
+  const q = state.query.toLowerCase();
+  const imgs = [...state.images.values()]
+    .filter(i => !q || i.name.toLowerCase().includes(q) || (i.description || "").toLowerCase().includes(q))
+    .sort((a, b) => a.name.localeCompare(b.name));
+  $("#count").textContent = `${imgs.length}/${state.images.size} images`;
+  if (!state.images.size) {
+    $("#view").innerHTML = `<div class="empty">no size data yet — it appears after the first build on main</div>`;
+    return;
+  }
+  if (!imgs.length) {
+    $("#view").innerHTML = `<div class="empty">no images match “${esc(state.query)}”</div>`;
+    return;
+  }
+  $("#view").innerHTML = `<div class="grid">` + imgs.map(img => {
+    const rec = latest(img);
+    const sizes = ARCHES.map(arch => `
+      <div class="size-block">
+        <span class="label"><span class="swatch ${ARCH_LABEL[arch]}"></span>${ARCH_LABEL[arch]}</span>
+        <span class="value">${(() => { const f = fmtBytes(archSize(rec, arch)); return f === "—" ? "—" : `${f.num}<small> ${f.unit}</small>`; })()}</span>
+        ${deltaBadge(deltaFor(img, arch))}
+      </div>`).join("");
+    return `<a class="card" href="#/${esc(img.name)}">
+      <h2>${esc(img.name)} <span class="chip">v${esc(rec.version)}</span></h2>
+      <p>${esc(img.description || "")}</p>
+      <div class="sizes">${sizes}${sparkline(img)}</div>
+    </a>`;
+  }).join("") + `</div>`;
+}
+
+/* ---------- history chart ---------- */
+function historyChart(img) {
+  const hist = img.history;
+  if (hist.length < 2) return `<p class="hint">history chart appears once a second version is published</p>`;
+  const W = 960, H = 260, m = { t: 16, r: 84, b: 30, l: 58 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const values = ARCHES.flatMap(a => hist.map(r => archSize(r, a))).filter(v => v != null);
+  const max = Math.max(...values) * 1.06, min = Math.min(0, Math.min(...values));
+  const x = i => m.l + iw * (i / (hist.length - 1));
+  const y = v => m.t + ih * (1 - (v - min) / (max - min));
+  let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Compressed size by version">`;
+  const ticks = 4;
+  for (let t = 0; t <= ticks; t++) {
+    const v = min + (max - min) * (t / ticks);
+    const py = y(v);
+    svg += `<line x1="${m.l}" y1="${py}" x2="${W - m.r}" y2="${py}" stroke="var(--grid)" stroke-width="1"/>`;
+    svg += `<text x="${m.l - 8}" y="${py + 3}" text-anchor="end" font-size="10" font-family="var(--font-ui)" fill="var(--muted)">${fmtSize(v)}</text>`;
+  }
+  svg += `<line x1="${m.l}" y1="${y(min)}" x2="${W - m.r}" y2="${y(min)}" stroke="var(--baseline)" stroke-width="1"/>`;
+  const step = Math.ceil(hist.length / 8);
+  hist.forEach((r, i) => {
+    if (i % step && i !== hist.length - 1) return;
+    svg += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle" font-size="10" font-family="var(--font-ui)" fill="var(--muted)">${esc(r.version)}</text>`;
+  });
+  for (const arch of ARCHES) {
+    const pts = hist.map((r, i) => [i, archSize(r, arch)]).filter(p => p[1] != null);
+    if (!pts.length) continue;
+    const path = pts.map(([i, v], k) => `${k ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+    svg += `<path d="${path}" fill="none" stroke="${ARCH_COLOR[arch]}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`;
+    const [li, lv] = pts[pts.length - 1];
+    svg += `<text x="${x(li) + 8}" y="${y(lv) + 3}" font-size="11" font-weight="600" font-family="var(--font-ui)" fill="${ARCH_COLOR[arch]}">${ARCH_LABEL[arch]}</text>`;
+  }
+  svg += `<g id="hover-layer"></g>`;
+  svg += `<rect id="hover-rect" x="${m.l}" y="${m.t}" width="${iw}" height="${ih}" fill="transparent"/>`;
+  svg += `</svg><div class="tooltip" id="chart-tip"></div>`;
+  return `<div class="chart-wrap" id="chart"
+    data-n="${hist.length}" data-ml="${m.l}" data-iw="${iw}">${svg}</div>`;
+}
+
+function bindChart(img) {
+  const wrap = $("#chart");
+  if (!wrap) return;
+  const svg = $("svg", wrap), tip = $("#chart-tip", wrap), layer = $("#hover-layer", wrap);
+  const hist = img.history;
+  const n = +wrap.dataset.n, ml = +wrap.dataset.ml, iw = +wrap.dataset.iw;
+  const values = ARCHES.flatMap(a => hist.map(r => archSize(r, a))).filter(v => v != null);
+  const max = Math.max(...values) * 1.06, min = Math.min(0, Math.min(...values));
+  const H = 260, mt = 16, ih = H - mt - 30;
+  const x = i => ml + iw * (i / (n - 1));
+  const y = v => mt + ih * (1 - (v - min) / (max - min));
+  const move = ev => {
+    const rect = svg.getBoundingClientRect();
+    const sx = (ev.clientX - rect.left) * (960 / rect.width);
+    const i = Math.max(0, Math.min(n - 1, Math.round((sx - ml) / (iw / (n - 1)))));
+    const r = hist[i];
+    let marks = `<line x1="${x(i)}" y1="${mt}" x2="${x(i)}" y2="${mt + ih}" stroke="var(--baseline)" stroke-width="1" stroke-dasharray="3 3"/>`;
+    let rows = "";
+    for (const arch of ARCHES) {
+      const v = archSize(r, arch);
+      if (v == null) continue;
+      marks += `<circle cx="${x(i)}" cy="${y(v)}" r="4.5" fill="${ARCH_COLOR[arch]}" stroke="var(--surface)" stroke-width="2"/>`;
+      rows += `<div class="t-row"><span><span class="swatch ${ARCH_LABEL[arch]}"></span> ${ARCH_LABEL[arch]}</span><span class="t-val">${fmtSize(v)}</span></div>`;
+    }
+    layer.innerHTML = marks;
+    tip.innerHTML = `<div class="t-title">v${esc(r.version)}</div>${rows}`;
+    tip.style.display = "block";
+    const px = (x(i) / 960) * rect.width;
+    const left = px > rect.width * 0.72 ? px - tip.offsetWidth - 14 : px + 14;
+    tip.style.left = `${left}px`;
+    tip.style.top = `28px`;
+  };
+  $("#hover-rect", wrap).addEventListener("mousemove", move);
+  wrap.addEventListener("mouseleave", () => { tip.style.display = "none"; layer.innerHTML = ""; });
+}
+
+/* ---------- detail ---------- */
+function renderDetail(name) {
+  const img = state.images.get(name);
+  if (!img) {
+    $("#view").innerHTML = `<div class="empty">unknown image “${esc(name)}” — <a href="#/">back to overview</a></div>`;
+    return;
+  }
+  $("#search").placeholder = "filter layers…";
+  const d = state.detail;
+  const rec = img.history[d.versionIdx] ?? latest(img);
+  const arch = d.arch;
+  const plat = rec.platforms?.[arch];
+  const q = state.query.toLowerCase();
+  const layers = (plat?.layers || []).map((l, i) => ({ ...l, idx: i + 1, pretty: prettifyCmd(l.command) }));
+  const visible = q ? layers.filter(l => l.pretty.toLowerCase().includes(q)) : layers;
+  $("#count").textContent = `${visible.length}/${layers.length} layers`;
+  const maxLayer = Math.max(1, ...layers.map(l => l.size));
+  const total = plat?.size ?? 0;
+  const biggest = layers.length ? layers.reduce((a, b) => (b.size > a.size ? b : a)) : null;
+
+  const tiles = ARCHES.map(a => {
+    const v = archSize(rec, a);
+    const f = fmtBytes(v);
+    return `<div class="tile">
+      <span class="label"><span class="swatch ${ARCH_LABEL[a]}"></span>${ARCH_LABEL[a]} compressed</span>
+      <div class="value">${f === "—" ? "—" : `${f.num}<small> ${f.unit}</small>`}</div>
+      <div class="sub">${deltaBadge(deltaFor(img, a, d.versionIdx)) || "&nbsp;"}</div>
+    </div>`;
+  }).join("") + `
+    <div class="tile">
+      <span class="label">layers (${ARCH_LABEL[arch]})</span>
+      <div class="value">${layers.length}</div>
+      <div class="sub">&nbsp;</div>
+    </div>
+    <div class="tile">
+      <span class="label">largest layer</span>
+      <div class="value">${(() => { const f = fmtBytes(biggest?.size); return f === "—" ? "—" : `${f.num}<small> ${f.unit}</small>`; })()}</div>
+      <div class="sub">&nbsp;</div>
+    </div>`;
+
+  const rows = visible.map(l => {
+    const pct = (l.size / maxLayer) * 100;
+    const share = total ? ((l.size / total) * 100).toFixed(1) : "0";
+    return `<tr>
+      <td class="num">${l.idx}</td>
+      <td class="num">${fmtSize(l.size)}<div class="layer-bar" title="${share}% of image"><i style="width:${pct.toFixed(1)}%"></i></div></td>
+      <td class="num">${share}%</td>
+      <td class="cmd"><code title="click to expand">${esc(l.pretty)}</code></td>
+      <td class="digest">${shortDigest(l.digest)}</td>
+    </tr>`;
+  }).join("");
+
+  $("#view").innerHTML = `
+    <a class="back" href="#/">← all images</a>
+    <div class="detail-head">
+      <h1>${esc(img.name)}</h1>
+      <span class="chip">v${esc(rec.version)}</span>
+      <span class="digest">${shortDigest(rec.digest)}</span>
+      <p class="desc">${esc(img.description || "")}</p>
+    </div>
+    <div class="pull"><span>docker pull ghcr.io/cloudsnacks/${esc(img.name)}:${esc(rec.version)}</span><button id="copy-pull">copy</button></div>
+    <div class="versions">${img.history.map((h, i) =>
+      `<button data-vi="${i}" class="${i === d.versionIdx ? "active" : ""}">v${esc(h.version)}</button>`).join("")}
+    </div>
+    <div class="tiles">${tiles}</div>
+    <div class="panel">
+      <h3>size history</h3>
+      ${historyChart(img)}
+    </div>
+    <div class="panel">
+      <h3>layers</h3>
+      <p class="hint">compressed layer sizes for the selected architecture — click a command to expand it</p>
+      <div class="tabs">${ARCHES.map(a =>
+        `<button data-arch="${a}" class="${a === arch ? "active" : ""}">${ARCH_LABEL[a]}</button>`).join("")}
+      </div>
+      <div style="overflow-x:auto">
+        <table class="layers">
+          <thead><tr><th class="num">#</th><th class="num">size</th><th class="num">share</th><th>command</th><th>digest</th></tr></thead>
+          <tbody>${rows || `<tr><td colspan="5" class="empty">no layers match</td></tr>`}</tbody>
+          <tfoot><tr><td></td><td class="num">${fmtSize(total)}</td><td class="num">100%</td><td colspan="2">total compressed</td></tr></tfoot>
+        </table>
+      </div>
+    </div>`;
+
+  bindChart(img);
+  $("#copy-pull")?.addEventListener("click", ev => {
+    navigator.clipboard.writeText(`docker pull ghcr.io/cloudsnacks/${img.name}:${rec.version}`);
+    ev.target.textContent = "copied";
+    setTimeout(() => { ev.target.textContent = "copy"; }, 1200);
+  });
+  $(".versions").addEventListener("click", ev => {
+    const b = ev.target.closest("button[data-vi]");
+    if (!b) return;
+    state.detail.versionIdx = +b.dataset.vi;
+    render();
+  });
+  $(".tabs").addEventListener("click", ev => {
+    const b = ev.target.closest("button[data-arch]");
+    if (!b) return;
+    state.detail.arch = b.dataset.arch;
+    render();
+  });
+  $("table.layers").addEventListener("click", ev => {
+    const code = ev.target.closest("code");
+    if (code) code.classList.toggle("open");
+  });
+}
+
+/* ---------- routing ---------- */
+function route() {
+  const hash = decodeURIComponent(location.hash.replace(/^#\/?/, ""));
+  if (hash && state.images.size && !state.images.has(hash)) { /* fall through, renderDetail shows error */ }
+  if (hash !== (state.detail?.name ?? "")) {
+    state.query = "";
+    $("#search").value = "";
+  }
+  state.detail = hash
+    ? {
+        name: hash,
+        versionIdx: (state.images.get(hash)?.history.length ?? 1) - 1,
+        arch: state.detail?.name === hash ? state.detail.arch : "linux/amd64",
+        ...(state.detail?.name === hash ? { versionIdx: state.detail.versionIdx } : {}),
+      }
+    : null;
+  render();
+}
+function render() {
+  if (state.detail) renderDetail(state.detail.name);
+  else renderOverview();
+}
+$("#search").addEventListener("input", ev => { state.query = ev.target.value; render(); });
+window.addEventListener("hashchange", route);
+load().then(route);
+</script>
+</body>
+</html>

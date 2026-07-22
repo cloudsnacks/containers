@@ -1,1 +1,5 @@
-["actions-runner","sandbox-agent"]
+[
+  "actions-runner",
+  "kubectl",
+  "sandbox-agent"
+]

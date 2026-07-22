@@ -1,0 +1,75 @@
+{
+  "name": "kubectl",
+  "history": [
+    {
+      "version": "1.36.2",
+      "digest": "sha256:f612a1dc71ff5444d745bd696b74b83faef0fbd70db0da50b5e25c68c989feb0",
+      "collectedAt": "2026-07-22T21:33:42Z",
+      "platforms": {
+        "linux/arm64": {
+          "digest": "sha256:b7a33046bc84f34b5a8ea91bdd228978c68c703885a63d6ff546ff2a6814a65b",
+          "size": 48478018,
+          "layers": [
+            {
+              "digest": "sha256:4b987da45db4d6278590ab89840c7167ea397df222f3ee4cdb77c3e15694b1a9",
+              "size": 28884180,
+              "command": "/bin/sh -c #(nop) ADD file:cdc9a547b921f36a32310f732815bbee6c6e4f5bd768ab5d49cdc0aa1b9f4785 in / "
+            },
+            {
+              "digest": "sha256:6cd39950118e89af19b3835298b6761ee3ed3bb1568b57613dce406fd76d2fb4",
+              "size": 3406442,
+              "command": "RUN |2 KUBECTL_VERSION=1.36.2 TARGETARCH=arm64 /bin/sh -c apt-get update     && apt-get install -y --no-install-recommends         ca-certificates         curl     && rm -rf /var/lib/apt/lists/* # buildkit"
+            },
+            {
+              "digest": "sha256:5e99815fb070c71d9ce3206076be711ad6e3f46b9c91e2544f9dced8be6a6513",
+              "size": 16183827,
+              "command": "RUN |2 KUBECTL_VERSION=1.36.2 TARGETARCH=arm64 /bin/sh -c curl -fsSL -o /usr/local/bin/kubectl         \"https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/${TARGETARCH}/kubectl\"     && chmod +x /usr/local/bin/kubectl     && kubectl version --client # buildkit"
+            },
+            {
+              "digest": "sha256:89ac1be01bab1925a5e33676f707900ed8b768ba803c98e212141244a8624855",
+              "size": 3537,
+              "command": "RUN |2 KUBECTL_VERSION=1.36.2 TARGETARCH=arm64 /bin/sh -c groupadd --gid 1001 kubectl     && useradd --uid 1001 --gid kubectl --create-home --shell /bin/bash kubectl # buildkit"
+            },
+            {
+              "digest": "sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1",
+              "size": 32,
+              "command": "WORKDIR /home/kubectl"
+            }
+          ]
+        },
+        "linux/amd64": {
+          "digest": "sha256:bcedd2649c297365dc3c3c98577b7c904d0c8b49ebb57313056c3882d81e86e9",
+          "size": 51230235,
+          "layers": [
+            {
+              "digest": "sha256:ca2678b20700c15185707964d9211b1a6406196114bf675f568b6025d37b3888",
+              "size": 29735601,
+              "command": "/bin/sh -c #(nop) ADD file:8c609c85109d07bf47cf268a175b3be8bbe34fc0c41d15d99b090d099f4dc837 in / "
+            },
+            {
+              "digest": "sha256:83821c53acba5c976f909dc090d2b71fb7826eb79b105f54be5d57993c609b6e",
+              "size": 3388702,
+              "command": "RUN |2 KUBECTL_VERSION=1.36.2 TARGETARCH=amd64 /bin/sh -c apt-get update     && apt-get install -y --no-install-recommends         ca-certificates         curl     && rm -rf /var/lib/apt/lists/* # buildkit"
+            },
+            {
+              "digest": "sha256:a01ae1ca587468f12e44c423ebe5b71b5d23d000b3745d67839ea0014d20a1b2",
+              "size": 18102365,
+              "command": "RUN |2 KUBECTL_VERSION=1.36.2 TARGETARCH=amd64 /bin/sh -c curl -fsSL -o /usr/local/bin/kubectl         \"https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/${TARGETARCH}/kubectl\"     && chmod +x /usr/local/bin/kubectl     && kubectl version --client # buildkit"
+            },
+            {
+              "digest": "sha256:8bd3fe8075d5505647a77fddcb20f9c6246593a2d1630c89f93c520266169837",
+              "size": 3535,
+              "command": "RUN |2 KUBECTL_VERSION=1.36.2 TARGETARCH=amd64 /bin/sh -c groupadd --gid 1001 kubectl     && useradd --uid 1001 --gid kubectl --create-home --shell /bin/bash kubectl # buildkit"
+            },
+            {
+              "digest": "sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1",
+              "size": 32,
+              "command": "WORKDIR /home/kubectl"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "description": "Rootless kubectl CLI"
+}

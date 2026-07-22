@@ -142,7 +142,7 @@ header.site {
 .card p { margin: 0; color: var(--ink-2); font-size: 12.5px; min-height: 2.6em; }
 .card .sizes { display: flex; gap: 18px; align-items: flex-end; }
 .size-block .label { font-size: 10px; font-family: var(--font-mono); color: var(--muted); display: flex; gap: 5px; align-items: center; }
-.size-block .value { font-family: var(--font-mono); font-weight: 700; font-size: 17px; letter-spacing: -0.5px; }
+.size-block .value { font-family: var(--font-mono); font-weight: 700; font-size: 17px; letter-spacing: -0.5px; white-space: nowrap; }
 .size-block .value small { font-size: 11px; font-weight: 400; color: var(--ink-2); }
 .spark { margin-left: auto; }
 .delta { font-family: var(--font-mono); font-size: 10px; }
@@ -311,6 +311,8 @@ function esc(s) {
 }
 function prettifyCmd(cmd) {
   return cmd
+    .replace(/^RUN\s+/, "")
+    .replace(/^\|\d+\s+(?:[A-Za-z_][A-Za-z0-9_]*=\S*\s+)*/, "")
     .replace(/^\/bin\/bash -o pipefail -c\s+/, "")
     .replace(/^\/bin\/sh -c\s+/, "")
     .replace(/^#\(nop\)\s+/, "")

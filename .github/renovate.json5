@@ -1,0 +1,18 @@
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'config:best-practices',
+    ':timezone(Europe/Zurich)',
+    ':semanticCommits',
+  ],
+  customManagers: [
+    {
+      customType: 'regex',
+      description: 'Update versions annotated with a renovate comment in Dockerfiles and metadata files',
+      managerFilePatterns: ['/(^|/)Dockerfile$/', '/(^|/)metadata\\.yaml$/'],
+      matchStrings: [
+        '# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)(?: versioning=(?<versioning>\\S+))?\\n(?:ARG [A-Z_]+=|version: )(?<currentValue>\\S+)',
+      ],
+    },
+  ],
+}

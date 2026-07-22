@@ -1,0 +1,5 @@
+---
+ignored:
+  # apt package versions are not pinned; base image digests and release
+  # tarballs are pinned instead, and Renovate keeps them fresh
+  - DL3008

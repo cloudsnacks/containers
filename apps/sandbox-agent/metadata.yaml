@@ -1,0 +1,8 @@
+---
+name: sandbox-agent
+description: Rootless base image for sandboxed coding agents
+version: 1.0.0
+platforms:
+  - linux/amd64
+  - linux/arm64
+test: node --version && python3 --version && git --version && gh --version && uv --version

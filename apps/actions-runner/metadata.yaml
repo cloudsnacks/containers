@@ -1,0 +1,9 @@
+---
+name: actions-runner
+description: Rootless GitHub Actions runner for Actions Runner Controller
+# renovate: datasource=github-releases depName=actions/runner
+version: 2.336.0
+platforms:
+  - linux/amd64
+  - linux/arm64
+test: /home/runner/bin/Runner.Listener --version

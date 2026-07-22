@@ -35,7 +35,7 @@ gh attestation verify oci://ghcr.io/cloudsnacks/actions-runner:2.336.0 --owner c
 
 ## Versioning and releases
 
-Each image is versioned independently via the `version` field in its `apps/<name>/metadata.yaml`:
+Each image is versioned independently via the `version` field in its `images/<name>/metadata.yaml`:
 
 - Images that package a single upstream application (e.g. `actions-runner`) track the upstream version.
 - Images owned by this repo (e.g. `sandbox-agent`) use their own semver: MAJOR for breaking changes (removed tools, changed users/paths), MINOR for additions, PATCH for fixes and rebuilds.
@@ -44,27 +44,27 @@ CI builds and tags whatever version the metadata declares — bump it in the sam
 
 ## Adding an image
 
-1. Create `apps/<name>/Dockerfile` and `apps/<name>/metadata.yaml` (copy an existing app as a template).
+1. Create `images/<name>/Dockerfile` and `images/<name>/metadata.yaml` (copy an existing image as a template).
 2. Pin the base image by digest and any downloaded tools with a `# renovate:` annotation.
 3. Create a non-root user (uid `1001`) and switch to it with `USER`.
 4. Add a `test` command to the metadata — CI runs it against the built image on PRs.
 
 ## CI
 
-`.github/workflows/build.yaml` builds only apps changed in a PR or push:
+`.github/workflows/build.yaml` builds only images changed in a PR or push:
 
-1. **prepare** — diffs `apps/` and emits a build matrix from each app's `metadata.yaml`.
-2. **build** — one job per app per platform, on native runners (`ubuntu-latest` for amd64, `ubuntu-24.04-arm` for arm64) with BuildKit and GitHub Actions layer caching. PRs build and smoke-test locally; pushes to `main` push by digest with SBOM and provenance.
+1. **prepare** — diffs `images/` and emits a build matrix from each image's `metadata.yaml`.
+2. **build** — one job per image per platform, on native runners (`ubuntu-latest` for amd64, `ubuntu-24.04-arm` for arm64) with BuildKit and GitHub Actions layer caching. PRs build and smoke-test locally; pushes to `main` push by digest with SBOM and provenance.
 3. **merge** — stitches the per-arch digests into one manifest list, applies the semver tags, and attests build provenance.
 
-Trigger a manual build of any (or every) app via *Actions → Build → Run workflow*.
+Trigger a manual build of any (or every) image via *Actions → Build → Run workflow*.
 
 ## Local development
 
 Build with [Apple container](https://github.com/apple/container) (or any BuildKit-compatible builder):
 
 ```shell
-container build -t sandbox-agent:local -f apps/sandbox-agent/Dockerfile apps/sandbox-agent
+container build -t sandbox-agent:local -f images/sandbox-agent/Dockerfile images/sandbox-agent
 container run --rm sandbox-agent:local node --version
 ```
 

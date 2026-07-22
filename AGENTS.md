@@ -1,6 +1,6 @@
 # containers
 
-Monorepo of public container images published to `ghcr.io/cloudsnacks/<app>`. One directory per image under `apps/`, each with a `Dockerfile` and a `metadata.yaml` (name, version, platforms, smoke-test command).
+Monorepo of public container images published to `ghcr.io/cloudsnacks/<name>`. One directory per image under `images/`, each with a `Dockerfile` and a `metadata.yaml` (name, version, platforms, smoke-test command). When adding a new image, use the `add-image` skill (`.agents/skills/add-image/SKILL.md`).
 
 ## Conventions
 
@@ -17,7 +17,7 @@ Monorepo of public container images published to `ghcr.io/cloudsnacks/<app>`. On
 Use `container` (Apple container), not docker:
 
 ```shell
-container build -t <app>:local -f apps/<app>/Dockerfile apps/<app>
+container build -t <name>:local -f images/<name>/Dockerfile images/<name>
 ```
 
-CI (`.github/workflows/build.yaml`) builds changed apps on native amd64/arm64 runners, merges digests into a manifest list, and attaches SBOM + provenance attestations. Third-party actions are pinned to commit SHAs — keep it that way when editing workflows.
+CI (`.github/workflows/build.yaml`) builds changed images on native amd64/arm64 runners, merges digests into a manifest list, and attaches SBOM + provenance attestations. Third-party actions are pinned to commit SHAs — keep it that way when editing workflows.

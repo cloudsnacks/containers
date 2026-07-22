@@ -4,18 +4,18 @@ name: Build
 on:
   workflow_dispatch:
     inputs:
-      app:
-        description: App to build (all apps when empty)
+      image:
+        description: Image to build (all images when empty)
         required: false
         default: ""
   pull_request:
     paths:
-      - apps/**
+      - images/**
   push:
     branches:
       - main
     paths:
-      - apps/**
+      - images/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -39,39 +39,39 @@ jobs:
       - name: Generate matrix
         id: matrix
         env:
-          INPUT_APP: ${{ inputs.app }}
+          INPUT_IMAGE: ${{ inputs.image }}
         run: |
           set -euo pipefail
 
           case "${GITHUB_EVENT_NAME}" in
             workflow_dispatch)
-              if [[ -n "${INPUT_APP}" ]]; then
-                apps="${INPUT_APP}"
+              if [[ -n "${INPUT_IMAGE}" ]]; then
+                images="${INPUT_IMAGE}"
               else
-                apps="$(ls apps)"
+                images="$(ls images)"
               fi
               ;;
             pull_request)
-              apps="$(git diff --name-only "origin/${GITHUB_BASE_REF}"...HEAD -- apps | cut -d/ -f2 | sort -u)"
+              images="$(git diff --name-only "origin/${GITHUB_BASE_REF}"...HEAD -- images | cut -d/ -f2 | sort -u)"
               ;;
             *)
               if git rev-parse --verify HEAD^ >/dev/null 2>&1; then
-                apps="$(git diff --name-only HEAD^ HEAD -- apps | cut -d/ -f2 | sort -u)"
+                images="$(git diff --name-only HEAD^ HEAD -- images | cut -d/ -f2 | sort -u)"
               else
-                apps="$(ls apps)"
+                images="$(ls images)"
               fi
               ;;
           esac
 
           build="[]"
           merge="[]"
-          for app in ${apps}; do
-            metadata="apps/${app}/metadata.yaml"
+          for image in ${images}; do
+            metadata="images/${image}/metadata.yaml"
             [[ -f "${metadata}" ]] || continue
             version="$(yq '.version' "${metadata}")"
             test_cmd="$(yq '.test // ""' "${metadata}")"
-            merge="$(jq -c --arg app "${app}" --arg version "${version}" \
-              '. + [{app: $app, version: $version}]' <<<"${merge}")"
+            merge="$(jq -c --arg image "${image}" --arg version "${version}" \
+              '. + [{image: $image, version: $version}]' <<<"${merge}")"
             while read -r platform; do
               case "${platform}" in
                 linux/amd64) runner="ubuntu-latest" ;;
@@ -79,9 +79,9 @@ jobs:
                 *) echo "unsupported platform: ${platform}" >&2; exit 1 ;;
               esac
               build="$(jq -c \
-                --arg app "${app}" --arg version "${version}" --arg platform "${platform}" \
+                --arg image "${image}" --arg version "${version}" --arg platform "${platform}" \
                 --arg slug "${platform//\//-}" --arg runner "${runner}" --arg test "${test_cmd}" \
-                '. + [{app: $app, version: $version, platform: $platform, slug: $slug, runner: $runner, test: $test}]' \
+                '. + [{image: $image, version: $version, platform: $platform, slug: $slug, runner: $runner, test: $test}]' \
                 <<<"${build}")"
             done < <(yq '.platforms[]' "${metadata}")
           done
@@ -90,7 +90,7 @@ jobs:
           echo "merge=${merge}" >>"${GITHUB_OUTPUT}"
 
   build:
-    name: build (${{ matrix.app }}, ${{ matrix.platform }})
+    name: build (${{ matrix.image }}, ${{ matrix.platform }})
     needs: prepare
     if: ${{ needs.prepare.outputs.build != '[]' }}
     runs-on: ${{ matrix.runner }}
@@ -109,7 +109,7 @@ jobs:
         if: ${{ matrix.platform == 'linux/amd64' }}
         uses: hadolint/hadolint-action@2332a7b74a6de0dda2e2221d575162eba76ba5e5 # v3.3.0
         with:
-          dockerfile: apps/${{ matrix.app }}/Dockerfile
+          dockerfile: images/${{ matrix.image }}/Dockerfile
 
       - name: Set up Buildx
         uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c # v4.2.0
@@ -126,36 +126,36 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
         with:
-          context: apps/${{ matrix.app }}
+          context: images/${{ matrix.image }}
           platforms: ${{ matrix.platform }}
           load: true
-          tags: local/${{ matrix.app }}:test
-          cache-from: type=gha,scope=${{ matrix.app }}-${{ matrix.slug }}
-          cache-to: type=gha,mode=max,scope=${{ matrix.app }}-${{ matrix.slug }}
+          tags: local/${{ matrix.image }}:test
+          cache-from: type=gha,scope=${{ matrix.image }}-${{ matrix.slug }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.image }}-${{ matrix.slug }}
 
       - name: Test
         if: ${{ github.event_name == 'pull_request' && matrix.test != '' }}
         env:
           TEST_CMD: ${{ matrix.test }}
-        run: docker run --rm local/${{ matrix.app }}:test sh -c "${TEST_CMD}"
+        run: docker run --rm local/${{ matrix.image }}:test sh -c "${TEST_CMD}"
 
       - name: Build and push by digest
         id: build
         if: ${{ github.event_name != 'pull_request' }}
         uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7.3.0
         with:
-          context: apps/${{ matrix.app }}
+          context: images/${{ matrix.image }}
           platforms: ${{ matrix.platform }}
           labels: |
-            org.opencontainers.image.title=${{ matrix.app }}
+            org.opencontainers.image.title=${{ matrix.image }}
             org.opencontainers.image.version=${{ matrix.version }}
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
             org.opencontainers.image.revision=${{ github.sha }}
-          outputs: type=image,name=ghcr.io/${{ github.repository_owner }}/${{ matrix.app }},push-by-digest=true,name-canonical=true,push=true
+          outputs: type=image,name=ghcr.io/${{ github.repository_owner }}/${{ matrix.image }},push-by-digest=true,name-canonical=true,push=true
           provenance: mode=max
           sbom: true
-          cache-from: type=gha,scope=${{ matrix.app }}-${{ matrix.slug }}
-          cache-to: type=gha,mode=max,scope=${{ matrix.app }}-${{ matrix.slug }}
+          cache-from: type=gha,scope=${{ matrix.image }}-${{ matrix.slug }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.image }}-${{ matrix.slug }}
 
       - name: Export digest
         if: ${{ github.event_name != 'pull_request' }}
@@ -168,13 +168,13 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: digests-${{ matrix.app }}-${{ matrix.slug }}
+          name: digests-${{ matrix.image }}-${{ matrix.slug }}
           path: /tmp/digests/*
           if-no-files-found: error
           retention-days: 1
 
   merge:
-    name: merge (${{ matrix.app }})
+    name: merge (${{ matrix.image }})
     needs:
       - prepare
       - build
@@ -194,7 +194,7 @@ jobs:
       - name: Download digests
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          pattern: digests-${{ matrix.app }}-*
+          pattern: digests-${{ matrix.image }}-*
           path: /tmp/digests
           merge-multiple: true
 
@@ -213,22 +213,22 @@ jobs:
         working-directory: /tmp/digests
         run: |
           set -euo pipefail
-          image="ghcr.io/${{ github.repository_owner }}/${{ matrix.app }}"
+          ref="ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}"
           version="${{ matrix.version }}"
           major="${version%%.*}"
           minor="${version%.*}"
           docker buildx imagetools create \
-            --tag "${image}:${version}" \
-            --tag "${image}:${minor}" \
-            --tag "${image}:${major}" \
-            --tag "${image}:latest" \
-            $(printf -- "${image}@sha256:%s " *)
-          digest="$(docker buildx imagetools inspect "${image}:${version}" --format '{{json .Manifest}}' | jq -r '.digest')"
+            --tag "${ref}:${version}" \
+            --tag "${ref}:${minor}" \
+            --tag "${ref}:${major}" \
+            --tag "${ref}:latest" \
+            $(printf -- "${ref}@sha256:%s " *)
+          digest="$(docker buildx imagetools inspect "${ref}:${version}" --format '{{json .Manifest}}' | jq -r '.digest')"
           echo "digest=${digest}" >>"${GITHUB_OUTPUT}"
 
       - name: Attest build provenance
         uses: actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373 # v4.1.1
         with:
-          subject-name: ghcr.io/${{ github.repository_owner }}/${{ matrix.app }}
+          subject-name: ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true

@@ -9,6 +9,7 @@ Public container images for cloud work, built multi-arch and rootless with secur
 | Image | Description |
 |---|---|
 | `ghcr.io/cloudsnacks/actions-runner` | Rootless GitHub Actions runner for [Actions Runner Controller](https://github.com/actions/actions-runner-controller) |
+| `ghcr.io/cloudsnacks/claude-code` | Headless Claude Code agent with git-repo and agent-profile bootstrap |
 | `ghcr.io/cloudsnacks/infisical-mcp` | Infisical MCP server (secrets management over MCP) |
 | `ghcr.io/cloudsnacks/kubectl` | Rootless kubectl CLI |
 | `ghcr.io/cloudsnacks/sandbox-agent` | Rootless base image for sandboxed coding agents (Node, Python, uv, git, gh, ripgrep) |
@@ -30,6 +31,33 @@ Every image is tagged `X.Y.Z`, `X.Y`, `X`, and `latest`.
 - One process per container, logs to stdout, no init frameworks
 - Base images pinned by digest, tool versions pinned and updated by Renovate
 - SBOM and SLSA provenance attestations attached to every image
+
+### claude-code
+
+The entrypoint bootstraps the sandbox, then execs the container command (default `claude -p`). Everything is optional; with no variables set the agent starts in the empty `/workspace` scratch space.
+
+| Variable | Effect |
+|---|---|
+| `AGENT_REPO` | Repo cloned into `AGENT_WORKSPACE` (skipped if it already contains `.git`) |
+| `AGENT_REPO_REF` | Branch or tag to clone |
+| `AGENT_PROFILE_REPO` | Repo of agent profiles, shallow-cloned at startup |
+| `AGENT_PROFILE` | Subdirectory of that repo to install; defaults to the repo root |
+| `AGENT_PROFILE_REF` | Branch or tag of the profile repo |
+| `AGENT_PROMPT` | Prompt piped to the command on stdin; omit to pipe it in yourself |
+| `AGENT_WORKSPACE` | Working directory (default `/workspace`) |
+| `GITHUB_TOKEN` | Configures git to authenticate `https://github.com/` clones |
+
+The profile's contents are copied into `CLAUDE_CONFIG_DIR` (`/home/agent/.claude`), so a profile directory holds `settings.json`, `agents/`, `skills/`, `CLAUDE.md`, and anything else Claude Code reads from there.
+
+```shell
+docker run --rm \
+  -e ANTHROPIC_API_KEY \
+  -e AGENT_REPO=https://github.com/cloudsnacks/containers.git \
+  -e AGENT_PROFILE_REPO=https://github.com/cloudsnacks/agent-profiles.git \
+  -e AGENT_PROFILE=reviewer \
+  -e AGENT_PROMPT="Summarise the CI workflow" \
+  ghcr.io/cloudsnacks/claude-code:latest
+```
 
 ### Verifying provenance
 

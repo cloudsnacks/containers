@@ -10,6 +10,7 @@ Public container images for cloud work, built multi-arch and rootless with secur
 |---|---|
 | `ghcr.io/cloudsnacks/actions-runner` | Rootless GitHub Actions runner for [Actions Runner Controller](https://github.com/actions/actions-runner-controller) |
 | `ghcr.io/cloudsnacks/claude-code` | Headless Claude Code agent with git-repo and agent-profile bootstrap |
+| `ghcr.io/cloudsnacks/dev-desktop` | Arch Linux dev workstation with Hyprland streamed over [Sunshine](https://github.com/LizardByte/Sunshine)/Moonlight, cloud tooling, and AI coding agents (`linux/amd64` only, needs `/dev/dri`) |
 | `ghcr.io/cloudsnacks/infisical-mcp` | Infisical MCP server (secrets management over MCP) |
 | `ghcr.io/cloudsnacks/kubectl` | Rootless kubectl CLI |
 | `ghcr.io/cloudsnacks/sandbox-agent` | Rootless base image for sandboxed coding agents (Node, Python, uv, git, gh, ripgrep) |

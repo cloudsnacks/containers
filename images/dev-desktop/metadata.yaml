@@ -1,0 +1,8 @@
+---
+name: dev-desktop
+description: Arch Linux dev workstation with Hyprland streamed over Sunshine/Moonlight
+version: 1.0.0
+platforms:
+  # archlinux has no official arm64 image, so this image is amd64-only.
+  - linux/amd64
+test: Hyprland --version && sunshine --version && claude --version && codex --version && gemini --version && opencode --version && kubectl version --client && helm version --short && terraform version && tofu version && node --version && python3 --version && go version && uv --version && rg --version && nvim --version && chezmoi --version && test "$(whoami)" = dev

@@ -1,5 +1,6 @@
 [
   "actions-runner",
+  "claude-code",
   "infisical-mcp",
   "kubectl",
   "sandbox-agent"

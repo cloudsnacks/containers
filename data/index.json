@@ -1,6 +1,7 @@
 [
   "actions-runner",
   "claude-code",
+  "dev-desktop",
   "infisical-mcp",
   "kubectl",
   "sandbox-agent"

@@ -69,7 +69,86 @@
           ]
         }
       }
+    },
+    {
+      "version": "2.336.0-1",
+      "digest": "sha256:d04abfccb22baac9c5feac799481cee1595902d71d3a5e6bfc0e6b4c874b7535",
+      "collectedAt": "2026-07-26T07:03:12Z",
+      "platforms": {
+        "linux/amd64": {
+          "digest": "sha256:77b2fddb38a849918a4727e95c9537215977cda0a851b500f52c9efb6d651a25",
+          "size": 354316375,
+          "layers": [
+            {
+              "digest": "sha256:ca2678b20700c15185707964d9211b1a6406196114bf675f568b6025d37b3888",
+              "size": 29735601,
+              "command": "/bin/sh -c #(nop) ADD file:8c609c85109d07bf47cf268a175b3be8bbe34fc0c41d15d99b090d099f4dc837 in / "
+            },
+            {
+              "digest": "sha256:00cf43745736c85a1b3cc4f5917b854ad34c05b66b041139dca9ab734df4f432",
+              "size": 33295420,
+              "command": "RUN |5 RUNNER_VERSION=2.336.0 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 DOCKER_VERSION=29.6.1 BUILDX_VERSION=0.35.0 TARGETARCH=amd64 /bin/bash -o pipefail -c apt-get update     && apt-get install -y --no-install-recommends         ca-certificates         curl         git         git-lfs         jq         libatomic1         tmux         unzip         zstd     && rm -rf /var/lib/apt/lists/* # buildkit"
+            },
+            {
+              "digest": "sha256:92831e5a05a537bf5f9368935ca3f03b219b352df2109f920e6ccb90c8b48347",
+              "size": 3536,
+              "command": "RUN |5 RUNNER_VERSION=2.336.0 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 DOCKER_VERSION=29.6.1 BUILDX_VERSION=0.35.0 TARGETARCH=amd64 /bin/bash -o pipefail -c groupadd --gid 1001 runner     && useradd --uid 1001 --gid runner --create-home --shell /bin/bash runner # buildkit"
+            },
+            {
+              "digest": "sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1",
+              "size": 32,
+              "command": "WORKDIR /home/runner"
+            },
+            {
+              "digest": "sha256:c0c4fd2d996a63212c69fc26f6d4f5a78e31733ff7c48c3f2fd2e41b9888ee72",
+              "size": 248804808,
+              "command": "RUN |5 RUNNER_VERSION=2.336.0 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 DOCKER_VERSION=29.6.1 BUILDX_VERSION=0.35.0 TARGETARCH=amd64 /bin/bash -o pipefail -c RUNNER_ARCH=\"$(case \"${TARGETARCH}\" in amd64) echo x64 ;; *) echo \"${TARGETARCH}\" ;; esac)\"     && curl -fsSL \"https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${RUNNER_ARCH}-${RUNNER_VERSION}.tar.gz\"         | tar -xz     && ./bin/installdependencies.sh     && curl -fsSL -o /tmp/hooks.zip \"https://github.com/actions/runner-container-hooks/releases/download/v${RUNNER_CONTAINER_HOOKS_VERSION}/actions-runner-hooks-k8s-${RUNNER_CONTAINER_HOOKS_VERSION}.zip\"     && unzip -q /tmp/hooks.zip -d ./k8s     && rm /tmp/hooks.zip     && rm -rf /var/lib/apt/lists/*     && chown -R runner:runner /home/runner # buildkit"
+            },
+            {
+              "digest": "sha256:48dce2b0751fea6684b846416ba7ee8bde40c6f39201b75d3320e5406d8f3839",
+              "size": 42476978,
+              "command": "RUN |5 RUNNER_VERSION=2.336.0 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 DOCKER_VERSION=29.6.1 BUILDX_VERSION=0.35.0 TARGETARCH=amd64 /bin/bash -o pipefail -c DOCKER_ARCH=\"$(case \"${TARGETARCH}\" in amd64) echo x86_64 ;; arm64) echo aarch64 ;; *) echo \"${TARGETARCH}\" ;; esac)\"     && curl -fsSL -o /tmp/docker.tgz \"https://download.docker.com/linux/static/stable/${DOCKER_ARCH}/docker-${DOCKER_VERSION}.tgz\"     && tar -xzf /tmp/docker.tgz -C /tmp     && install -o root -g root -m 0755 /tmp/docker/docker /usr/bin/docker     && rm -rf /tmp/docker /tmp/docker.tgz     && mkdir -p /usr/local/lib/docker/cli-plugins     && curl -fsSL -o /usr/local/lib/docker/cli-plugins/docker-buildx         \"https://github.com/docker/buildx/releases/download/v${BUILDX_VERSION}/buildx-v${BUILDX_VERSION}.linux-${TARGETARCH}\"     && chmod 0755 /usr/local/lib/docker/cli-plugins/docker-buildx     && groupadd --gid 123 docker     && usermod --append --groups docker runner     && docker --version     && docker buildx version # buildkit"
+            }
+          ]
+        },
+        "linux/arm64": {
+          "digest": "sha256:41d8712f07119ce438dd0ff0def9ecc4635c723f9864a20be56a44d97ac2841a",
+          "size": 260042683,
+          "layers": [
+            {
+              "digest": "sha256:4b987da45db4d6278590ab89840c7167ea397df222f3ee4cdb77c3e15694b1a9",
+              "size": 28884180,
+              "command": "/bin/sh -c #(nop) ADD file:cdc9a547b921f36a32310f732815bbee6c6e4f5bd768ab5d49cdc0aa1b9f4785 in / "
+            },
+            {
+              "digest": "sha256:9194b5160409f212f1f6756a4d23bb6fff3446657d3670a5ffdb457f310c9ea9",
+              "size": 32896194,
+              "command": "RUN |5 RUNNER_VERSION=2.336.0 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 DOCKER_VERSION=29.6.1 BUILDX_VERSION=0.35.0 TARGETARCH=arm64 /bin/bash -o pipefail -c apt-get update     && apt-get install -y --no-install-recommends         ca-certificates         curl         git         git-lfs         jq         libatomic1         tmux         unzip         zstd     && rm -rf /var/lib/apt/lists/* # buildkit"
+            },
+            {
+              "digest": "sha256:1de0cca24dd00968e12ecce340d6619e6c0825a4f845f8f08c1f7dae75c0ed8f",
+              "size": 3535,
+              "command": "RUN |5 RUNNER_VERSION=2.336.0 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 DOCKER_VERSION=29.6.1 BUILDX_VERSION=0.35.0 TARGETARCH=arm64 /bin/bash -o pipefail -c groupadd --gid 1001 runner     && useradd --uid 1001 --gid runner --create-home --shell /bin/bash runner # buildkit"
+            },
+            {
+              "digest": "sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1",
+              "size": 32,
+              "command": "WORKDIR /home/runner"
+            },
+            {
+              "digest": "sha256:2ac43ea1adebde38bba572cf1358253cba9e30026441c0dcf591bf431d9c2e52",
+              "size": 159514352,
+              "command": "RUN |5 RUNNER_VERSION=2.336.0 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 DOCKER_VERSION=29.6.1 BUILDX_VERSION=0.35.0 TARGETARCH=arm64 /bin/bash -o pipefail -c RUNNER_ARCH=\"$(case \"${TARGETARCH}\" in amd64) echo x64 ;; *) echo \"${TARGETARCH}\" ;; esac)\"     && curl -fsSL \"https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${RUNNER_ARCH}-${RUNNER_VERSION}.tar.gz\"         | tar -xz     && ./bin/installdependencies.sh     && curl -fsSL -o /tmp/hooks.zip \"https://github.com/actions/runner-container-hooks/releases/download/v${RUNNER_CONTAINER_HOOKS_VERSION}/actions-runner-hooks-k8s-${RUNNER_CONTAINER_HOOKS_VERSION}.zip\"     && unzip -q /tmp/hooks.zip -d ./k8s     && rm /tmp/hooks.zip     && rm -rf /var/lib/apt/lists/*     && chown -R runner:runner /home/runner # buildkit"
+            },
+            {
+              "digest": "sha256:b53921196e7370bcf531a52dc566fc08cc88434bff53ddad0f750a153c759f3c",
+              "size": 38744390,
+              "command": "RUN |5 RUNNER_VERSION=2.336.0 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 DOCKER_VERSION=29.6.1 BUILDX_VERSION=0.35.0 TARGETARCH=arm64 /bin/bash -o pipefail -c DOCKER_ARCH=\"$(case \"${TARGETARCH}\" in amd64) echo x86_64 ;; arm64) echo aarch64 ;; *) echo \"${TARGETARCH}\" ;; esac)\"     && curl -fsSL -o /tmp/docker.tgz \"https://download.docker.com/linux/static/stable/${DOCKER_ARCH}/docker-${DOCKER_VERSION}.tgz\"     && tar -xzf /tmp/docker.tgz -C /tmp     && install -o root -g root -m 0755 /tmp/docker/docker /usr/bin/docker     && rm -rf /tmp/docker /tmp/docker.tgz     && mkdir -p /usr/local/lib/docker/cli-plugins     && curl -fsSL -o /usr/local/lib/docker/cli-plugins/docker-buildx         \"https://github.com/docker/buildx/releases/download/v${BUILDX_VERSION}/buildx-v${BUILDX_VERSION}.linux-${TARGETARCH}\"     && chmod 0755 /usr/local/lib/docker/cli-plugins/docker-buildx     && groupadd --gid 123 docker     && usermod --append --groups docker runner     && docker --version     && docker buildx version # buildkit"
+            }
+          ]
+        }
+      }
     }
   ],
-  "description": "Rootless GitHub Actions runner for Actions Runner Controller"
+  "description": "GitHub Actions runner for Actions Runner Controller, with docker CLI and buildx"
 }

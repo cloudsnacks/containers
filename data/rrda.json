@@ -1,0 +1,55 @@
+{
+  "name": "rrda",
+  "history": [
+    {
+      "version": "1.4.1",
+      "digest": "sha256:75bec936b86005a3ea1ae6e0041f1ddec8db50b60d8dd2813f124c0e96f29cd4",
+      "collectedAt": "2026-07-26T07:03:13Z",
+      "platforms": {
+        "linux/arm64": {
+          "digest": "sha256:4df98cb1c36a0279c3ae3d12a7c7b701cdda5825ea1c324e0fb318f5d1ebceeb",
+          "size": 6784003,
+          "layers": [
+            {
+              "digest": "sha256:5de55e5ef9c033997441461efe7ba23a986db059c0bb78b38f84ee0d72b99167",
+              "size": 4183037,
+              "command": "ADD alpine-minirootfs-3.24.1-aarch64.tar.gz / # buildkit"
+            },
+            {
+              "digest": "sha256:5349667ab6f086fb5033d84d3db202188f238ab5dc41280066567a132297148d",
+              "size": 903,
+              "command": "RUN /bin/sh -c addgroup -g 1001 rrda     && adduser -u 1001 -G rrda -D -H -s /sbin/nologin rrda # buildkit"
+            },
+            {
+              "digest": "sha256:547415924654f2cd6dd4c33f110a78115a5f3a5dc751cca4bccc049cdaaeb190",
+              "size": 2600063,
+              "command": "COPY /out/rrda /usr/local/bin/rrda # buildkit"
+            }
+          ]
+        },
+        "linux/amd64": {
+          "digest": "sha256:02797060e61e4889c1926a75c1e6a19e2ce658a90e39ce3e1a6519cbf85af536",
+          "size": 6721078,
+          "layers": [
+            {
+              "digest": "sha256:55afa1ecc21d2bb5e5045f32dafee56272ffd89860bac26f6c32123439af26a4",
+              "size": 3846391,
+              "command": "ADD alpine-minirootfs-3.24.1-x86_64.tar.gz / # buildkit"
+            },
+            {
+              "digest": "sha256:dacb35e55f5cdf2246540585f209613ae78481ddb2b9b023460e7980ad432e5e",
+              "size": 903,
+              "command": "RUN /bin/sh -c addgroup -g 1001 rrda     && adduser -u 1001 -G rrda -D -H -s /sbin/nologin rrda # buildkit"
+            },
+            {
+              "digest": "sha256:ff892fe16a5ca1f77afaf561df96c207d99bdd1153ae4e0dee6501259b722ac1",
+              "size": 2873784,
+              "command": "COPY /out/rrda /usr/local/bin/rrda # buildkit"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "description": "JSON REST API for DNS queries, wrapping a resolver over HTTP"
+}

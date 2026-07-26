@@ -4,5 +4,6 @@
   "dev-desktop",
   "infisical-mcp",
   "kubectl",
+  "rrda",
   "sandbox-agent"
 ]

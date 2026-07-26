@@ -1,9 +1,14 @@
 ---
 name: actions-runner
-description: Rootless GitHub Actions runner for Actions Runner Controller
-# renovate: datasource=github-releases depName=actions/runner
-version: 2.336.0
+description: GitHub Actions runner for Actions Runner Controller, with docker CLI and buildx
+# <upstream runner version>-<revision>. Bump the revision whenever this image's
+# contents change without RUNNER_VERSION moving, so scale sets pulling with the
+# default IfNotPresent policy get a tag they have not already cached. Renovate
+# tracks upstream on RUNNER_VERSION in the Dockerfile — deliberately not
+# annotated here, since a -N suffix is a semver pre-release and would be
+# "upgraded" straight back to the bare release.
+version: 2.336.0-1
 platforms:
   - linux/amd64
   - linux/arm64
-test: /home/runner/bin/Runner.Listener --version
+test: /home/runner/bin/Runner.Listener --version && tmux -V && docker --version && docker buildx version && dpkg -s libatomic1 >/dev/null && test "$LANG" = C.UTF-8 && id -nG | grep -qw docker

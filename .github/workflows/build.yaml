@@ -137,7 +137,10 @@ jobs:
         if: ${{ github.event_name == 'pull_request' && matrix.test != '' }}
         env:
           TEST_CMD: ${{ matrix.test }}
-        run: docker run --rm local/${{ matrix.image }}:test sh -c "${TEST_CMD}"
+        # --entrypoint sh so the command runs regardless of the image's own
+        # ENTRYPOINT; images that exec a server (code-server, node) would
+        # otherwise swallow the test as extra arguments to that server.
+        run: docker run --rm --entrypoint sh local/${{ matrix.image }}:test -c "${TEST_CMD}"
 
       - name: Build and push by digest
         id: build
@@ -215,8 +218,11 @@ jobs:
           set -euo pipefail
           ref="ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}"
           version="${{ matrix.version }}"
-          major="${version%%.*}"
-          minor="${version%.*}"
+          # Strip any -<revision> suffix before deriving the rolling tags, so a
+          # rebuild of the same upstream release (2.336.0-1) still moves 2.336/2.
+          base="${version%%-*}"
+          major="${base%%.*}"
+          minor="${base%.*}"
           docker buildx imagetools create \
             --tag "${ref}:${version}" \
             --tag "${ref}:${minor}" \

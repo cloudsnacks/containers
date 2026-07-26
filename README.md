@@ -8,11 +8,12 @@ Public container images for cloud work, built multi-arch and rootless with secur
 
 | Image | Description |
 |---|---|
-| `ghcr.io/cloudsnacks/actions-runner` | Rootless GitHub Actions runner for [Actions Runner Controller](https://github.com/actions/actions-runner-controller) |
+| `ghcr.io/cloudsnacks/actions-runner` | Rootless GitHub Actions runner for [Actions Runner Controller](https://github.com/actions/actions-runner-controller), with docker CLI and buildx |
 | `ghcr.io/cloudsnacks/claude-code` | Headless Claude Code agent with git-repo and agent-profile bootstrap |
 | `ghcr.io/cloudsnacks/dev-desktop` | Arch Linux dev workstation with Hyprland streamed over [Sunshine](https://github.com/LizardByte/Sunshine)/Moonlight, cloud tooling, and AI coding agents (`linux/amd64` only, needs `/dev/dri`) |
 | `ghcr.io/cloudsnacks/infisical-mcp` | Infisical MCP server (secrets management over MCP) |
 | `ghcr.io/cloudsnacks/kubectl` | Rootless kubectl CLI |
+| `ghcr.io/cloudsnacks/rrda` | JSON REST API for DNS queries, wrapping a resolver over HTTP |
 | `ghcr.io/cloudsnacks/sandbox-agent` | Rootless base image for sandboxed coding agents (Node, Python, uv, git, gh, ripgrep) |
 
 ## Usage
@@ -20,16 +21,20 @@ Public container images for cloud work, built multi-arch and rootless with secur
 Pin to a semver tag plus digest so tools like Renovate can track updates reliably:
 
 ```yaml
-image: ghcr.io/cloudsnacks/actions-runner:2.336.0@sha256:<digest>
+image: ghcr.io/cloudsnacks/actions-runner:2.336.0-1@sha256:<digest>
 ```
 
-Every image is tagged `X.Y.Z`, `X.Y`, `X`, and `latest`.
+Every image is tagged `X.Y.Z`, `X.Y`, `X`, and `latest`. Images that track an
+upstream release may carry a `-<revision>` suffix on the full tag (`2.336.0-1`)
+when this repo rebuilds the same upstream version; the rolling `X.Y`, `X`, and
+`latest` tags drop it.
 
 ### Defaults
 
 - Multi-arch: `linux/amd64` and `linux/arm64`, each built on native runners (no QEMU)
-- Rootless: processes run as a dedicated non-root user (uid `1001`)
+- Rootless: processes run as a dedicated non-root user (uid `1001`), no sudo
 - One process per container, logs to stdout, no init frameworks
+- No docker CLI, except CI-runner images that build against an injected dind sidecar
 - Base images pinned by digest, tool versions pinned and updated by Renovate
 - SBOM and SLSA provenance attestations attached to every image
 
@@ -70,7 +75,7 @@ gh attestation verify oci://ghcr.io/cloudsnacks/actions-runner:2.336.0 --owner c
 
 Each image is versioned independently via the `version` field in its `images/<name>/metadata.yaml`:
 
-- Images that package a single upstream application (e.g. `actions-runner`) track the upstream version.
+- Images that package a single upstream application (e.g. `actions-runner`) track the upstream version, with an optional `-<revision>` suffix for rebuilds that change the image without moving the upstream version.
 - Images owned by this repo (e.g. `sandbox-agent`) use their own semver: MAJOR for breaking changes (removed tools, changed users/paths), MINOR for additions, PATCH for fixes and rebuilds.
 
 CI builds and tags whatever version the metadata declares — bump it in the same PR as the change.

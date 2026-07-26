@@ -37,6 +37,7 @@ when this repo rebuilds the same upstream version; the rolling `X.Y`, `X`, and
 - No docker CLI, except CI-runner images that build against an injected dind sidecar
 - Base images pinned by digest, tool versions pinned and updated by Renovate
 - SBOM and SLSA provenance attestations attached to every image
+- Every published image re-scanned daily for HIGH/CRITICAL CVEs, reported to GitHub code scanning
 
 ### claude-code
 
@@ -96,6 +97,10 @@ CI builds and tags whatever version the metadata declares — bump it in the sam
 3. **merge** — stitches the per-arch digests into one manifest list, applies the semver tags, and attests build provenance.
 
 Trigger a manual build of any (or every) image via *Actions → Build → Run workflow*.
+
+`.github/workflows/scan.yaml` runs daily and scans every published image, one job per image per platform on its native runner, uploading Trivy results to GitHub code scanning. A CVE disclosed after an image ships only surfaces on a re-scan, so this — not the build — is what catches them.
+
+The scan reports rather than gates. Almost everything it finds lives in vendored upstream artefacts (Go binaries, the runner's .NET runtime, npm's own bundled dependencies) where a patched upstream module exists but this repo only consumes a release build, so it cannot act on the fix until upstream rebuilds. Gating merges on that would block PRs on work the repo cannot do. Treat the alerts as a queue: the ones worth acting on are the OS packages a base-image bump fixes, and language deps this repo installs directly.
 
 ## Local development
 

@@ -1,0 +1,90 @@
+---
+name: Scan
+
+on:
+  workflow_dispatch:
+  schedule:
+    # A CVE disclosed after an image is published only surfaces on a re-scan,
+    # so sweep every published image daily.
+    - cron: "17 6 * * *"
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      scan: ${{ steps.matrix.outputs.scan }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Generate matrix
+        id: matrix
+        run: |
+          set -euo pipefail
+
+          scan="[]"
+          for metadata in images/*/metadata.yaml; do
+            image="$(basename "$(dirname "${metadata}")")"
+            version="$(yq '.version' "${metadata}")"
+            while read -r platform; do
+              case "${platform}" in
+                linux/amd64) runner="ubuntu-latest" ;;
+                linux/arm64) runner="ubuntu-24.04-arm" ;;
+                *) echo "unsupported platform: ${platform}" >&2; exit 1 ;;
+              esac
+              scan="$(jq -c \
+                --arg image "${image}" --arg version "${version}" \
+                --arg slug "${platform//\//-}" --arg runner "${runner}" \
+                '. + [{image: $image, version: $version, slug: $slug, runner: $runner}]' \
+                <<<"${scan}")"
+            done < <(yq '.platforms[]' "${metadata}")
+          done
+
+          echo "scan=${scan}" >>"${GITHUB_OUTPUT}"
+
+  scan:
+    name: scan (${{ matrix.image }}, ${{ matrix.slug }})
+    needs: prepare
+    if: ${{ needs.prepare.outputs.scan != '[]' }}
+    runs-on: ${{ matrix.runner }}
+    permissions:
+      contents: read
+      packages: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.prepare.outputs.scan) }}
+    steps:
+      - name: Login to GHCR
+        uses: docker/login-action@af1e73f918a031802d376d3c8bbc3fe56130a9b0 # v4.4.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Trivy resolves the manifest list to the runner's own architecture, so
+      # each platform is scanned by the native runner that built it.
+      - name: Scan published image
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          image-ref: ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}:${{ matrix.version }}
+          scanners: vuln
+          severity: HIGH,CRITICAL
+          limit-severities-for-sarif: true
+          format: sarif
+          output: trivy.sarif
+          hide-progress: true
+
+      - name: Upload SARIF
+        uses: github/codeql-action/upload-sarif@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
+        with:
+          sarif_file: trivy.sarif
+          category: trivy-${{ matrix.image }}-${{ matrix.slug }}

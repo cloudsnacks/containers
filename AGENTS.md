@@ -22,3 +22,5 @@ container build -t <name>:local -f images/<name>/Dockerfile images/<name>
 ```
 
 CI (`.github/workflows/build.yaml`) builds changed images on native amd64/arm64 runners, merges digests into a manifest list, and attaches SBOM + provenance attestations. Third-party actions are pinned to commit SHAs — keep it that way when editing workflows.
+
+`.github/workflows/scan.yaml` re-scans every published image daily with Trivy and reports HIGH/CRITICAL CVEs to GitHub code scanning. It reports and does not gate: most findings are in vendored upstream artefacts this repo cannot patch. It reads the `version` from each `metadata.yaml`, so that field must always name a tag that is actually published.

@@ -1,8 +1,12 @@
 ---
 name: infisical-mcp
 description: Infisical MCP server (secrets management over MCP)
-# renovate: datasource=npm depName=@infisical/mcp
-version: 0.0.23
+# <upstream mcp version>-<revision>. Bump the revision whenever this image's
+# contents change without INFISICAL_MCP_VERSION moving. Renovate tracks upstream
+# on INFISICAL_MCP_VERSION in the Dockerfile — deliberately not annotated here,
+# since a -N suffix is a semver pre-release and would be "upgraded" straight
+# back to the bare release.
+version: 0.0.23-1
 platforms:
   - linux/amd64
   - linux/arm64

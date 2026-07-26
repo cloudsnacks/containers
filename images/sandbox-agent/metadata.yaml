@@ -1,7 +1,7 @@
 ---
 name: sandbox-agent
 description: Rootless base image for sandboxed coding agents
-version: 1.0.0
+version: 1.0.1
 platforms:
   - linux/amd64
   - linux/arm64

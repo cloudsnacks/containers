@@ -2,6 +2,10 @@ FROM ubuntu:24.04@sha256:4fbb8e6a8395de5a7550b33509421a2bafbc0aab6c06ba2cef9ebff
 
 # renovate: datasource=node-version depName=node
 ARG NODE_VERSION=24.18.0
+# Node ships an older bundled npm whose own vendored deps carry known CVEs;
+# upgrading npm itself is the only way to move them.
+# renovate: datasource=npm depName=npm
+ARG NPM_VERSION=12.0.1
 # renovate: datasource=github-releases depName=cli/cli
 ARG GH_VERSION=2.96.0
 # renovate: datasource=github-releases depName=astral-sh/uv
@@ -36,7 +40,10 @@ RUN apt-get update \
 RUN NODE_ARCH="$(case "${TARGETARCH}" in amd64) echo x64 ;; *) echo "${TARGETARCH}" ;; esac)" \
     && curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${NODE_ARCH}.tar.xz" \
         | tar -xJ -C /usr/local --strip-components=1 --no-same-owner \
-    && node --version
+    && npm install -g "npm@${NPM_VERSION}" \
+    && npm cache clean --force \
+    && node --version \
+    && npm --version
 
 RUN curl -fsSL "https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_${TARGETARCH}.tar.gz" \
         | tar -xz -C /usr/local/bin --strip-components=2 --no-same-owner "gh_${GH_VERSION}_linux_${TARGETARCH}/bin/gh" \

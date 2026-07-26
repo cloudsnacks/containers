@@ -79,6 +79,85 @@
           ]
         }
       }
+    },
+    {
+      "version": "1.0.1",
+      "digest": "sha256:f1f3305c68c59fa29f604f43ac4e63463c087632ab3338cd959525887a38b3cd",
+      "collectedAt": "2026-07-26T09:27:13Z",
+      "platforms": {
+        "linux/arm64": {
+          "digest": "sha256:780eca745b21408da36935a94305537c903e10b63c15359c6d57edaf5f6ea06c",
+          "size": 181036670,
+          "layers": [
+            {
+              "digest": "sha256:4b987da45db4d6278590ab89840c7167ea397df222f3ee4cdb77c3e15694b1a9",
+              "size": 28884180,
+              "command": "/bin/sh -c #(nop) ADD file:cdc9a547b921f36a32310f732815bbee6c6e4f5bd768ab5d49cdc0aa1b9f4785 in / "
+            },
+            {
+              "digest": "sha256:800e366644d690cbcbe5117571e1b81d13e22381624ddc3d5be0ace6b1063df1",
+              "size": 53654594,
+              "command": "RUN |5 NODE_VERSION=24.18.0 NPM_VERSION=12.0.1 GH_VERSION=2.96.0 UV_VERSION=0.11.31 TARGETARCH=arm64 /bin/bash -o pipefail -c apt-get update     && apt-get install -y --no-install-recommends         ca-certificates         curl         git         git-lfs         gnupg         jq         less         make         openssh-client         python3         python3-venv         ripgrep         unzip         xz-utils         zip         zstd     && rm -rf /var/lib/apt/lists/* # buildkit"
+            },
+            {
+              "digest": "sha256:f1d26b8ffabeb00366c22b3048853f2d92c3629908e30dd1d44df2997cee5499",
+              "size": 59587080,
+              "command": "RUN |5 NODE_VERSION=24.18.0 NPM_VERSION=12.0.1 GH_VERSION=2.96.0 UV_VERSION=0.11.31 TARGETARCH=arm64 /bin/bash -o pipefail -c NODE_ARCH=\"$(case \"${TARGETARCH}\" in amd64) echo x64 ;; *) echo \"${TARGETARCH}\" ;; esac)\"     && curl -fsSL \"https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${NODE_ARCH}.tar.xz\"         | tar -xJ -C /usr/local --strip-components=1 --no-same-owner     && npm install -g \"npm@${NPM_VERSION}\"     && npm cache clean --force     && node --version     && npm --version # buildkit"
+            },
+            {
+              "digest": "sha256:e7d1a9da8561f8957a8e89e2ac56a11a76f619627cf401025483dddd8f950a24",
+              "size": 38907209,
+              "command": "RUN |5 NODE_VERSION=24.18.0 NPM_VERSION=12.0.1 GH_VERSION=2.96.0 UV_VERSION=0.11.31 TARGETARCH=arm64 /bin/bash -o pipefail -c curl -fsSL \"https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_${TARGETARCH}.tar.gz\"         | tar -xz -C /usr/local/bin --strip-components=2 --no-same-owner \"gh_${GH_VERSION}_linux_${TARGETARCH}/bin/gh\"     && UV_ARCH=\"$(case \"${TARGETARCH}\" in amd64) echo x86_64 ;; arm64) echo aarch64 ;; esac)\"     && curl -fsSL \"https://github.com/astral-sh/uv/releases/download/${UV_VERSION}/uv-${UV_ARCH}-unknown-linux-gnu.tar.gz\"         | tar -xz -C /usr/local/bin --strip-components=1 --no-same-owner     && gh --version     && uv --version # buildkit"
+            },
+            {
+              "digest": "sha256:1919839fee5e5bbb0b4f7d8006bf2d633c8380b8eaeabb6b36d0a6f326d88d0d",
+              "size": 3575,
+              "command": "RUN |5 NODE_VERSION=24.18.0 NPM_VERSION=12.0.1 GH_VERSION=2.96.0 UV_VERSION=0.11.31 TARGETARCH=arm64 /bin/bash -o pipefail -c groupadd --gid 1001 agent     && useradd --uid 1001 --gid agent --create-home --shell /bin/bash agent     && mkdir /workspace     && chown agent:agent /workspace # buildkit"
+            },
+            {
+              "digest": "sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1",
+              "size": 32,
+              "command": "WORKDIR /workspace"
+            }
+          ]
+        },
+        "linux/amd64": {
+          "digest": "sha256:da8b6f4b26a934a6d0c7e72f20878388b29384ca60a700592f3ee0efa7909ba4",
+          "size": 185019701,
+          "layers": [
+            {
+              "digest": "sha256:ca2678b20700c15185707964d9211b1a6406196114bf675f568b6025d37b3888",
+              "size": 29735601,
+              "command": "/bin/sh -c #(nop) ADD file:8c609c85109d07bf47cf268a175b3be8bbe34fc0c41d15d99b090d099f4dc837 in / "
+            },
+            {
+              "digest": "sha256:cbd3664d92f8eadac56f6b1d5b6bc206fd99f35c6673834bc757e0c4a3875b66",
+              "size": 54270159,
+              "command": "RUN |5 NODE_VERSION=24.18.0 NPM_VERSION=12.0.1 GH_VERSION=2.96.0 UV_VERSION=0.11.31 TARGETARCH=amd64 /bin/bash -o pipefail -c apt-get update     && apt-get install -y --no-install-recommends         ca-certificates         curl         git         git-lfs         gnupg         jq         less         make         openssh-client         python3         python3-venv         ripgrep         unzip         xz-utils         zip         zstd     && rm -rf /var/lib/apt/lists/* # buildkit"
+            },
+            {
+              "digest": "sha256:0f0a1a47b44ea79a094484fbe9a3a08eced992bff63cef283578dc35c51e86f4",
+              "size": 59592684,
+              "command": "RUN |5 NODE_VERSION=24.18.0 NPM_VERSION=12.0.1 GH_VERSION=2.96.0 UV_VERSION=0.11.31 TARGETARCH=amd64 /bin/bash -o pipefail -c NODE_ARCH=\"$(case \"${TARGETARCH}\" in amd64) echo x64 ;; *) echo \"${TARGETARCH}\" ;; esac)\"     && curl -fsSL \"https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${NODE_ARCH}.tar.xz\"         | tar -xJ -C /usr/local --strip-components=1 --no-same-owner     && npm install -g \"npm@${NPM_VERSION}\"     && npm cache clean --force     && node --version     && npm --version # buildkit"
+            },
+            {
+              "digest": "sha256:c1a1455763290de49ba5e648c927b77f26b9b24089b96d197829c22ed0cb7123",
+              "size": 41417647,
+              "command": "RUN |5 NODE_VERSION=24.18.0 NPM_VERSION=12.0.1 GH_VERSION=2.96.0 UV_VERSION=0.11.31 TARGETARCH=amd64 /bin/bash -o pipefail -c curl -fsSL \"https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_${TARGETARCH}.tar.gz\"         | tar -xz -C /usr/local/bin --strip-components=2 --no-same-owner \"gh_${GH_VERSION}_linux_${TARGETARCH}/bin/gh\"     && UV_ARCH=\"$(case \"${TARGETARCH}\" in amd64) echo x86_64 ;; arm64) echo aarch64 ;; esac)\"     && curl -fsSL \"https://github.com/astral-sh/uv/releases/download/${UV_VERSION}/uv-${UV_ARCH}-unknown-linux-gnu.tar.gz\"         | tar -xz -C /usr/local/bin --strip-components=1 --no-same-owner     && gh --version     && uv --version # buildkit"
+            },
+            {
+              "digest": "sha256:e810b46c6d65d8180f8d61bc4a04ba28f4b79ee373bfae0cc655400db4a02956",
+              "size": 3578,
+              "command": "RUN |5 NODE_VERSION=24.18.0 NPM_VERSION=12.0.1 GH_VERSION=2.96.0 UV_VERSION=0.11.31 TARGETARCH=amd64 /bin/bash -o pipefail -c groupadd --gid 1001 agent     && useradd --uid 1001 --gid agent --create-home --shell /bin/bash agent     && mkdir /workspace     && chown agent:agent /workspace # buildkit"
+            },
+            {
+              "digest": "sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1",
+              "size": 32,
+              "command": "WORKDIR /workspace"
+            }
+          ]
+        }
+      }
     }
   ],
   "description": "Rootless base image for sandboxed coding agents"

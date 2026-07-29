@@ -21,14 +21,52 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 # libatomic1: the Node that actions/setup-node installs links libatomic.so.1
 # tmux: workflows that drive a real tmux session
+#
+# The lib*/fonts-* block is headless Chromium's runtime for Playwright suites:
+# `playwright install --with-deps` escalates to root for these and this image
+# is rootless (su: Authentication failure), so they are baked in instead and
+# workflows run plain `playwright install chromium`. List taken from
+# Playwright 1.62.0 nativeDeps ubuntu24.04 (same set on arm64), minus xvfb and
+# the xfonts-* server fonts that only headed X11 mode needs. The fonts stay:
+# screenshot suites need emoji and CJK fallbacks to render, not tofu boxes.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         ca-certificates \
         curl \
+        fonts-freefont-ttf \
+        fonts-ipafont-gothic \
+        fonts-liberation \
+        fonts-noto-color-emoji \
+        fonts-tlwg-loma-otf \
+        fonts-unifont \
+        fonts-wqy-zenhei \
         git \
         git-lfs \
         jq \
+        libasound2t64 \
+        libatk-bridge2.0-0t64 \
+        libatk1.0-0t64 \
         libatomic1 \
+        libatspi2.0-0t64 \
+        libcairo2 \
+        libcups2t64 \
+        libdbus-1-3 \
+        libdrm2 \
+        libfontconfig1 \
+        libfreetype6 \
+        libgbm1 \
+        libglib2.0-0t64 \
+        libnspr4 \
+        libnss3 \
+        libpango-1.0-0 \
+        libx11-6 \
+        libxcb1 \
+        libxcomposite1 \
+        libxdamage1 \
+        libxext6 \
+        libxfixes3 \
+        libxkbcommon0 \
+        libxrandr2 \
         tmux \
         unzip \
         zstd \

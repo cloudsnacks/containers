@@ -7,8 +7,8 @@ description: GitHub Actions runner for Actions Runner Controller, with docker CL
 # tracks upstream on RUNNER_VERSION in the Dockerfile — deliberately not
 # annotated here, since a -N suffix is a semver pre-release and would be
 # "upgraded" straight back to the bare release.
-version: 2.336.0-1
+version: 2.336.0-2
 platforms:
   - linux/amd64
   - linux/arm64
-test: /home/runner/bin/Runner.Listener --version && tmux -V && docker --version && docker buildx version && dpkg -s libatomic1 >/dev/null && test "$LANG" = C.UTF-8 && id -nG | grep -qw docker
+test: /home/runner/bin/Runner.Listener --version && tmux -V && docker --version && docker buildx version && dpkg -s libatomic1 libnss3 libgbm1 fonts-noto-color-emoji >/dev/null && test "$LANG" = C.UTF-8 && id -nG | grep -qw docker

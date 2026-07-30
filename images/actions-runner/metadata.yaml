@@ -1,14 +1,17 @@
 ---
 name: actions-runner
-description: GitHub Actions runner for Actions Runner Controller, with docker CLI and buildx
+description: GitHub Actions runner for Actions Runner Controller, with docker CLI, buildx and a mise-managed CLI toolchain
 # <upstream runner version>-<revision>. Bump the revision whenever this image's
 # contents change without RUNNER_VERSION moving, so scale sets pulling with the
 # default IfNotPresent policy get a tag they have not already cached. Renovate
 # tracks upstream on RUNNER_VERSION in the Dockerfile — deliberately not
 # annotated here, since a -N suffix is a semver pre-release and would be
 # "upgraded" straight back to the bare release.
-version: 2.336.0-2
+version: 2.336.0-3
 platforms:
   - linux/amd64
   - linux/arm64
-test: /home/runner/bin/Runner.Listener --version && tmux -V && docker --version && docker buildx version && dpkg -s libatomic1 libnss3 libgbm1 fonts-noto-color-emoji >/dev/null && test "$LANG" = C.UTF-8 && id -nG | grep -qw docker
+# The mise loop is deliberately generic over mise.toml: every tool listed there
+# must resolve through the shims on PATH and run as the runner user, so adding
+# a tool needs no edit here.
+test: /home/runner/bin/Runner.Listener --version && tmux -V && docker --version && docker buildx version && jq --version && test "$(mise ls --installed --json | jq 'keys|length')" -eq "$(yq -p toml -oy '.tools|length' /opt/mise/config.toml)" && for t in $(mise ls --installed --json | jq -r 'keys[]'); do command -v "$t" | grep -q '^/opt/mise/shims/' && "$t" --version >/dev/null || exit 1; done && dpkg -s libatomic1 libnss3 libgbm1 fonts-noto-color-emoji >/dev/null && test "$LANG" = C.UTF-8 && id -nG | grep -qw docker

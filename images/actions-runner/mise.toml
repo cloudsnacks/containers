@@ -1,0 +1,12 @@
+# Long-tail CLI tooling for workflows: one line per tool. Renovate's native
+# mise manager matches this filename by default, so entries here need no
+# `# renovate:` annotation and no addition to the repo's custom manager.
+#
+# Only static, version-insensitive binaries belong here. Anything a workflow
+# pins against (language runtimes, kubectl, helm) stays out and is left to the
+# setup-* actions, which cache into RUNNER_TOOL_CACHE.
+[tools]
+gh = "2.96.0"
+hadolint = "2.14.0"
+shellcheck = "0.11.0"
+yq = "4.53.3"

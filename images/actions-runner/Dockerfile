@@ -107,6 +107,33 @@ RUN DOCKER_ARCH="$(case "${TARGETARCH}" in amd64) echo x86_64 ;; arm64) echo aar
     && docker --version \
     && docker buildx version
 
+# Workflow tooling that GitHub's own hosted images ship and Ubuntu does not
+# usefully package — there is no gh in the archive at all, and its `yq` is the
+# unrelated Python jq-wrapper with different syntax. Without them here every
+# workflow that opens a PR or patches a manifest curls its own copy into
+# RUNNER_TEMP, which is the per-repo drift this image exists to absorb.
+#
+# The list lives in mise.toml, one line per tool, so growing it costs no
+# Dockerfile. Renovate's native mise manager reads that file, which is why
+# those entries carry no `# renovate:` annotation. mise itself is fetched as a
+# pinned release binary rather than through the unpinned mise.run installer.
+# renovate: datasource=github-releases depName=jdx/mise
+ARG MISE_VERSION=2026.7.17
+# Data dir stays root-owned and read-only to the runner user; the cache is the
+# only path mise writes to at runtime, so it points somewhere world-writable.
+ENV MISE_DATA_DIR=/opt/mise \
+    MISE_CONFIG_DIR=/opt/mise \
+    MISE_CACHE_DIR=/tmp/mise-cache \
+    PATH=/opt/mise/shims:$PATH
+COPY mise.toml /opt/mise/config.toml
+RUN MISE_ARCH="$(case "${TARGETARCH}" in amd64) echo x64 ;; *) echo "${TARGETARCH}" ;; esac)" \
+    && curl -fsSL -o /tmp/mise \
+        "https://github.com/jdx/mise/releases/download/v${MISE_VERSION}/mise-v${MISE_VERSION}-linux-${MISE_ARCH}" \
+    && install -o root -g root -m 0755 /tmp/mise /usr/bin/mise \
+    && rm -f /tmp/mise \
+    && mise install --yes \
+    && mise ls --installed
+
 USER runner
 
-LABEL org.opencontainers.image.description="GitHub Actions runner for Actions Runner Controller, with docker CLI and buildx"
+LABEL org.opencontainers.image.description="GitHub Actions runner for Actions Runner Controller, with docker CLI, buildx and a mise-managed CLI toolchain"

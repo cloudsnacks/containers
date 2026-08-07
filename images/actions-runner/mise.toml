@@ -6,6 +6,7 @@
 # pins against (language runtimes, kubectl, helm) stays out and is left to the
 # setup-* actions, which cache into RUNNER_TOOL_CACHE.
 [tools]
+actionlint = "1.7.12"
 gh = "2.96.0"
 hadolint = "2.14.0"
 shellcheck = "0.11.0"

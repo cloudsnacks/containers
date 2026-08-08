@@ -13,6 +13,7 @@ Public container images for cloud work, built multi-arch and rootless with secur
 | `ghcr.io/cloudsnacks/dev-desktop` | Arch Linux dev workstation with Hyprland streamed over [Sunshine](https://github.com/LizardByte/Sunshine)/Moonlight, cloud tooling, and AI coding agents (`linux/amd64` only, needs `/dev/dri`) |
 | `ghcr.io/cloudsnacks/infisical-mcp` | Infisical MCP server (secrets management over MCP) |
 | `ghcr.io/cloudsnacks/kubectl` | Rootless kubectl CLI |
+| `ghcr.io/cloudsnacks/litellm` | LiteLLM proxy (non_root), our canonical build with mlflow added for the built-in mlflow logging callback |
 | `ghcr.io/cloudsnacks/rrda` | JSON REST API for DNS queries, wrapping a resolver over HTTP |
 | `ghcr.io/cloudsnacks/sandbox-agent` | Rootless base image for sandboxed coding agents (Node, Python, uv, git, gh, ripgrep) |
 

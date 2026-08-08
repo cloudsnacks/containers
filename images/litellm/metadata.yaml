@@ -1,0 +1,8 @@
+---
+name: litellm
+description: LiteLLM proxy (non_root), our canonical build with mlflow added for the built-in mlflow logging callback
+version: 1.0.0
+platforms:
+  - linux/amd64
+  - linux/arm64
+test: python3 -c "import litellm, mlflow" && litellm --version && test "$(id -u)" != "0"

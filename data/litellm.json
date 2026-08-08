@@ -1,0 +1,275 @@
+{
+  "name": "litellm",
+  "history": [
+    {
+      "version": "1.0.0",
+      "digest": "sha256:049b3532e8420f20ce8755386c71dec1348b68111bbc9464cd991433f365526f",
+      "collectedAt": "2026-08-08T06:33:07Z",
+      "platforms": {
+        "linux/arm64": {
+          "digest": "sha256:915e3d71995b738fdad14e354631d7052c74e62b725a7b21faa11a77721d8d71",
+          "size": 785149608,
+          "layers": [
+            {
+              "digest": "sha256:238c2bafa202f1bae77d6cbf5613b6c95a72024cf263a5047898917df79b082e",
+              "size": 2672322,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:b1e182aee88dd61d849cca3ab3e637b2eb8038641c79def981ad39ba86be9dc6",
+              "size": 2409341,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:b43e7166c7f6b78f101f5d9f1fe656823937b0070d302c3dbcc741dc6e335987",
+              "size": 419189,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:63c5c8af447b166ea4b608f5f4651266007494a3c97ec3e0f48275135cf597c8",
+              "size": 171029,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:44f933cbef7a1c8101b1a5f05065532dec5b307702f068faf2e659b89d688916",
+              "size": 129663,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:ff2afb8cf5f13ac05b4132ff03a5ffc4fdf4c8939ebe96770c7a83886e370329",
+              "size": 96024,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:6dad7997b90558db45c24a45d68866ee2eacef6be1f2970cb118071642a40b53",
+              "size": 76739,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:a2ff31de8a4230e812efc7a302c9cd7d7a0c526ae33b92a15d9e6af523f6a95a",
+              "size": 52151,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:6e0c3b9260dddc47e19729d3fa197d3ef8da6ed00a1423899a441ab724058ffe",
+              "size": 11830,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:9f197b8c84b9f7d999614447540adae0e3212ce58a76d61c34d9076549efcece",
+              "size": 2876,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:c3c9a340cee384484b8d1ce11b08ddeb279590ce09b3cb81f61e4e4fdfa87329",
+              "size": 13875,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:0ae79c0257259904639bfc612a06f2dadff1285387e14983e407e0b7a6ae099d",
+              "size": 92,
+              "command": "WORKDIR /app"
+            },
+            {
+              "digest": "sha256:e23622ed5110047274bda46a2e5d5b236df33ae30dca6ad12afcbbb261678a48",
+              "size": 69567321,
+              "command": "RUN |1 PROXY_EXTRAS_SOURCE=published /bin/sh -c for i in 1 2 3; do       apk upgrade --no-cache && break || sleep 5;     done &&     for i in 1 2 3; do       apk add --no-cache python3 bash openssl tzdata libsndfile nodejs && break || sleep 5;     done # buildkit"
+            },
+            {
+              "digest": "sha256:c132f4f60c64e78a424aaa29bb33c98b6287cc2b44d9da58786fff54208be799",
+              "size": 188563362,
+              "command": "COPY /app/.venv /app/.venv # buildkit"
+            },
+            {
+              "digest": "sha256:bf697ce9b087ef44ab0cc3ae626860ef67a4fdee7c18dcad63cc8b73b54a98b1",
+              "size": 4681,
+              "command": "COPY /app/docker /app/docker # buildkit"
+            },
+            {
+              "digest": "sha256:c507d2934a3b1c58c2c061a2cc9fb5c238621aa21f5a6a9683d17c3e2b4a5124",
+              "size": 11598,
+              "command": "COPY /app/schema.prisma /app/schema.prisma # buildkit"
+            },
+            {
+              "digest": "sha256:94bea293d8bbcffe07d6663fc4d8cbccc1dd97a0abb916c75ccfa78aea230b12",
+              "size": 604,
+              "command": "COPY /app/litellm/proxy/prisma_migration.py /app/litellm/proxy/prisma_migration.py # buildkit"
+            },
+            {
+              "digest": "sha256:f5fb5a795da51c03f28718295338d1e3557654841a63711e8abd960776b80583",
+              "size": 3356272,
+              "command": "COPY /app/enterprise /app/enterprise # buildkit"
+            },
+            {
+              "digest": "sha256:26a3da31668b722b38939fbad8c076c81239b229a1278ea09e2b796513a4f8e1",
+              "size": 4313527,
+              "command": "COPY /app/litellm-proxy-extras /app/litellm-proxy-extras # buildkit"
+            },
+            {
+              "digest": "sha256:b11e9dd60fac28039333d3a8e7ce291a9ffa31d4b560239b803af0f1892b1e51",
+              "size": 109174772,
+              "command": "COPY /opt/prisma /opt/prisma # buildkit"
+            },
+            {
+              "digest": "sha256:cfdb416f70879e964c669d82c33d1b1ef498409cfab2f414083f913c60fda2af",
+              "size": 7112965,
+              "command": "COPY /var/lib/litellm/ui /var/lib/litellm/ui # buildkit"
+            },
+            {
+              "digest": "sha256:6f8f46b1e664d2aa821070d9fbcb0ff66038ef6d8cd049bbed2f744938660d61",
+              "size": 20339,
+              "command": "COPY /var/lib/litellm/assets /var/lib/litellm/assets # buildkit"
+            },
+            {
+              "digest": "sha256:afea7346fc984dd8174a6365045e880d74844db916fd55ff24f182fd7a6e3d65",
+              "size": 206725846,
+              "command": "RUN |1 PROXY_EXTRAS_SOURCE=published /bin/sh -c mkdir -p /nonexistent /app/.cache /var/lib/litellm/assets /var/lib/litellm/ui &&     chown -R nobody:nogroup /app /var/lib/litellm/ui /var/lib/litellm/assets /nonexistent &&     PRISMA_PATH=$(python -c \"import os, prisma; print(os.path.dirname(prisma.__file__))\") &&     chown -R nobody:nogroup \"$PRISMA_PATH\" &&     LITELLM_PKG_MIGRATIONS_PATH=\"$(python -c 'import os, litellm_proxy_extras; print(os.path.dirname(litellm_proxy_extras.__file__))' 2>/dev/null || echo '')/migrations\" &&     [ -n \"$LITELLM_PKG_MIGRATIONS_PATH\" ] && chown -R nobody:nogroup \"$LITELLM_PKG_MIGRATIONS_PATH\" || true &&     LITELLM_PROXY_EXTRAS_PATH=$(python -c \"import os, litellm_proxy_extras; print(os.path.dirname(litellm_proxy_extras.__file__))\" 2>/dev/null || echo \"\") &&     chgrp -R 0 \"$PRISMA_PATH\" /var/lib/litellm/ui /var/lib/litellm/assets &&     [ -n \"$LITELLM_PROXY_EXTRAS_PATH\" ] && chgrp -R 0 \"$LITELLM_PROXY_EXTRAS_PATH\" || true &&     chmod -R g=u \"$PRISMA_PATH\" /var/lib/litellm/ui /var/lib/litellm/assets &&     [ -n \"$LITELLM_PROXY_EXTRAS_PATH\" ] && chmod -R g=u \"$LITELLM_PROXY_EXTRAS_PATH\" || true &&     chmod -R g+w \"$PRISMA_PATH\" /var/lib/litellm/ui /var/lib/litellm/assets &&     [ -n \"$LITELLM_PROXY_EXTRAS_PATH\" ] && chmod -R g+w \"$LITELLM_PROXY_EXTRAS_PATH\" || true &&     chmod -R g+rX \"$PRISMA_PATH\" /var/lib/litellm/ui /var/lib/litellm/assets &&     chmod -R a+rX /opt/prisma &&     test -x /opt/prisma/binaries/node_modules/.bin/prisma &&     test -f /opt/prisma/binaries/node_modules/prisma/build/index.js &&     ls /opt/prisma/binaries/node_modules/@prisma/engines/query-engine-* >/dev/null 2>&1 # buildkit"
+            },
+            {
+              "digest": "sha256:233757e9e138eb807539f51ef3d4379eb331fb0e1e3bc9a6decab99c9d6a8845",
+              "size": 20900638,
+              "command": "COPY /uv /usr/local/bin/uv # buildkit"
+            },
+            {
+              "digest": "sha256:7305b1d6652d32c0a970d3906cc415c391f7a5f5d79cb22c09edcab007af07f9",
+              "size": 169342552,
+              "command": "RUN |1 MLFLOW_VERSION=3.15.1 /bin/sh -c uv pip install --python /app/.venv/bin/python3 \"mlflow==${MLFLOW_VERSION}\"     && rm /usr/local/bin/uv     && chmod -R o+rX /app/.venv     && /app/.venv/bin/python3 -c \"import mlflow; print(mlflow.__version__)\" # buildkit"
+            }
+          ]
+        },
+        "linux/amd64": {
+          "digest": "sha256:2bb3a4cf0e122f944d572d770ef3efcc5b61e7580e2ead23b4d291e302ca3f93",
+          "size": 789526177,
+          "layers": [
+            {
+              "digest": "sha256:a66283bef8341905e19407212d297ba0eb9a8b0e1bd6024553e9edf6e4ef8d31",
+              "size": 2948846,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:ce8f0306dd1eb671325f880153ff3d17b9244edba32d69b4439b5e04e6ae4f1b",
+              "size": 3264627,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:2e3139e176fef5f47a5f45cb28fb3931e165fcaab0364e71a4f7fc14391015fc",
+              "size": 419685,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:c920184a3208a11beb96ab725a3f579c97b6670e756d42239be18cc1f2067936",
+              "size": 178938,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:9201e51fe8c1f99c6602ba89bc6cbd3895501936ba9f62f705bb8f150d9bbace",
+              "size": 129664,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:69cbafd2417beabac977b93b762ced6d91482e770ba640a933ea14460ca3cfea",
+              "size": 97915,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:7fc117d2446a628f3eab29a612c75c113df1fd9f39279cad69a487cd14f8e2c4",
+              "size": 95770,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:8d99fd8fea9c370971ba3ab2ab453586d6a437c40211fea16fdb1445d876e907",
+              "size": 62491,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:5f460b97a17ec3e9d41e0f61e207b83dee4c64f0bc6eb5df13b05d005fbc9a15",
+              "size": 11826,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:cdea145aa11554331de7d95b1834fd4f2a784fa573086475ff0d7c86d3abd020",
+              "size": 2869,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:c96313c5acde09308db491d8500fd77477fe67dd80f200016a31fde1fe60cfe8",
+              "size": 13914,
+              "command": "apko"
+            },
+            {
+              "digest": "sha256:e1b1afa2f981f77b1442c7541daf72d95d0f3b2d208b0907625ae2273cd53d23",
+              "size": 92,
+              "command": "WORKDIR /app"
+            },
+            {
+              "digest": "sha256:75424741128e73a3a710580627c2f59bbe4981594f15b9c5aa56853f7eadc6cc",
+              "size": 70921100,
+              "command": "RUN |1 PROXY_EXTRAS_SOURCE=published /bin/sh -c for i in 1 2 3; do       apk upgrade --no-cache && break || sleep 5;     done &&     for i in 1 2 3; do       apk add --no-cache python3 bash openssl tzdata libsndfile nodejs && break || sleep 5;     done # buildkit"
+            },
+            {
+              "digest": "sha256:c245e2b5aa958663bc99b44284ac444b119acc777b124dc0ee96ace0eafcf782",
+              "size": 194760575,
+              "command": "COPY /app/.venv /app/.venv # buildkit"
+            },
+            {
+              "digest": "sha256:1624aebf153b291bbaf8ceddf39cff48fd876d414ecf0835aa3885a5e4c04983",
+              "size": 4682,
+              "command": "COPY /app/docker /app/docker # buildkit"
+            },
+            {
+              "digest": "sha256:2a4bcb8885cdcc5de6cd8c801421d40abd627062b71537cae0e08a130b558ce6",
+              "size": 11598,
+              "command": "COPY /app/schema.prisma /app/schema.prisma # buildkit"
+            },
+            {
+              "digest": "sha256:954aec61c165ffb73b8691a1a2b81ea484a97e28687076158305ec63539964dd",
+              "size": 606,
+              "command": "COPY /app/litellm/proxy/prisma_migration.py /app/litellm/proxy/prisma_migration.py # buildkit"
+            },
+            {
+              "digest": "sha256:3483f64796e0e2174d0e50c3b4722c5b19ac82efc3aa4b6ebce8900f779716c8",
+              "size": 3356272,
+              "command": "COPY /app/enterprise /app/enterprise # buildkit"
+            },
+            {
+              "digest": "sha256:f0ae6f3d798914f8e15ec0ab28c144e285c5751ba507817edad4776bd06c88a7",
+              "size": 4313527,
+              "command": "COPY /app/litellm-proxy-extras /app/litellm-proxy-extras # buildkit"
+            },
+            {
+              "digest": "sha256:a2ef12e656731bd395c80870134b576c2173459e35428571b0e70dc5c3aceeaa",
+              "size": 93684548,
+              "command": "COPY /opt/prisma /opt/prisma # buildkit"
+            },
+            {
+              "digest": "sha256:5fc029e38eff21ecc92d42b380b9f5d29315085896e6984c1bdee74c53da64c8",
+              "size": 7112964,
+              "command": "COPY /var/lib/litellm/ui /var/lib/litellm/ui # buildkit"
+            },
+            {
+              "digest": "sha256:529d169db09247c2b8de102253ff0b0f2aa8326239f8a82b07cd3ba7be6db61c",
+              "size": 20335,
+              "command": "COPY /var/lib/litellm/assets /var/lib/litellm/assets # buildkit"
+            },
+            {
+              "digest": "sha256:c43a01f28ef950ab7034afc49b34ba1dbb3a586491962dd3b33d24cf3a8be07e",
+              "size": 212902824,
+              "command": "RUN |1 PROXY_EXTRAS_SOURCE=published /bin/sh -c mkdir -p /nonexistent /app/.cache /var/lib/litellm/assets /var/lib/litellm/ui &&     chown -R nobody:nogroup /app /var/lib/litellm/ui /var/lib/litellm/assets /nonexistent &&     PRISMA_PATH=$(python -c \"import os, prisma; print(os.path.dirname(prisma.__file__))\") &&     chown -R nobody:nogroup \"$PRISMA_PATH\" &&     LITELLM_PKG_MIGRATIONS_PATH=\"$(python -c 'import os, litellm_proxy_extras; print(os.path.dirname(litellm_proxy_extras.__file__))' 2>/dev/null || echo '')/migrations\" &&     [ -n \"$LITELLM_PKG_MIGRATIONS_PATH\" ] && chown -R nobody:nogroup \"$LITELLM_PKG_MIGRATIONS_PATH\" || true &&     LITELLM_PROXY_EXTRAS_PATH=$(python -c \"import os, litellm_proxy_extras; print(os.path.dirname(litellm_proxy_extras.__file__))\" 2>/dev/null || echo \"\") &&     chgrp -R 0 \"$PRISMA_PATH\" /var/lib/litellm/ui /var/lib/litellm/assets &&     [ -n \"$LITELLM_PROXY_EXTRAS_PATH\" ] && chgrp -R 0 \"$LITELLM_PROXY_EXTRAS_PATH\" || true &&     chmod -R g=u \"$PRISMA_PATH\" /var/lib/litellm/ui /var/lib/litellm/assets &&     [ -n \"$LITELLM_PROXY_EXTRAS_PATH\" ] && chmod -R g=u \"$LITELLM_PROXY_EXTRAS_PATH\" || true &&     chmod -R g+w \"$PRISMA_PATH\" /var/lib/litellm/ui /var/lib/litellm/assets &&     [ -n \"$LITELLM_PROXY_EXTRAS_PATH\" ] && chmod -R g+w \"$LITELLM_PROXY_EXTRAS_PATH\" || true &&     chmod -R g+rX \"$PRISMA_PATH\" /var/lib/litellm/ui /var/lib/litellm/assets &&     chmod -R a+rX /opt/prisma &&     test -x /opt/prisma/binaries/node_modules/.bin/prisma &&     test -f /opt/prisma/binaries/node_modules/prisma/build/index.js &&     ls /opt/prisma/binaries/node_modules/@prisma/engines/query-engine-* >/dev/null 2>&1 # buildkit"
+            },
+            {
+              "digest": "sha256:c69e00121e7b51ee807981b3568ea37aeb6973a60a62eae1560c5aba71b829a7",
+              "size": 21573093,
+              "command": "COPY /uv /usr/local/bin/uv # buildkit"
+            },
+            {
+              "digest": "sha256:0629abc743ae246999b9ab03bcc84c3b115c8a93bde1229c2941bc7a6ec05b32",
+              "size": 173637416,
+              "command": "RUN |1 MLFLOW_VERSION=3.15.1 /bin/sh -c uv pip install --python /app/.venv/bin/python3 \"mlflow==${MLFLOW_VERSION}\"     && rm /usr/local/bin/uv     && chmod -R o+rX /app/.venv     && /app/.venv/bin/python3 -c \"import mlflow; print(mlflow.__version__)\" # buildkit"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "description": "LiteLLM proxy (non_root), our canonical build with mlflow added for the built-in mlflow logging callback"
+}

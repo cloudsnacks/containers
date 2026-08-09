@@ -11,6 +11,8 @@ ARG CODEX_VERSION=0.145.0
 ARG GEMINI_CLI_VERSION=0.52.0
 # renovate: datasource=npm depName=opencode-ai
 ARG OPENCODE_VERSION=1.18.5
+# renovate: datasource=github-releases depName=herdrdev/herdr extractVersion=^v(?<version>.+)$
+ARG HERDR_VERSION=0.8.0
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -80,6 +82,12 @@ RUN npm install -g --no-fund --no-audit \
     && codex --version \
     && gemini --version \
     && opencode --version
+
+# herdr ships raw per-arch binaries as release assets, not a package repo.
+RUN curl -fsSL -o /usr/local/bin/herdr \
+        "https://github.com/herdrdev/herdr/releases/download/v${HERDR_VERSION}/herdr-linux-x86_64" \
+    && chmod 0755 /usr/local/bin/herdr \
+    && herdr --version
 
 # video/render gate /dev/dri, input gates /dev/uinput for Moonlight input injection.
 RUN groupadd --gid 1001 dev \

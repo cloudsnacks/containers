@@ -1,0 +1,13 @@
+---
+name: excalidraw-mcp
+description: Excalidraw MCP server rendering hand-drawn diagrams as an interactive MCP App
+# Upstream tags carry a `v` prefix that CI's semver tags must not, so this drops it.
+# Renovate tracks upstream on EXCALIDRAW_MCP_VERSION in the Dockerfile - deliberately
+# not annotated here, since the datasource would offer the `v`-prefixed tag back.
+version: 0.3.2
+platforms:
+  - linux/amd64
+  - linux/arm64
+# Backgrounds the server and completes an MCP initialize handshake against it, which
+# is the only check that proves the bundle loads and the listener actually comes up.
+test: test "$(id -u)" = 1001 && (node /app/dist/index.js &) && sleep 5 && node -e 'fetch("http://127.0.0.1:3001/mcp",{method:"POST",headers:{"content-type":"application/json",accept:"application/json, text/event-stream"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:"initialize",params:{protocolVersion:"2025-06-18",capabilities:{},clientInfo:{name:"ci",version:"0"}}})}).then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.text()}).then(t=>{if(!t.includes("serverInfo"))throw new Error("no serverInfo in "+t);console.log("ok")}).catch(e=>{console.error(e.message);process.exit(1)})'

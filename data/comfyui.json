@@ -1,0 +1,64 @@
+{
+  "name": "comfyui",
+  "history": [
+    {
+      "version": "0.34.0",
+      "digest": "sha256:78cfc2a69ac0c759519ff183f734bf7cd0fb817f2308e73aaa9de8cab5e09600",
+      "collectedAt": "2026-08-29T05:40:19Z",
+      "platforms": {
+        "linux/amd64": {
+          "digest": "sha256:5391df48fa3f70e70b51ac125c498c54e08f9da8c0db029d02ac2afb99f12333",
+          "size": 3652828466,
+          "layers": [
+            {
+              "digest": "sha256:6310eb16bf4251731feab01e8f633bf5e2d75a657ccad97f420b1f83cce457be",
+              "size": 29792658,
+              "command": "# debian.sh --arch 'amd64' out/ 'trixie' '@1787529600'"
+            },
+            {
+              "digest": "sha256:a0d8783128af79059fe015e6313ce9e8fd7856b194e57f2d3c909b12a593bd2f",
+              "size": 1293920,
+              "command": "RUN /bin/sh -c set -eux; \tapt-get update; \tapt-get install -y --no-install-recommends \t\tca-certificates \t\tnetbase \t\ttzdata \t; \tapt-get dist-clean # buildkit"
+            },
+            {
+              "digest": "sha256:b79f58b3eb945fe861ace4fc38504483c5b100c794aa095b6c9f112ed9807aad",
+              "size": 12115893,
+              "command": "RUN /bin/sh -c set -eux; \t\tsavedAptMark=\"$(apt-mark showmanual)\"; \tapt-get update; \tapt-get install -y --no-install-recommends \t\tdpkg-dev \t\tgcc \t\tgnupg \t\tlibbluetooth-dev \t\tlibbz2-dev \t\tlibc6-dev \t\tlibdb-dev \t\tlibffi-dev \t\tlibgdbm-dev \t\tliblzma-dev \t\tlibncursesw5-dev \t\tlibreadline-dev \t\tlibsqlite3-dev \t\tlibssl-dev \t\tmake \t\ttk-dev \t\tuuid-dev \t\twget \t\txz-utils \t\tzlib1g-dev \t; \t\twget -O python.tar.xz \"https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz\"; \techo \"$PYTHON_SHA256 *python.tar.xz\" | sha256sum -c -; \twget -O python.tar.xz.asc \"https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc\"; \tGNUPGHOME=\"$(mktemp -d)\"; export GNUPGHOME; \tgpg --batch --keyserver hkps://keys.openpgp.org --recv-keys \"$GPG_KEY\"; \tgpg --batch --verify python.tar.xz.asc python.tar.xz; \tgpgconf --kill all; \trm -rf \"$GNUPGHOME\" python.tar.xz.asc; \tmkdir -p /usr/src/python; \ttar --extract --directory /usr/src/python --strip-components=1 --file python.tar.xz; \trm python.tar.xz; \t\tcd /usr/src/python; \tgnuArch=\"$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)\"; \t./configure \t\t--build=\"$gnuArch\" \t\t--enable-loadable-sqlite-extensions \t\t--enable-optimizations \t\t--enable-option-checking=fatal \t\t--enable-shared \t\t$(test \"${gnuArch%%-*}\" != 'riscv64' && echo '--with-lto') \t\t--with-ensurepip \t; \tnproc=\"$(nproc)\"; \tEXTRA_CFLAGS=\"$(dpkg-buildflags --get CFLAGS)\"; \tLDFLAGS=\"$(dpkg-buildflags --get LDFLAGS)\"; \tLDFLAGS=\"${LDFLAGS:-} -Wl,--strip-all\"; \tarch=\"$(dpkg --print-architecture)\"; arch=\"${arch##*-}\"; \tcase \"$arch\" in \t\tamd64|arm64) \t\t\tEXTRA_CFLAGS=\"${EXTRA_CFLAGS:-} -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer\"; \t\t\t;; \t\ti386) \t\t\t;; \t\t*) \t\t\tEXTRA_CFLAGS=\"${EXTRA_CFLAGS:-} -fno-omit-frame-pointer\"; \t\t\t;; \tesac; \tmake -j \"$nproc\" \t\t\"EXTRA_CFLAGS=${EXTRA_CFLAGS:-}\" \t\t\"LDFLAGS=${LDFLAGS:-}\" \t; \trm python; \tmake -j \"$nproc\" \t\t\"EXTRA_CFLAGS=${EXTRA_CFLAGS:-}\" \t\t\"LDFLAGS=${LDFLAGS:-} -Wl,-rpath='\\$\\$ORIGIN/../lib'\" \t\tpython \t; \tmake install; \t\tcd /; \trm -rf /usr/src/python; \t\tfind /usr/local -depth \t\t\\( \t\t\t\\( -type d -a \\( -name test -o -name tests -o -name idle_test \\) \\) \t\t\t-o \\( -type f -a \\( -name '*.pyc' -o -name '*.pyo' -o -name 'libpython*.a' \\) \\) \t\t\\) -exec rm -rf '{}' + \t; \t\tldconfig; \t\tapt-mark auto '.*' > /dev/null; \tapt-mark manual $savedAptMark; \tfind /usr/local -type f -executable -not \\( -name '*tkinter*' \\) -exec ldd '{}' ';' \t\t| awk '/=>/ { so = $(NF-1); if (index(so, \"/usr/local/\") == 1) { next }; gsub(\"^/(usr/)?\", \"\", so); printf \"*%s\\n\", so }' \t\t| sort -u \t\t| xargs -rt dpkg-query --search \t\t| awk 'sub(\":$\", \"\", $1) { print $1 }' \t\t| sort -u \t\t| xargs -r apt-mark manual \t; \tapt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \tapt-get dist-clean; \t\texport PYTHONDONTWRITEBYTECODE=1; \tpython3 --version; \tpip3 --version # buildkit"
+            },
+            {
+              "digest": "sha256:48579d87405c21ba2599e244fcf3a02e900dbf9b9103e4afd030fbe0c7f43b33",
+              "size": 250,
+              "command": "RUN /bin/sh -c set -eux; \tfor src in idle3 pip3 pydoc3 python3 python3-config; do \t\tdst=\"$(echo \"$src\" | tr -d 3)\"; \t\t[ -s \"/usr/local/bin/$src\" ]; \t\t[ ! -e \"/usr/local/bin/$dst\" ]; \t\tln -svT \"$src\" \"/usr/local/bin/$dst\"; \tdone # buildkit"
+            },
+            {
+              "digest": "sha256:873892a9cd07172a523ce3702e7bb5a7e419cfe43da5e5def99c72d635742667",
+              "size": 77302501,
+              "command": "RUN |5 COMFYUI_VERSION=0.34.0 TORCH_VERSION=2.11.0 TORCHVISION_VERSION=0.26.0 TORCHAUDIO_VERSION=2.11.0 TORCH_CUDA=cu130 /bin/bash -o pipefail -c apt-get update     && apt-get install -y --no-install-recommends         ca-certificates         curl         libgl1         libglib2.0-0     && rm -rf /var/lib/apt/lists/* # buildkit"
+            },
+            {
+              "digest": "sha256:9526bb73c3f1d90a0f11933763322505a881b8989c5a85007336c8fb5998c454",
+              "size": 12024661,
+              "command": "RUN |5 COMFYUI_VERSION=0.34.0 TORCH_VERSION=2.11.0 TORCHVISION_VERSION=0.26.0 TORCHAUDIO_VERSION=2.11.0 TORCH_CUDA=cu130 /bin/bash -o pipefail -c curl -fsSL \"https://github.com/comfyanonymous/ComfyUI/archive/refs/tags/v${COMFYUI_VERSION}.tar.gz\"         -o /tmp/comfyui.tar.gz     && mkdir -p /opt/comfyui     && tar -xzf /tmp/comfyui.tar.gz -C /opt/comfyui --strip-components=1     && rm /tmp/comfyui.tar.gz     && test -f /opt/comfyui/main.py # buildkit"
+            },
+            {
+              "digest": "sha256:d36afe6f1ba11ae9d91c20d0608b273b595f4c52b2b1311dfe320efbcec4e97e",
+              "size": 3508266717,
+              "command": "RUN |5 COMFYUI_VERSION=0.34.0 TORCH_VERSION=2.11.0 TORCHVISION_VERSION=0.26.0 TORCHAUDIO_VERSION=2.11.0 TORCH_CUDA=cu130 /bin/bash -o pipefail -c pip install --no-cache-dir --index-url \"https://download.pytorch.org/whl/${TORCH_CUDA}\"         \"torch==${TORCH_VERSION}\"         \"torchvision==${TORCHVISION_VERSION}\"         \"torchaudio==${TORCHAUDIO_VERSION}\"     && pip install --no-cache-dir -r /opt/comfyui/requirements.txt     && python -c \"import torch, torchvision, torchaudio; print(torch.__version__)\" # buildkit"
+            },
+            {
+              "digest": "sha256:12a52235a4c7e0604346ddf0c44b63c90d539e475a635bf7edb36a5206cc81ba",
+              "size": 12031834,
+              "command": "RUN |5 COMFYUI_VERSION=0.34.0 TORCH_VERSION=2.11.0 TORCHVISION_VERSION=0.26.0 TORCHAUDIO_VERSION=2.11.0 TORCH_CUDA=cu130 /bin/bash -o pipefail -c groupadd -g 1001 comfyui     && useradd -u 1001 -g 1001 -m -d /home/comfyui -s /usr/sbin/nologin comfyui     && chown -R 1001:1001 /opt/comfyui # buildkit"
+            },
+            {
+              "digest": "sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1",
+              "size": 32,
+              "command": "WORKDIR /opt/comfyui"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "description": "ComfyUI with CUDA-enabled PyTorch, for GPU image and video generation workflows"
+}

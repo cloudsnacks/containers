@@ -10,6 +10,7 @@ Public container images for cloud work, built multi-arch and rootless with secur
 |---|---|
 | `ghcr.io/cloudsnacks/actions-runner` | Rootless GitHub Actions runner for [Actions Runner Controller](https://github.com/actions/actions-runner-controller), with docker CLI, buildx and a mise-managed CLI toolchain ([`mise.toml`](images/actions-runner/mise.toml)) |
 | `ghcr.io/cloudsnacks/claude-code` | Headless Claude Code agent with git-repo and agent-profile bootstrap |
+| `ghcr.io/cloudsnacks/comfyui` | ComfyUI with CUDA-enabled PyTorch for GPU image and video generation workflows (`linux/amd64` only, needs an NVIDIA GPU) |
 | `ghcr.io/cloudsnacks/dev-desktop` | Arch Linux dev workstation with Hyprland streamed over [Sunshine](https://github.com/LizardByte/Sunshine)/Moonlight, cloud tooling, and AI coding agents (`linux/amd64` only, needs `/dev/dri`) |
 | `ghcr.io/cloudsnacks/excalidraw-mcp` | Excalidraw MCP server rendering hand-drawn diagrams as an interactive MCP App |
 | `ghcr.io/cloudsnacks/infisical-mcp` | Infisical MCP server (secrets management over MCP) |

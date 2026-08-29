@@ -51,4 +51,8 @@ USER 1001
 
 LABEL org.opencontainers.image.description="ComfyUI with CUDA-enabled PyTorch, for GPU image and video generation workflows"
 
-CMD ["python", "main.py", "--listen", "0.0.0.0", "--port", "8188"]
+# Split so a consumer can override the flags with container args alone: with
+# CMD-only and no ENTRYPOINT, Kubernetes args replace the whole command and
+# the runtime tries to exec the first flag as the binary.
+ENTRYPOINT ["python", "main.py"]
+CMD ["--listen", "0.0.0.0", "--port", "8188"]

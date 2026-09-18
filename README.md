@@ -84,6 +84,8 @@ Each image is versioned independently via the `version` field in its `images/<na
 
 CI builds and tags whatever version the metadata declares — bump it in the same PR as the change.
 
+`dev-desktop` is kept on the latest of everything by Renovate: its updates are grouped into one PR that bumps the patch version via `scripts/bump-image-version.sh` and automerges once CI passes.
+
 ## Adding an image
 
 1. Create `images/<name>/Dockerfile` and `images/<name>/metadata.yaml` (copy an existing image as a template).

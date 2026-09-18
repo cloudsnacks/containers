@@ -15,4 +15,16 @@
       ],
     },
   ],
+  packageRules: [
+    {
+      description: 'Keep dev-desktop on the latest of everything: one grouped PR, automerged once CI passes, with a patch bump so a new tag is published',
+      matchFileNames: ['images/dev-desktop/**'],
+      groupName: 'dev-desktop',
+      automerge: true,
+      postUpgradeTasks: {
+        commands: ['bash scripts/bump-image-version.sh images/dev-desktop'],
+        executionMode: 'branch',
+      },
+    },
+  ],
 }

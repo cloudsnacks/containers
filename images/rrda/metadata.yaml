@@ -2,7 +2,7 @@
 name: rrda
 description: JSON REST API for DNS queries, wrapping a resolver over HTTP
 # renovate: datasource=github-releases depName=fcambus/rrda
-version: 1.4.1
+version: 1.4.2
 platforms:
   - linux/amd64
   - linux/arm64

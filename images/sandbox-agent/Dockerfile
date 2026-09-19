@@ -7,7 +7,7 @@ ARG NODE_VERSION=24.18.0
 # renovate: datasource=npm depName=npm
 ARG NPM_VERSION=12.0.1
 # renovate: datasource=github-releases depName=cli/cli
-ARG GH_VERSION=2.96.0
+ARG GH_VERSION=2.101.0
 # renovate: datasource=github-releases depName=astral-sh/uv
 ARG UV_VERSION=0.11.31
 ARG TARGETARCH

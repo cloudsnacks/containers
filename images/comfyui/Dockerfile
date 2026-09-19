@@ -7,7 +7,7 @@ ARG COMFYUI_VERSION=0.34.0
 # the cu130 index stops at 2.11.0 while torch is already at 2.13.0) and letting
 # pip resolve freely would downgrade torch to match. Bump all three or none.
 # renovate: datasource=pypi depName=torch
-ARG TORCH_VERSION=2.11.0
+ARG TORCH_VERSION=2.14.0
 ARG TORCHVISION_VERSION=0.26.0
 ARG TORCHAUDIO_VERSION=2.11.0
 # CUDA 13 still supports Ampere (sm_86), which is what the RTX 3090 Ti needs.

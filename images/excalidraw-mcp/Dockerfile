@@ -5,7 +5,7 @@
 # single-file HTML app, both arch-independent, which keeps bun off QEMU for anyone
 # cross-building locally. CI builds each arch on a native runner, where this is a
 # no-op.
-FROM --platform=$BUILDPLATFORM node:24-bookworm-slim@sha256:3638d9a6fe4030bd716be989438248074489337ba3275657f93595428be4fc03 AS build
+FROM --platform=$BUILDPLATFORM node:24-bookworm-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6 AS build
 
 # renovate: datasource=github-releases depName=excalidraw/excalidraw-mcp
 ARG EXCALIDRAW_MCP_VERSION=v0.3.2
@@ -28,7 +28,7 @@ RUN npm install --no-audit --no-fund \
     && test -f dist/index.js \
     && test -f dist/mcp-app.html
 
-FROM node:24-bookworm-slim@sha256:3638d9a6fe4030bd716be989438248074489337ba3275657f93595428be4fc03
+FROM node:24-bookworm-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6
 
 # dist/index.js is a self-contained bundle and reads mcp-app.html from its own
 # directory (server.ts DIST_DIR = import.meta.dirname), so dist/ is the whole runtime.

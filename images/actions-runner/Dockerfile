@@ -7,7 +7,7 @@ ARG RUNNER_CONTAINER_HOOKS_VERSION=0.8.1
 # renovate: datasource=docker depName=docker versioning=docker
 ARG DOCKER_VERSION=29.6.1
 # renovate: datasource=github-releases depName=docker/buildx
-ARG BUILDX_VERSION=0.35.0
+ARG BUILDX_VERSION=0.37.1
 ARG TARGETARCH
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]

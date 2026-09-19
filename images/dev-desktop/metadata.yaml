@@ -1,7 +1,7 @@
 ---
 name: dev-desktop
 description: Arch Linux dev workstation with Hyprland streamed over Sunshine/Moonlight
-version: 1.1.0
+version: 1.1.1
 platforms:
   # archlinux has no official arm64 image, so this image is amd64-only.
   - linux/amd64

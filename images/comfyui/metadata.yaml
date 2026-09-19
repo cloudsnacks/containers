@@ -2,7 +2,7 @@
 name: comfyui
 description: ComfyUI with CUDA-enabled PyTorch, for GPU image and video generation workflows
 # renovate: datasource=github-releases depName=comfyanonymous/ComfyUI
-version: 0.34.0
+version: 0.36.0
 # amd64 only: the CUDA torch build is for the x86_64 GPU host this serves, and
 # an arm64 copy would be several GB of image nothing can schedule a GPU onto.
 platforms:

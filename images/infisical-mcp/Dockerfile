@@ -5,7 +5,7 @@ ARG INFISICAL_MCP_VERSION=0.0.23
 # The node base image ships an older bundled npm whose own vendored deps carry
 # known CVEs; upgrading npm itself is the only way to move them.
 # renovate: datasource=npm depName=npm
-ARG NPM_VERSION=12.0.1
+ARG NPM_VERSION=12.0.2
 
 RUN npm install -g "npm@${NPM_VERSION}" \
     && npm install -g "@infisical/mcp@${INFISICAL_MCP_VERSION}" \

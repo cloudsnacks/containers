@@ -5,7 +5,7 @@ ARG RUNNER_VERSION=2.336.0
 # renovate: datasource=github-releases depName=actions/runner-container-hooks
 ARG RUNNER_CONTAINER_HOOKS_VERSION=0.8.1
 # renovate: datasource=docker depName=docker versioning=docker
-ARG DOCKER_VERSION=29.6.1
+ARG DOCKER_VERSION=29.8.1
 # renovate: datasource=github-releases depName=docker/buildx
 ARG BUILDX_VERSION=0.35.0
 ARG TARGETARCH

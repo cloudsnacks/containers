@@ -70,6 +70,9 @@ jobs:
             [[ -f "${metadata}" ]] || continue
             version="$(yq '.version' "${metadata}")"
             test_cmd="$(yq '.test // ""' "${metadata}")"
+            # yq's // treats false as absent, so compare explicitly.
+            sbom=true
+            [[ "$(yq '.sbom' "${metadata}")" == "false" ]] && sbom=false
             merge="$(jq -c --arg image "${image}" --arg version "${version}" \
               '. + [{image: $image, version: $version}]' <<<"${merge}")"
             while read -r platform; do
@@ -81,7 +84,8 @@ jobs:
               build="$(jq -c \
                 --arg image "${image}" --arg version "${version}" --arg platform "${platform}" \
                 --arg slug "${platform//\//-}" --arg runner "${runner}" --arg test "${test_cmd}" \
-                '. + [{image: $image, version: $version, platform: $platform, slug: $slug, runner: $runner, test: $test}]' \
+                --argjson sbom "${sbom}" \
+                '. + [{image: $image, version: $version, platform: $platform, slug: $slug, runner: $runner, test: $test, sbom: $sbom}]' \
                 <<<"${build}")"
             done < <(yq '.platforms[]' "${metadata}")
           done
@@ -156,7 +160,7 @@ jobs:
             org.opencontainers.image.revision=${{ github.sha }}
           outputs: type=image,name=ghcr.io/${{ github.repository_owner }}/${{ matrix.image }},push-by-digest=true,name-canonical=true,push=true
           provenance: mode=max
-          sbom: true
+          sbom: ${{ matrix.sbom }}
           cache-from: type=gha,scope=${{ matrix.image }}-${{ matrix.slug }}
           cache-to: type=gha,mode=max,scope=${{ matrix.image }}-${{ matrix.slug }}
 

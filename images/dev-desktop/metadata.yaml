@@ -2,6 +2,8 @@
 name: dev-desktop
 description: Arch Linux dev workstation with Hyprland streamed over Sunshine/Moonlight
 version: 1.1.1
+# The SBOM of this image exceeds BuildKit's 40 MiB attestation file limit.
+sbom: false
 platforms:
   # archlinux has no official arm64 image, so this image is amd64-only.
   - linux/amd64

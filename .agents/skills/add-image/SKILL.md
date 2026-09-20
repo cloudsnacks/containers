@@ -60,6 +60,7 @@ test: <command CI runs via `sh -c` inside the built image>
 
 - If the image packages a single upstream application, `version` tracks the upstream version and gets the same `# renovate:` annotation as the Dockerfile `ARG` so both bump together. Otherwise start at `1.0.0` and follow the semver rules in [README.md](../../../README.md#versioning-and-releases).
 - The `test` command must exercise the main tools and exit non-zero on failure; chain checks with `&&`.
+- Optional `sbom: false` skips the SBOM attestation on push. Only use it when the SBOM is too large for BuildKit (over 40 MiB), as with `dev-desktop`.
 
 ## 4. Validate locally
 

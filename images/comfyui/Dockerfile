@@ -2,7 +2,7 @@
 FROM python:3.12-slim@sha256:09f7da3bc104798d0afb40bc08d23ab2da20a76130cec1f2ef170848f5d85217
 
 # renovate: datasource=github-releases depName=comfyanonymous/ComfyUI
-ARG COMFYUI_VERSION=0.34.0
+ARG COMFYUI_VERSION=0.37.0
 # The three move together: torchaudio is the ceiling (upstream wound it down, so
 # the cu130 index stops at 2.11.0 while torch is already at 2.13.0) and letting
 # pip resolve freely would downgrade torch to match. Bump all three or none.

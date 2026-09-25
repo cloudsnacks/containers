@@ -9,7 +9,7 @@ ARG NPM_VERSION=12.0.1
 # renovate: datasource=github-releases depName=cli/cli
 ARG GH_VERSION=2.96.0
 # renovate: datasource=github-releases depName=astral-sh/uv
-ARG UV_VERSION=0.11.31
+ARG UV_VERSION=0.12.19
 ARG TARGETARCH
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]

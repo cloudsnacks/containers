@@ -1,4 +1,4 @@
-FROM ghcr.io/cloudsnacks/sandbox-agent:1.0.0@sha256:35ea6452c36f453785b340b21980ac81641edaffde67b51033159a30bbf9898a
+FROM ghcr.io/cloudsnacks/sandbox-agent:1.0.1@sha256:f1f3305c68c59fa29f604f43ac4e63463c087632ab3338cd959525887a38b3cd
 
 # renovate: datasource=npm depName=@anthropic-ai/claude-code
 ARG CLAUDE_CODE_VERSION=2.1.220

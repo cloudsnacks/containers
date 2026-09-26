@@ -2,7 +2,7 @@
 name: claude-code
 description: Headless Claude Code agent with git-repo and agent-profile bootstrap
 # renovate: datasource=npm depName=@anthropic-ai/claude-code
-version: 2.1.220
+version: 2.1.280
 platforms:
   - linux/amd64
   - linux/arm64

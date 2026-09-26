@@ -118,7 +118,7 @@ RUN DOCKER_ARCH="$(case "${TARGETARCH}" in amd64) echo x86_64 ;; arm64) echo aar
 # those entries carry no `# renovate:` annotation. mise itself is fetched as a
 # pinned release binary rather than through the unpinned mise.run installer.
 # renovate: datasource=github-releases depName=jdx/mise
-ARG MISE_VERSION=2026.7.17
+ARG MISE_VERSION=2026.9.14
 # Data dir stays root-owned and read-only to the runner user; the cache is the
 # only path mise writes to at runtime, so it points somewhere world-writable.
 ENV MISE_DATA_DIR=/opt/mise \

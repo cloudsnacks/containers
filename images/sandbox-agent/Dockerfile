@@ -5,7 +5,7 @@ ARG NODE_VERSION=24.18.0
 # Node ships an older bundled npm whose own vendored deps carry known CVEs;
 # upgrading npm itself is the only way to move them.
 # renovate: datasource=npm depName=npm
-ARG NPM_VERSION=12.0.1
+ARG NPM_VERSION=12.1.0
 # renovate: datasource=github-releases depName=cli/cli
 ARG GH_VERSION=2.96.0
 # renovate: datasource=github-releases depName=astral-sh/uv

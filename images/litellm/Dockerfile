@@ -1,5 +1,5 @@
 # renovate: datasource=docker depName=ghcr.io/astral-sh/uv
-FROM ghcr.io/astral-sh/uv:0.12.3@sha256:2d890623d310b57771ce840f0da5eed5fc6d657da05ffaa45d82797b53fa3abc AS uv
+FROM ghcr.io/astral-sh/uv:0.12.22@sha256:f513a91fc62fe7c17567eee97230dd198e43edb8a9fbecca843714a4358fe1bc AS uv
 
 # renovate: datasource=docker depName=ghcr.io/berriai/litellm-non_root
 FROM ghcr.io/berriai/litellm-non_root:v1.95.0@sha256:d5233c80ef7e28fd789b93c15e41fc0c86c6dfdf6ecbe1ef3f4c8ee2498f3827

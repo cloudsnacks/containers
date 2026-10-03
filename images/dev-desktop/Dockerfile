@@ -1,18 +1,18 @@
-FROM archlinux:base@sha256:63c7b061c0c001cb7ce4f8d11b63d351c23e7f97121bc5c8bd5d9f431e615d7d
+FROM archlinux:base@sha256:b21322c663be387c0ed9cbc7bbbfe18e41633ad4e7b7c77cfad45f128be20040
 
 # Sunshine ships an official Arch package as a release asset, so no AUR/makepkg is needed.
 # renovate: datasource=github-releases depName=LizardByte/Sunshine extractVersion=^v(?<version>.+)$
 ARG SUNSHINE_VERSION=2026.914.233613
 # renovate: datasource=npm depName=@anthropic-ai/claude-code
-ARG CLAUDE_CODE_VERSION=2.1.273
+ARG CLAUDE_CODE_VERSION=2.1.285
 # renovate: datasource=npm depName=@openai/codex
-ARG CODEX_VERSION=0.154.0
+ARG CODEX_VERSION=0.159.2
 # renovate: datasource=npm depName=@google/gemini-cli
-ARG GEMINI_CLI_VERSION=0.60.0
+ARG GEMINI_CLI_VERSION=0.62.0
 # renovate: datasource=npm depName=opencode-ai
-ARG OPENCODE_VERSION=1.18.31
+ARG OPENCODE_VERSION=1.18.33
 # renovate: datasource=github-releases depName=herdrdev/herdr extractVersion=^v(?<version>.+)$
-ARG HERDR_VERSION=0.9.1
+ARG HERDR_VERSION=0.9.3
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 

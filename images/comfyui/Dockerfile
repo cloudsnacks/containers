@@ -12,6 +12,11 @@ ARG TORCHVISION_VERSION=0.26.0
 ARG TORCHAUDIO_VERSION=2.11.0
 # CUDA 13 still supports Ampere (sm_86), which is what the RTX 3090 Ti needs.
 ARG TORCH_CUDA=cu130
+# leejet's fork of city96/ComfyUI-GGUF: the upstream node rejects Qwen-Image 2.1
+# GGUFs with "Unknown model architecture!". No releases, so pinned to a commit.
+ARG COMFYUI_GGUF_COMMIT=373048b8403a7820620065210a691263d4da0a61
+# renovate: datasource=pypi depName=gguf
+ARG GGUF_VERSION=0.19.0
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -41,6 +46,14 @@ RUN pip install --no-cache-dir --index-url "https://download.pytorch.org/whl/${T
         "torchaudio==${TORCHAUDIO_VERSION}" \
     && pip install --no-cache-dir -r /opt/comfyui/requirements.txt \
     && python -c "import torch, torchvision, torchaudio; print(torch.__version__)"
+
+# Only gguf from the node's requirements.txt: sentencepiece and protobuf are
+# marked optional there and only serve its conversion tooling.
+RUN mkdir -p /opt/comfyui/custom_nodes/ComfyUI-GGUF \
+    && curl -fsSL "https://github.com/leejet/ComfyUI-GGUF/archive/${COMFYUI_GGUF_COMMIT}.tar.gz" \
+        | tar -xz -C /opt/comfyui/custom_nodes/ComfyUI-GGUF --strip-components=1 \
+    && test -f /opt/comfyui/custom_nodes/ComfyUI-GGUF/__init__.py \
+    && pip install --no-cache-dir "gguf==${GGUF_VERSION}"
 
 RUN groupadd -g 1001 comfyui \
     && useradd -u 1001 -g 1001 -m -d /home/comfyui -s /usr/sbin/nologin comfyui \

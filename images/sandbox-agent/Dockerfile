@@ -1,7 +1,7 @@
 FROM ubuntu:24.04@sha256:4fbb8e6a8395de5a7550b33509421a2bafbc0aab6c06ba2cef9ebffbc7092d90
 
 # renovate: datasource=node-version depName=node
-ARG NODE_VERSION=24.18.0
+ARG NODE_VERSION=24.21.0
 # Node ships an older bundled npm whose own vendored deps carry known CVEs;
 # upgrading npm itself is the only way to move them.
 # renovate: datasource=npm depName=npm

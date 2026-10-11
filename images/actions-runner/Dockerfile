@@ -20,6 +20,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8
 
 # libatomic1: the Node that actions/setup-node installs links libatomic.so.1
+# make: repos that drive CI through Makefiles
 # tmux: workflows that drive a real tmux session
 #
 # The lib*/fonts-* block is headless Chromium's runtime for Playwright suites:
@@ -67,6 +68,7 @@ RUN apt-get update \
         libxfixes3 \
         libxkbcommon0 \
         libxrandr2 \
+        make \
         tmux \
         unzip \
         zstd \

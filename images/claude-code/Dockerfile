@@ -1,9 +1,14 @@
 FROM ghcr.io/cloudsnacks/sandbox-agent:1.0.0@sha256:35ea6452c36f453785b340b21980ac81641edaffde67b51033159a30bbf9898a
 
 # renovate: datasource=npm depName=@anthropic-ai/claude-code
-ARG CLAUDE_CODE_VERSION=2.1.289
+ARG CLAUDE_CODE_VERSION=2.1.296
 
 USER root
+
+# tmux keeps interactive sessions alive across dropped exec connections
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends tmux \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN NPM_CONFIG_PREFIX=/usr/local npm install -g "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}" \
     && npm cache clean --force \

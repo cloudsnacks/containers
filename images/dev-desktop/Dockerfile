@@ -12,7 +12,7 @@ ARG GEMINI_CLI_VERSION=0.60.0
 # renovate: datasource=npm depName=opencode-ai
 ARG OPENCODE_VERSION=1.18.31
 # renovate: datasource=github-releases depName=herdrdev/herdr extractVersion=^v(?<version>.+)$
-ARG HERDR_VERSION=0.9.1
+ARG HERDR_VERSION=0.9.3
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 

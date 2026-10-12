@@ -199,6 +199,74 @@
           ]
         }
       }
+    },
+    {
+      "version": "1.1.2",
+      "digest": "sha256:09e104153eb1dca42ff1b615943d0aeebd9520120249583f781e13b4f978a3c8",
+      "collectedAt": "2026-10-12T11:38:00Z",
+      "platforms": {
+        "linux/amd64": {
+          "digest": "sha256:b5e38657eecfdd78e344821087b425bda78af19f95ce5adfba18f9449da977c6",
+          "size": 1952427623,
+          "layers": [
+            {
+              "digest": "sha256:9b7a6195b886333e81c4b606533b61677f5799f0cf4b140c5a43e172ede2fad6",
+              "size": 133524961,
+              "command": "COPY /rootfs/ / # buildkit"
+            },
+            {
+              "digest": "sha256:0408c9c50a738820c26b5a5e2d2e449aa408931f8d4f835ed4039a6d801b1f9a",
+              "size": 8707,
+              "command": "RUN /bin/sh -c ldconfig &&     sed -i '/BUILD_ID/a VERSION_ID=20260913.0.592969' /etc/os-release # buildkit"
+            },
+            {
+              "digest": "sha256:fb43f098122c0746be4d9fc545c45c21ab54a131559a2fa20d3f852fef3a27d4",
+              "size": 1710,
+              "command": "RUN |6 SUNSHINE_VERSION=2026.914.233613 CLAUDE_CODE_VERSION=2.1.273 CODEX_VERSION=0.154.0 GEMINI_CLI_VERSION=0.60.0 OPENCODE_VERSION=1.18.31 HERDR_VERSION=0.9.3 /bin/bash -o pipefail -c printf '%s\\n'         'NoExtract = usr/share/doc/*'         'NoExtract = usr/share/man/* !usr/share/man/man1/*'         'NoExtract = usr/share/locale/* !usr/share/locale/en*/*'         'NoExtract = usr/share/i18n/*'         'DisableSandbox'         > /tmp/pacman-opts     && sed -i '/^\\[options\\]/r /tmp/pacman-opts' /etc/pacman.conf     && rm -f /tmp/pacman-opts # buildkit"
+            },
+            {
+              "digest": "sha256:36b2d2a4ee274e59b2f601c12c217544ab133eee2417735a30e1c22f8fa6f6bb",
+              "size": 1418170519,
+              "command": "RUN |6 SUNSHINE_VERSION=2026.914.233613 CLAUDE_CODE_VERSION=2.1.273 CODEX_VERSION=0.154.0 GEMINI_CLI_VERSION=0.60.0 OPENCODE_VERSION=1.18.31 HERDR_VERSION=0.9.3 /bin/bash -o pipefail -c pacman -Sy --noconfirm archlinux-keyring     && pacman -Su --noconfirm     && pacman -S --noconfirm --needed         gcc make pkgconf         git git-lfs github-cli openssh         curl wget jq less tree rsync unzip zip which man-db         ripgrep fd eza bat fzf zoxide starship tmux zsh neovim htop btop         python python-pip uv nodejs npm go rust         kubectl helm k9s kubectx stern opentofu terraform aws-cli-v2 azure-cli         chezmoi         hyprland xdg-desktop-portal xdg-desktop-portal-hyprland xorg-xwayland         foot waybar wofi mako         pipewire pipewire-pulse wireplumber         mesa vulkan-swrast intel-media-driver libva-utils         dbus polkit seatd avahi         ttf-jetbrains-mono-nerd noto-fonts     && pacman -Scc --noconfirm     && rm -rf /var/cache/pacman/pkg/* /var/lib/pacman/sync/*     && XDG_RUNTIME_DIR=/tmp Hyprland --version     && kubectl version --client     && terraform version     && node --version # buildkit"
+            },
+            {
+              "digest": "sha256:f881af185e192ffc7c257bb07bca38aacef3e495705d6f5fd16b3c16f5945339",
+              "size": 10518836,
+              "command": "RUN |6 SUNSHINE_VERSION=2026.914.233613 CLAUDE_CODE_VERSION=2.1.273 CODEX_VERSION=0.154.0 GEMINI_CLI_VERSION=0.60.0 OPENCODE_VERSION=1.18.31 HERDR_VERSION=0.9.3 /bin/bash -o pipefail -c curl -fsSL -o /tmp/sunshine.pkg.tar.zst         \"https://github.com/LizardByte/Sunshine/releases/download/v${SUNSHINE_VERSION}/sunshine-${SUNSHINE_VERSION}-1-x86_64.pkg.tar.zst\"     && pacman -Sy --noconfirm     && pacman -U --noconfirm /tmp/sunshine.pkg.tar.zst     && rm -f /tmp/sunshine.pkg.tar.zst     && pacman -Scc --noconfirm     && rm -rf /var/cache/pacman/pkg/* /var/lib/pacman/sync/*     && sunshine --version # buildkit"
+            },
+            {
+              "digest": "sha256:19009ae239030809dcc7a815906afcc796d80e6aa23656d64ad69e77eb0c900a",
+              "size": 379297832,
+              "command": "RUN |6 SUNSHINE_VERSION=2026.914.233613 CLAUDE_CODE_VERSION=2.1.273 CODEX_VERSION=0.154.0 GEMINI_CLI_VERSION=0.60.0 OPENCODE_VERSION=1.18.31 HERDR_VERSION=0.9.3 /bin/bash -o pipefail -c npm install -g --no-fund --no-audit         --allow-scripts=@anthropic-ai/claude-code,opencode-ai         \"@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}\"         \"@openai/codex@${CODEX_VERSION}\"         \"@google/gemini-cli@${GEMINI_CLI_VERSION}\"         \"opencode-ai@${OPENCODE_VERSION}\"     && npm cache clean --force     && claude --version     && codex --version     && gemini --version     && opencode --version # buildkit"
+            },
+            {
+              "digest": "sha256:0ec9f11b005be93cbd0e03939b4afc792f587c24789b5200d71797866314c6d3",
+              "size": 10902001,
+              "command": "RUN |6 SUNSHINE_VERSION=2026.914.233613 CLAUDE_CODE_VERSION=2.1.273 CODEX_VERSION=0.154.0 GEMINI_CLI_VERSION=0.60.0 OPENCODE_VERSION=1.18.31 HERDR_VERSION=0.9.3 /bin/bash -o pipefail -c curl -fsSL -o /usr/local/bin/herdr         \"https://github.com/herdrdev/herdr/releases/download/v${HERDR_VERSION}/herdr-linux-x86_64\"     && chmod 0755 /usr/local/bin/herdr     && herdr --version # buildkit"
+            },
+            {
+              "digest": "sha256:53c48cbd4dee1cdfe5ab906474cd7d578d694dbe1e69536298c34dd9cd56e70f",
+              "size": 1956,
+              "command": "RUN |6 SUNSHINE_VERSION=2026.914.233613 CLAUDE_CODE_VERSION=2.1.273 CODEX_VERSION=0.154.0 GEMINI_CLI_VERSION=0.60.0 OPENCODE_VERSION=1.18.31 HERDR_VERSION=0.9.3 /bin/bash -o pipefail -c groupadd --gid 1001 dev     && useradd --uid 1001 --gid dev --create-home --shell /usr/bin/zsh dev     && for g in video render input audio seat; do         getent group \"${g}\" > /dev/null || groupadd --system \"${g}\";        done     && usermod -aG video,render,input,audio,seat dev     && mkdir -p /workspace /run/user/1001     && chown dev:dev /workspace /run/user/1001     && chmod 700 /run/user/1001 # buildkit"
+            },
+            {
+              "digest": "sha256:8dd753ce89b7dc30f50499cde2e39fe218432823c2b294f926c55d26667156cf",
+              "size": 616,
+              "command": "RUN |6 SUNSHINE_VERSION=2026.914.233613 CLAUDE_CODE_VERSION=2.1.273 CODEX_VERSION=0.154.0 GEMINI_CLI_VERSION=0.60.0 OPENCODE_VERSION=1.18.31 HERDR_VERSION=0.9.3 /bin/bash -o pipefail -c install -d -o dev -g dev /home/dev/.config /home/dev/.config/hypr     && cat > /home/dev/.config/hypr/hyprland.conf <<'EOF'\n# Headless session for remote streaming; the output is created at runtime\n# because the headless backend starts with zero outputs.\nmonitor = HEADLESS-1, 1920x1080@60, 0x0, 1\n\nexec-once = hyprctl output create headless HEADLESS-1\nexec-once = /usr/bin/wireplumber\nexec-once = /usr/bin/sunshine\nexec-once = /usr/bin/waybar\nexec-once = /usr/bin/mako\n\ninput {\n    kb_layout = us\n    follow_mouse = 1\n}\n\ngeneral {\n    gaps_in = 4\n    gaps_out = 8\n    border_size = 2\n}\n\ndecoration {\n    rounding = 6\n}\n\nanimations {\n    enabled = false\n}\n\nmisc {\n    disable_hyprland_logo = true\n    disable_splash_rendering = true\n}\n\n$mod = SUPER\nbind = $mod, Return, exec, /usr/bin/foot\nbind = $mod, Q, killactive,\nbind = $mod, E, exec, /usr/bin/wofi --show drun\nbind = $mod, F, fullscreen,\nEOF # buildkit"
+            },
+            {
+              "digest": "sha256:d343aa677569db7e9e67871f7d6848b8d76c259f831ca535d971839962d0124e",
+              "size": 453,
+              "command": "RUN |6 SUNSHINE_VERSION=2026.914.233613 CLAUDE_CODE_VERSION=2.1.273 CODEX_VERSION=0.154.0 GEMINI_CLI_VERSION=0.60.0 OPENCODE_VERSION=1.18.31 HERDR_VERSION=0.9.3 /bin/bash -o pipefail -c cat > /usr/local/bin/start-desktop <<'START' && chmod 0755 /usr/local/bin/start-desktop\n#!/usr/bin/env bash\nset -euo pipefail\n\nexport XDG_RUNTIME_DIR=\"${XDG_RUNTIME_DIR:-/run/user/$(id -u)}\"\nmkdir -p \"${XDG_RUNTIME_DIR}\"\nchmod 700 \"${XDG_RUNTIME_DIR}\"\n\nif [[ ! -e /dev/dri/renderD128 ]]; then\n    echo \"FATAL: /dev/dri/renderD128 is missing.\" >&2\n    echo \"Hyprland cannot start without a DRM render node, even headless.\" >&2\n    echo \"Mount /dev/dri into the pod and set the matching supplementalGroups.\" >&2\n    exit 1\nfi\n\nexec Hyprland \"$@\"\nSTART # buildkit"
+            },
+            {
+              "digest": "sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1",
+              "size": 32,
+              "command": "WORKDIR /workspace"
+            }
+          ]
+        }
+      }
     }
   ],
   "description": "Arch Linux dev workstation with Hyprland streamed over Sunshine/Moonlight"

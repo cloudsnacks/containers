@@ -17,6 +17,18 @@
   ],
   packageRules: [
     {
+      description: 'Group every GitHub Actions update into one PR',
+      matchManagers: ['github-actions'],
+      groupName: 'github-actions',
+    },
+    {
+      description: 'Group minor and patch tool updates (mise tools and annotated downloads, not base images or runtimes) into one PR',
+      matchManagers: ['mise', 'custom.regex'],
+      matchDatasources: ['!docker', '!node-version'],
+      matchUpdateTypes: ['minor', 'patch'],
+      groupName: 'tools',
+    },
+    {
       description: 'Keep dev-desktop on the latest of everything: one grouped PR, automerged once CI passes, with a patch bump so a new tag is published',
       matchFileNames: ['images/dev-desktop/**'],
       groupName: 'dev-desktop',

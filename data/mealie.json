@@ -1,0 +1,185 @@
+{
+  "name": "mealie",
+  "history": [
+    {
+      "version": "3.30.0-1",
+      "digest": "sha256:6f4e942c5d989e8953630b23dbb1fb4cbd6a58f2485804d154a16ea2167338f9",
+      "collectedAt": "2026-11-07T13:39:49Z",
+      "platforms": {
+        "linux/arm64": {
+          "digest": "sha256:2db455b943d0a46060f83138b6eeb6669e2a6c501513fd1a0682efbb7db13c2b",
+          "size": 361845337,
+          "layers": [
+            {
+              "digest": "sha256:bbeda6b4abb749f743f4547ef5a28070a14de8caef211daa5afb78d5b5fa21ba",
+              "size": 30200282,
+              "command": "# debian.sh --arch 'arm64' out/ 'trixie' '@1791158400'"
+            },
+            {
+              "digest": "sha256:11de3117eae8701f1c18701e2d3954a5d5d09a0aed53fb1357c1b14dcd7d8e0c",
+              "size": 1275202,
+              "command": "RUN /bin/sh -c set -eux; \tapt-get update; \tapt-get install -y --no-install-recommends \t\tca-certificates \t\tnetbase \t\ttzdata \t; \tapt-get dist-clean # buildkit"
+            },
+            {
+              "digest": "sha256:9822e19f729e140671374092fb24ba8075b0b72142e3dd37940fb9b4161c6ae2",
+              "size": 12290806,
+              "command": "RUN /bin/sh -c set -eux; \t\tsavedAptMark=\"$(apt-mark showmanual)\"; \tapt-get update; \tapt-get install -y --no-install-recommends \t\tdpkg-dev \t\tg++ \t\tgcc \t\tgnupg \t\tlibbluetooth-dev \t\tlibbz2-dev \t\tlibc6-dev \t\tlibdb-dev \t\tlibffi-dev \t\tlibgdbm-dev \t\tliblzma-dev \t\tlibncursesw5-dev \t\tlibreadline-dev \t\tlibsqlite3-dev \t\tlibssl-dev \t\tlibzstd-dev \t\tmake \t\ttk-dev \t\tuuid-dev \t\twget \t\txz-utils \t\tzlib1g-dev \t; \t\twget -O python.tar.xz \"https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz\"; \techo \"$PYTHON_SHA256 *python.tar.xz\" | sha256sum -c -; \tmkdir -p /usr/src/python; \ttar --extract --directory /usr/src/python --strip-components=1 --file python.tar.xz; \trm python.tar.xz; \t\tcd /usr/src/python; \tgnuArch=\"$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)\"; \t./configure \t\t--build=\"$gnuArch\" \t\t--enable-loadable-sqlite-extensions \t\t--enable-optimizations \t\t--enable-option-checking=fatal \t\t--enable-shared \t\t$(test \"${gnuArch%%-*}\" != 'riscv64' && echo '--with-lto') \t\t--with-ensurepip \t; \tnproc=\"$(nproc)\"; \tEXTRA_CFLAGS=\"$(dpkg-buildflags --get CFLAGS)\"; \tLDFLAGS=\"$(dpkg-buildflags --get LDFLAGS)\"; \tLDFLAGS=\"${LDFLAGS:-} -Wl,--strip-all\"; \tarch=\"$(dpkg --print-architecture)\"; arch=\"${arch##*-}\"; \tcase \"$arch\" in \t\tamd64|arm64) \t\t\tEXTRA_CFLAGS=\"${EXTRA_CFLAGS:-} -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer\"; \t\t\t;; \t\ti386) \t\t\t;; \t\t*) \t\t\tEXTRA_CFLAGS=\"${EXTRA_CFLAGS:-} -fno-omit-frame-pointer\"; \t\t\t;; \tesac; \tmake -j \"$nproc\" \t\t\"EXTRA_CFLAGS=${EXTRA_CFLAGS:-}\" \t\t\"LDFLAGS=${LDFLAGS:-}\" \t; \trm python; \tmake -j \"$nproc\" \t\t\"EXTRA_CFLAGS=${EXTRA_CFLAGS:-}\" \t\t\"LDFLAGS=${LDFLAGS:-} -Wl,-rpath='\\$\\$ORIGIN/../lib'\" \t\tpython \t; \tmake install; \t\tcd /; \trm -rf /usr/src/python; \t\tfind /usr/local -depth \t\t\\( \t\t\t\\( -type d -a \\( -name test -o -name tests -o -name idle_test \\) \\) \t\t\t-o \\( -type f -a \\( -name '*.pyc' -o -name '*.pyo' -o -name 'libpython*.a' \\) \\) \t\t\\) -exec rm -rf '{}' + \t; \t\tldconfig; \t\tapt-mark auto '.*' > /dev/null; \tapt-mark manual $savedAptMark; \tfind /usr/local -type f -executable -not \\( -name '*tkinter*' \\) -exec ldd '{}' ';' \t\t| awk '/=>/ { so = $(NF-1); if (index(so, \"/usr/local/\") == 1) { next }; gsub(\"^/(usr/)?\", \"\", so); printf \"*%s\\n\", so }' \t\t| sort -u \t\t| xargs -rt dpkg-query --search \t\t| awk 'sub(\":$\", \"\", $1) { print $1 }' \t\t| sort -u \t\t| xargs -r apt-mark manual \t; \tapt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \tapt-get dist-clean; \t\texport PYTHONDONTWRITEBYTECODE=1; \tpython3 --version; \tpip3 --version # buildkit"
+            },
+            {
+              "digest": "sha256:2037d17aae31f093c23740441b88b49ed7739f3c69b2051958534cae91bd7225",
+              "size": 249,
+              "command": "RUN /bin/sh -c set -eux; \tfor src in idle3 pip3 pydoc3 python3 python3-config; do \t\tdst=\"$(echo \"$src\" | tr -d 3)\"; \t\t[ -s \"/usr/local/bin/$src\" ]; \t\t[ ! -e \"/usr/local/bin/$dst\" ]; \t\tln -svT \"$src\" \"/usr/local/bin/$dst\"; \tdone # buildkit"
+            },
+            {
+              "digest": "sha256:944d1fd8677910d44f24e802b72461133fdd76c500efba9d4cfca80d24d1d2e4",
+              "size": 1130,
+              "command": "RUN /bin/sh -c useradd -u 911 -U -d $MEALIE_HOME -s /bin/bash abc     && usermod -G users abc     && mkdir $MEALIE_HOME # buildkit"
+            },
+            {
+              "digest": "sha256:747f0ff540a3cd2757b9b40174aebcaf79e3343a1e3472c26c1f615fad7882ca",
+              "size": 173284258,
+              "command": "RUN |1 COMMIT=9552df62118224a377d9c9b0a62706a62220ab86 /bin/sh -c apt-get update     && apt-get install --no-install-recommends -y     curl     ffmpeg     gosu     iproute2     libldap-common     libldap2     unzip     && rm -rf /var/lib/apt/lists/* # buildkit"
+            },
+            {
+              "digest": "sha256:0b3a4999970adb209048a341f3a99f6515fa11b1e9abfdf9d9f2f7c50b1a718e",
+              "size": 120,
+              "command": "RUN |1 COMMIT=9552df62118224a377d9c9b0a62706a62220ab86 /bin/sh -c mkdir -p /run/secrets # buildkit"
+            },
+            {
+              "digest": "sha256:279463aa56416978a1a95e35b330182dab1382713ef436e33d1d02d9bcf035fb",
+              "size": 143088043,
+              "command": "COPY /opt/mealie /opt/mealie # buildkit"
+            },
+            {
+              "digest": "sha256:f2e2b2678d5564d6cbbe9ff35fbe1149d57e60078d3b343f32d507f1157cbca5",
+              "size": 983,
+              "command": "COPY ./docker/setup_nltk_data.sh /app/setup_nltk_data.sh # buildkit"
+            },
+            {
+              "digest": "sha256:1d4ae22ce76d96728fb37ca0403b279bf92aed7665dd146f956e73baa2b2c918",
+              "size": 1685952,
+              "command": "RUN |1 COMMIT=9552df62118224a377d9c9b0a62706a62220ab86 /bin/sh -c chmod +x $MEALIE_HOME/setup_nltk_data.sh && $MEALIE_HOME/setup_nltk_data.sh # buildkit"
+            },
+            {
+              "digest": "sha256:a7b9655f38a52f900fe0b402adccae7c69dd42c936d71e72371f6e757437e64b",
+              "size": 367,
+              "command": "COPY ./docker/healthcheck.sh /app/healthcheck.sh # buildkit"
+            },
+            {
+              "digest": "sha256:bd9ddc54bea929a22b334e73e026d4136e5b73f5cc29942896c72e4ece69b13d",
+              "size": 34,
+              "command": "RUN |1 COMMIT=9552df62118224a377d9c9b0a62706a62220ab86 /bin/sh -c chmod +x $MEALIE_HOME/healthcheck.sh # buildkit"
+            },
+            {
+              "digest": "sha256:954adf08e6d028b9cfbb11a592d1a027de094383b65d1bbcd41df7b77a7cf2a1",
+              "size": 1332,
+              "command": "COPY ./docker/entry.sh /app/run.sh # buildkit"
+            },
+            {
+              "digest": "sha256:64eaf978bc298d09b309ad86e72bdbca1b9e6e022ad230a71066859ac65b1f61",
+              "size": 1324,
+              "command": "RUN |1 COMMIT=9552df62118224a377d9c9b0a62706a62220ab86 /bin/sh -c chmod +x $MEALIE_HOME/run.sh # buildkit"
+            },
+            {
+              "digest": "sha256:898a511c7cf554e8e14d0ed454250ae2a6d35e673c20f9f3807b1c70edffe9bf",
+              "size": 7348,
+              "command": "COPY openai.py /tmp/openai.py # buildkit"
+            },
+            {
+              "digest": "sha256:6cb890045972f97ae28eed6276368601095aaceca6f6ac69bb9bc9e6a1712fbe",
+              "size": 7907,
+              "command": "RUN |1 UPSTREAM_OPENAI_SHA256=fa9d950b7eeb2e0e47b3f78567fcd26452ade6dd2cbdb6d5e6e45c6106357212 /bin/bash -o pipefail -c target=\"$(python -c 'import importlib.util; print(importlib.util.find_spec(\"mealie.services.openai.openai\").origin)')\"     && echo \"${UPSTREAM_OPENAI_SHA256}  ${target}\" | sha256sum -c -     && install -m 0644 /tmp/openai.py \"${target}\"     && rm /tmp/openai.py     && grep -q API_KEY_FILE_PREFIX \"${target}\" # buildkit"
+            }
+          ]
+        },
+        "linux/amd64": {
+          "digest": "sha256:f0e76b2c9d35d1f396eb2a9944682ee2fb857dbc21fd38fbbe838f7db5d93580",
+          "size": 370690102,
+          "layers": [
+            {
+              "digest": "sha256:ecc510c1e359bdc007b39802570bb7e4dec7d6ebccf357c3201a74299113e05e",
+              "size": 29843350,
+              "command": "# debian.sh --arch 'amd64' out/ 'trixie' '@1791158400'"
+            },
+            {
+              "digest": "sha256:a5883d972f3b60387a858b212a0a24115f143c826e40fdef3270e8474a8f42d6",
+              "size": 1294037,
+              "command": "RUN /bin/sh -c set -eux; \tapt-get update; \tapt-get install -y --no-install-recommends \t\tca-certificates \t\tnetbase \t\ttzdata \t; \tapt-get dist-clean # buildkit"
+            },
+            {
+              "digest": "sha256:6aaf5b0aae75c38277901ef64362f50475b879e0ff3ed6610eb2a9f69bcf3295",
+              "size": 12379560,
+              "command": "RUN /bin/sh -c set -eux; \t\tsavedAptMark=\"$(apt-mark showmanual)\"; \tapt-get update; \tapt-get install -y --no-install-recommends \t\tdpkg-dev \t\tg++ \t\tgcc \t\tgnupg \t\tlibbluetooth-dev \t\tlibbz2-dev \t\tlibc6-dev \t\tlibdb-dev \t\tlibffi-dev \t\tlibgdbm-dev \t\tliblzma-dev \t\tlibncursesw5-dev \t\tlibreadline-dev \t\tlibsqlite3-dev \t\tlibssl-dev \t\tlibzstd-dev \t\tmake \t\ttk-dev \t\tuuid-dev \t\twget \t\txz-utils \t\tzlib1g-dev \t; \t\twget -O python.tar.xz \"https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz\"; \techo \"$PYTHON_SHA256 *python.tar.xz\" | sha256sum -c -; \tmkdir -p /usr/src/python; \ttar --extract --directory /usr/src/python --strip-components=1 --file python.tar.xz; \trm python.tar.xz; \t\tcd /usr/src/python; \tgnuArch=\"$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)\"; \t./configure \t\t--build=\"$gnuArch\" \t\t--enable-loadable-sqlite-extensions \t\t--enable-optimizations \t\t--enable-option-checking=fatal \t\t--enable-shared \t\t$(test \"${gnuArch%%-*}\" != 'riscv64' && echo '--with-lto') \t\t--with-ensurepip \t; \tnproc=\"$(nproc)\"; \tEXTRA_CFLAGS=\"$(dpkg-buildflags --get CFLAGS)\"; \tLDFLAGS=\"$(dpkg-buildflags --get LDFLAGS)\"; \tLDFLAGS=\"${LDFLAGS:-} -Wl,--strip-all\"; \tarch=\"$(dpkg --print-architecture)\"; arch=\"${arch##*-}\"; \tcase \"$arch\" in \t\tamd64|arm64) \t\t\tEXTRA_CFLAGS=\"${EXTRA_CFLAGS:-} -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer\"; \t\t\t;; \t\ti386) \t\t\t;; \t\t*) \t\t\tEXTRA_CFLAGS=\"${EXTRA_CFLAGS:-} -fno-omit-frame-pointer\"; \t\t\t;; \tesac; \tmake -j \"$nproc\" \t\t\"EXTRA_CFLAGS=${EXTRA_CFLAGS:-}\" \t\t\"LDFLAGS=${LDFLAGS:-}\" \t; \trm python; \tmake -j \"$nproc\" \t\t\"EXTRA_CFLAGS=${EXTRA_CFLAGS:-}\" \t\t\"LDFLAGS=${LDFLAGS:-} -Wl,-rpath='\\$\\$ORIGIN/../lib'\" \t\tpython \t; \tmake install; \t\tcd /; \trm -rf /usr/src/python; \t\tfind /usr/local -depth \t\t\\( \t\t\t\\( -type d -a \\( -name test -o -name tests -o -name idle_test \\) \\) \t\t\t-o \\( -type f -a \\( -name '*.pyc' -o -name '*.pyo' -o -name 'libpython*.a' \\) \\) \t\t\\) -exec rm -rf '{}' + \t; \t\tldconfig; \t\tapt-mark auto '.*' > /dev/null; \tapt-mark manual $savedAptMark; \tfind /usr/local -type f -executable -not \\( -name '*tkinter*' \\) -exec ldd '{}' ';' \t\t| awk '/=>/ { so = $(NF-1); if (index(so, \"/usr/local/\") == 1) { next }; gsub(\"^/(usr/)?\", \"\", so); printf \"*%s\\n\", so }' \t\t| sort -u \t\t| xargs -rt dpkg-query --search \t\t| awk 'sub(\":$\", \"\", $1) { print $1 }' \t\t| sort -u \t\t| xargs -r apt-mark manual \t; \tapt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \tapt-get dist-clean; \t\texport PYTHONDONTWRITEBYTECODE=1; \tpython3 --version; \tpip3 --version # buildkit"
+            },
+            {
+              "digest": "sha256:bb8166eb34e6e8ea17f8c73a7eec8438693d91ebf29eda1d9d3c0dba36b579de",
+              "size": 249,
+              "command": "RUN /bin/sh -c set -eux; \tfor src in idle3 pip3 pydoc3 python3 python3-config; do \t\tdst=\"$(echo \"$src\" | tr -d 3)\"; \t\t[ -s \"/usr/local/bin/$src\" ]; \t\t[ ! -e \"/usr/local/bin/$dst\" ]; \t\tln -svT \"$src\" \"/usr/local/bin/$dst\"; \tdone # buildkit"
+            },
+            {
+              "digest": "sha256:944d1fd8677910d44f24e802b72461133fdd76c500efba9d4cfca80d24d1d2e4",
+              "size": 1130,
+              "command": "RUN /bin/sh -c useradd -u 911 -U -d $MEALIE_HOME -s /bin/bash abc     && usermod -G users abc     && mkdir $MEALIE_HOME # buildkit"
+            },
+            {
+              "digest": "sha256:014ea73d71e2ea48048258cc63cbb06e3cea7d4e01164477f0b0bc1be4e88650",
+              "size": 180536259,
+              "command": "RUN |1 COMMIT=9552df62118224a377d9c9b0a62706a62220ab86 /bin/sh -c apt-get update     && apt-get install --no-install-recommends -y     curl     ffmpeg     gosu     iproute2     libldap-common     libldap2     unzip     && rm -rf /var/lib/apt/lists/* # buildkit"
+            },
+            {
+              "digest": "sha256:b26b3704e31e1e8fd5878ceaabbf09142aa859867e21d0ed48759a80975ef9e7",
+              "size": 121,
+              "command": "RUN |1 COMMIT=9552df62118224a377d9c9b0a62706a62220ab86 /bin/sh -c mkdir -p /run/secrets # buildkit"
+            },
+            {
+              "digest": "sha256:f9618f2122f1ddfb8e045c169c92f18f755aec8d65e10aaa4f5dda9175499f87",
+              "size": 144930153,
+              "command": "COPY /opt/mealie /opt/mealie # buildkit"
+            },
+            {
+              "digest": "sha256:62086dd0e07d55439c6815ea9da38e299dfa4e211a5fb43610fb46ca7139af9e",
+              "size": 983,
+              "command": "COPY ./docker/setup_nltk_data.sh /app/setup_nltk_data.sh # buildkit"
+            },
+            {
+              "digest": "sha256:46ee88f62f9d19ca4075623638fd65840caab8e26dff648c38c569619a6d9490",
+              "size": 1685953,
+              "command": "RUN |1 COMMIT=9552df62118224a377d9c9b0a62706a62220ab86 /bin/sh -c chmod +x $MEALIE_HOME/setup_nltk_data.sh && $MEALIE_HOME/setup_nltk_data.sh # buildkit"
+            },
+            {
+              "digest": "sha256:096c42df7d25aca5d0ed02e87a1ec2a3624253818805028c838994e36890a394",
+              "size": 365,
+              "command": "COPY ./docker/healthcheck.sh /app/healthcheck.sh # buildkit"
+            },
+            {
+              "digest": "sha256:bd9ddc54bea929a22b334e73e026d4136e5b73f5cc29942896c72e4ece69b13d",
+              "size": 34,
+              "command": "RUN |1 COMMIT=9552df62118224a377d9c9b0a62706a62220ab86 /bin/sh -c chmod +x $MEALIE_HOME/healthcheck.sh # buildkit"
+            },
+            {
+              "digest": "sha256:ccb8c5c7d1e3f2278df1c0cdc7ee03e1dadc8fa4a04193a48db81141fcb4f6fa",
+              "size": 1331,
+              "command": "COPY ./docker/entry.sh /app/run.sh # buildkit"
+            },
+            {
+              "digest": "sha256:09ef650b381cee7a2087f459eae19c110f91327db7fa21101ef554e05221c38e",
+              "size": 1324,
+              "command": "RUN |1 COMMIT=9552df62118224a377d9c9b0a62706a62220ab86 /bin/sh -c chmod +x $MEALIE_HOME/run.sh # buildkit"
+            },
+            {
+              "digest": "sha256:d8f8e5bc6933cd25d340caf234e837dd9e943229cd9226805b6c47dea0f7bdbe",
+              "size": 7349,
+              "command": "COPY openai.py /tmp/openai.py # buildkit"
+            },
+            {
+              "digest": "sha256:056210a9def2507d0eb69bdaef59b1cb76dfb3f2ba4c58e3c3649dbe1be15457",
+              "size": 7904,
+              "command": "RUN |1 UPSTREAM_OPENAI_SHA256=fa9d950b7eeb2e0e47b3f78567fcd26452ade6dd2cbdb6d5e6e45c6106357212 /bin/bash -o pipefail -c target=\"$(python -c 'import importlib.util; print(importlib.util.find_spec(\"mealie.services.openai.openai\").origin)')\"     && echo \"${UPSTREAM_OPENAI_SHA256}  ${target}\" | sha256sum -c -     && install -m 0644 /tmp/openai.py \"${target}\"     && rm /tmp/openai.py     && grep -q API_KEY_FILE_PREFIX \"${target}\" # buildkit"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "description": "Mealie with AI provider API keys readable from files, for rotating credentials such as projected service account tokens"
+}

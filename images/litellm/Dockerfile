@@ -2,7 +2,7 @@
 FROM ghcr.io/astral-sh/uv:0.12.3@sha256:2d890623d310b57771ce840f0da5eed5fc6d657da05ffaa45d82797b53fa3abc AS uv
 
 # renovate: datasource=docker depName=ghcr.io/berriai/litellm-non_root
-FROM ghcr.io/berriai/litellm-non_root:v1.95.0@sha256:d5233c80ef7e28fd789b93c15e41fc0c86c6dfdf6ecbe1ef3f4c8ee2498f3827
+FROM ghcr.io/berriai/litellm-non_root:v1.108.2@sha256:c1e177d3c081bcc752b1be423c59d586ed97236d5f8b6b15e649b6d871e11c65
 
 # renovate: datasource=pypi depName=mlflow
 ARG MLFLOW_VERSION=3.15.1

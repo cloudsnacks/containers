@@ -16,6 +16,7 @@ Public container images for cloud work, built multi-arch and rootless with secur
 | `ghcr.io/cloudsnacks/infisical-mcp` | Infisical MCP server (secrets management over MCP) |
 | `ghcr.io/cloudsnacks/kubectl` | Rootless kubectl CLI |
 | `ghcr.io/cloudsnacks/litellm` | LiteLLM proxy (non_root), our canonical build with mlflow added for the built-in mlflow logging callback |
+| `ghcr.io/cloudsnacks/mealie` | [Mealie](https://github.com/mealie-recipes/mealie) with AI provider API keys readable from files (`file:<name>`), for rotating credentials such as projected service account tokens, until upstream releases it |
 | `ghcr.io/cloudsnacks/rrda` | JSON REST API for DNS queries, wrapping a resolver over HTTP |
 | `ghcr.io/cloudsnacks/sandbox-agent` | Rootless base image for sandboxed coding agents (Node, Python, uv, git, gh, ripgrep) |
 

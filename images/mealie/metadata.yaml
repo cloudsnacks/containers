@@ -1,0 +1,12 @@
+---
+name: mealie
+description: Mealie with AI provider API keys readable from files, for rotating credentials such as projected service account tokens
+# <upstream mealie version>-<revision>. Bump the revision whenever this image's
+# contents change without the base image moving. Renovate tracks upstream on the
+# Dockerfile FROM, deliberately not annotated here, since a -N suffix is a
+# semver pre-release and would be "upgraded" straight back to the bare release.
+version: 3.30.0-1
+platforms:
+  - linux/amd64
+  - linux/arm64
+test: grep -q API_KEY_FILE_PREFIX "$(python -c 'import importlib.util; print(importlib.util.find_spec("mealie.services.openai.openai").origin)')" && python -c "import mealie.services.openai.openai"

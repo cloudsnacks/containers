@@ -12,7 +12,7 @@ RUN wget -q -O rrda.tar.gz "https://github.com/fcambus/rrda/archive/refs/tags/${
     && CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /out/rrda \
     && /out/rrda -version
 
-FROM alpine:3.24@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b
+FROM alpine:3.24@sha256:f59abe656b692d901e184be3445e084786602108599d2a51d229c0f5a48c71bf
 
 # rrda speaks plain DNS to its upstream resolver and serves plain HTTP, so it
 # needs no CA bundle — busybox alone covers user creation.

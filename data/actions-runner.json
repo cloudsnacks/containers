@@ -623,6 +623,105 @@
           ]
         }
       }
+    },
+    {
+      "version": "2.338.2-1",
+      "digest": "sha256:ae0ec2fa099dbdae1e992429c15c183f2c03a66d99e3820bb3573acf6283fa6d",
+      "collectedAt": "2026-11-09T13:09:11Z",
+      "platforms": {
+        "linux/arm64": {
+          "digest": "sha256:293c6de38f4ab33e6e00ec8e461842c84db22334639f1ebdc16575895be41f78",
+          "size": 501061173,
+          "layers": [
+            {
+              "digest": "sha256:4b987da45db4d6278590ab89840c7167ea397df222f3ee4cdb77c3e15694b1a9",
+              "size": 28884180,
+              "command": "/bin/sh -c #(nop) ADD file:cdc9a547b921f36a32310f732815bbee6c6e4f5bd768ab5d49cdc0aa1b9f4785 in / "
+            },
+            {
+              "digest": "sha256:7a13e164e0a5819226d80258e9aeec18ef16088aeaa19fae03156a0af560c23a",
+              "size": 166555883,
+              "command": "RUN |5 RUNNER_VERSION=2.338.2 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 DOCKER_VERSION=29.6.1 BUILDX_VERSION=0.35.0 TARGETARCH=arm64 /bin/bash -o pipefail -c apt-get update     && apt-get install -y --no-install-recommends         ca-certificates         curl         fonts-freefont-ttf         fonts-ipafont-gothic         fonts-liberation         fonts-noto-color-emoji         fonts-tlwg-loma-otf         fonts-unifont         fonts-wqy-zenhei         git         git-lfs         jq         libasound2t64         libatk-bridge2.0-0t64         libatk1.0-0t64         libatomic1         libatspi2.0-0t64         libcairo2         libcups2t64         libdbus-1-3         libdrm2         libfontconfig1         libfreetype6         libgbm1         libglib2.0-0t64         libnspr4         libnss3         libpango-1.0-0         libx11-6         libxcb1         libxcomposite1         libxdamage1         libxext6         libxfixes3         libxkbcommon0         libxrandr2         make         tmux         unzip         zstd     && rm -rf /var/lib/apt/lists/* # buildkit"
+            },
+            {
+              "digest": "sha256:2edbae63149258a0122bef35d61b6d9642bfd7428e67d6b943a3de199e4f154b",
+              "size": 3541,
+              "command": "RUN |5 RUNNER_VERSION=2.338.2 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 DOCKER_VERSION=29.6.1 BUILDX_VERSION=0.35.0 TARGETARCH=arm64 /bin/bash -o pipefail -c groupadd --gid 1001 runner     && useradd --uid 1001 --gid runner --create-home --shell /bin/bash runner # buildkit"
+            },
+            {
+              "digest": "sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1",
+              "size": 32,
+              "command": "WORKDIR /home/runner"
+            },
+            {
+              "digest": "sha256:e186425e834affc8f707e9e27f8d91f169a357e364e0c33962c7c87c7017e30a",
+              "size": 145879329,
+              "command": "RUN |5 RUNNER_VERSION=2.338.2 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 DOCKER_VERSION=29.6.1 BUILDX_VERSION=0.35.0 TARGETARCH=arm64 /bin/bash -o pipefail -c RUNNER_ARCH=\"$(case \"${TARGETARCH}\" in amd64) echo x64 ;; *) echo \"${TARGETARCH}\" ;; esac)\"     && curl -fsSL \"https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${RUNNER_ARCH}-${RUNNER_VERSION}.tar.gz\"         | tar -xz     && ./bin/installdependencies.sh     && curl -fsSL -o /tmp/hooks.zip \"https://github.com/actions/runner-container-hooks/releases/download/v${RUNNER_CONTAINER_HOOKS_VERSION}/actions-runner-hooks-k8s-${RUNNER_CONTAINER_HOOKS_VERSION}.zip\"     && unzip -q /tmp/hooks.zip -d ./k8s     && rm /tmp/hooks.zip     && rm -rf /var/lib/apt/lists/*     && chown -R runner:runner /home/runner # buildkit"
+            },
+            {
+              "digest": "sha256:c56093c7f3505f8acce4340150cacd08895d0ca860071f2e5ec3a4f4e0fb618b",
+              "size": 38744379,
+              "command": "RUN |5 RUNNER_VERSION=2.338.2 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 DOCKER_VERSION=29.6.1 BUILDX_VERSION=0.35.0 TARGETARCH=arm64 /bin/bash -o pipefail -c DOCKER_ARCH=\"$(case \"${TARGETARCH}\" in amd64) echo x86_64 ;; arm64) echo aarch64 ;; *) echo \"${TARGETARCH}\" ;; esac)\"     && curl -fsSL -o /tmp/docker.tgz \"https://download.docker.com/linux/static/stable/${DOCKER_ARCH}/docker-${DOCKER_VERSION}.tgz\"     && tar -xzf /tmp/docker.tgz -C /tmp     && install -o root -g root -m 0755 /tmp/docker/docker /usr/bin/docker     && rm -rf /tmp/docker /tmp/docker.tgz     && mkdir -p /usr/local/lib/docker/cli-plugins     && curl -fsSL -o /usr/local/lib/docker/cli-plugins/docker-buildx         \"https://github.com/docker/buildx/releases/download/v${BUILDX_VERSION}/buildx-v${BUILDX_VERSION}.linux-${TARGETARCH}\"     && chmod 0755 /usr/local/lib/docker/cli-plugins/docker-buildx     && groupadd --gid 123 docker     && usermod --append --groups docker runner     && docker --version     && docker buildx version # buildkit"
+            },
+            {
+              "digest": "sha256:489701cb3d2c29ee7349af8d0d1387c6521fc19b8231ec1f00c9f5b8e9228da5",
+              "size": 543,
+              "command": "COPY mise.toml /opt/mise/config.toml # buildkit"
+            },
+            {
+              "digest": "sha256:964a82843bbde5c53dc11072e712ec429abba8980f1b31ede86b08a3f23a2d18",
+              "size": 120993286,
+              "command": "RUN |6 RUNNER_VERSION=2.338.2 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 DOCKER_VERSION=29.6.1 BUILDX_VERSION=0.35.0 TARGETARCH=arm64 MISE_VERSION=2026.7.17 /bin/bash -o pipefail -c MISE_ARCH=\"$(case \"${TARGETARCH}\" in amd64) echo x64 ;; *) echo \"${TARGETARCH}\" ;; esac)\"     && curl -fsSL -o /tmp/mise         \"https://github.com/jdx/mise/releases/download/v${MISE_VERSION}/mise-v${MISE_VERSION}-linux-${MISE_ARCH}\"     && install -o root -g root -m 0755 /tmp/mise /usr/bin/mise     && rm -f /tmp/mise     && mise install --yes     && mise ls --installed # buildkit"
+            }
+          ]
+        },
+        "linux/amd64": {
+          "digest": "sha256:55201620b3bda5e00ba4859d5691a7739878b64f4ba921bd3127263bed93e07f",
+          "size": 586502822,
+          "layers": [
+            {
+              "digest": "sha256:ca2678b20700c15185707964d9211b1a6406196114bf675f568b6025d37b3888",
+              "size": 29735601,
+              "command": "/bin/sh -c #(nop) ADD file:8c609c85109d07bf47cf268a175b3be8bbe34fc0c41d15d99b090d099f4dc837 in / "
+            },
+            {
+              "digest": "sha256:6e8588f5a5ea78db3ee5c932ffc75a4992e81d7d14d9f655c60870c9dfddff68",
+              "size": 166053888,
+              "command": "RUN |5 RUNNER_VERSION=2.338.2 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 DOCKER_VERSION=29.6.1 BUILDX_VERSION=0.35.0 TARGETARCH=amd64 /bin/bash -o pipefail -c apt-get update     && apt-get install -y --no-install-recommends         ca-certificates         curl         fonts-freefont-ttf         fonts-ipafont-gothic         fonts-liberation         fonts-noto-color-emoji         fonts-tlwg-loma-otf         fonts-unifont         fonts-wqy-zenhei         git         git-lfs         jq         libasound2t64         libatk-bridge2.0-0t64         libatk1.0-0t64         libatomic1         libatspi2.0-0t64         libcairo2         libcups2t64         libdbus-1-3         libdrm2         libfontconfig1         libfreetype6         libgbm1         libglib2.0-0t64         libnspr4         libnss3         libpango-1.0-0         libx11-6         libxcb1         libxcomposite1         libxdamage1         libxext6         libxfixes3         libxkbcommon0         libxrandr2         make         tmux         unzip         zstd     && rm -rf /var/lib/apt/lists/* # buildkit"
+            },
+            {
+              "digest": "sha256:0cd832bd96bce9273e54ab24cca7f186a57803308fdba33e3e14a1839cb3d164",
+              "size": 3535,
+              "command": "RUN |5 RUNNER_VERSION=2.338.2 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 DOCKER_VERSION=29.6.1 BUILDX_VERSION=0.35.0 TARGETARCH=amd64 /bin/bash -o pipefail -c groupadd --gid 1001 runner     && useradd --uid 1001 --gid runner --create-home --shell /bin/bash runner # buildkit"
+            },
+            {
+              "digest": "sha256:4f4fb700ef54461cfa02571ae0db9a0dc1e0cdb5577484a6d75e68dc38e8acc1",
+              "size": 32,
+              "command": "WORKDIR /home/runner"
+            },
+            {
+              "digest": "sha256:b2ad1c91d6f0e72a352fe8dd19be03f97e738a87444517b338ed5640f24d84b9",
+              "size": 235791145,
+              "command": "RUN |5 RUNNER_VERSION=2.338.2 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 DOCKER_VERSION=29.6.1 BUILDX_VERSION=0.35.0 TARGETARCH=amd64 /bin/bash -o pipefail -c RUNNER_ARCH=\"$(case \"${TARGETARCH}\" in amd64) echo x64 ;; *) echo \"${TARGETARCH}\" ;; esac)\"     && curl -fsSL \"https://github.com/actions/runner/releases/download/v${RUNNER_VERSION}/actions-runner-linux-${RUNNER_ARCH}-${RUNNER_VERSION}.tar.gz\"         | tar -xz     && ./bin/installdependencies.sh     && curl -fsSL -o /tmp/hooks.zip \"https://github.com/actions/runner-container-hooks/releases/download/v${RUNNER_CONTAINER_HOOKS_VERSION}/actions-runner-hooks-k8s-${RUNNER_CONTAINER_HOOKS_VERSION}.zip\"     && unzip -q /tmp/hooks.zip -d ./k8s     && rm /tmp/hooks.zip     && rm -rf /var/lib/apt/lists/*     && chown -R runner:runner /home/runner # buildkit"
+            },
+            {
+              "digest": "sha256:3493c72b4c974284422a68c922ba2d637e5dc3dd93378fa09f62b3e82682aef3",
+              "size": 42476978,
+              "command": "RUN |5 RUNNER_VERSION=2.338.2 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 DOCKER_VERSION=29.6.1 BUILDX_VERSION=0.35.0 TARGETARCH=amd64 /bin/bash -o pipefail -c DOCKER_ARCH=\"$(case \"${TARGETARCH}\" in amd64) echo x86_64 ;; arm64) echo aarch64 ;; *) echo \"${TARGETARCH}\" ;; esac)\"     && curl -fsSL -o /tmp/docker.tgz \"https://download.docker.com/linux/static/stable/${DOCKER_ARCH}/docker-${DOCKER_VERSION}.tgz\"     && tar -xzf /tmp/docker.tgz -C /tmp     && install -o root -g root -m 0755 /tmp/docker/docker /usr/bin/docker     && rm -rf /tmp/docker /tmp/docker.tgz     && mkdir -p /usr/local/lib/docker/cli-plugins     && curl -fsSL -o /usr/local/lib/docker/cli-plugins/docker-buildx         \"https://github.com/docker/buildx/releases/download/v${BUILDX_VERSION}/buildx-v${BUILDX_VERSION}.linux-${TARGETARCH}\"     && chmod 0755 /usr/local/lib/docker/cli-plugins/docker-buildx     && groupadd --gid 123 docker     && usermod --append --groups docker runner     && docker --version     && docker buildx version # buildkit"
+            },
+            {
+              "digest": "sha256:a5d14dd6bcb632591ce851e4a172c63b2ab0f82f3d0a19179aa1b24540000446",
+              "size": 543,
+              "command": "COPY mise.toml /opt/mise/config.toml # buildkit"
+            },
+            {
+              "digest": "sha256:3992de21a59474014cc8963d869b8926ce91bb8c96cd6cff0620c67853c8c4a0",
+              "size": 112441100,
+              "command": "RUN |6 RUNNER_VERSION=2.338.2 RUNNER_CONTAINER_HOOKS_VERSION=0.8.1 DOCKER_VERSION=29.6.1 BUILDX_VERSION=0.35.0 TARGETARCH=amd64 MISE_VERSION=2026.7.17 /bin/bash -o pipefail -c MISE_ARCH=\"$(case \"${TARGETARCH}\" in amd64) echo x64 ;; *) echo \"${TARGETARCH}\" ;; esac)\"     && curl -fsSL -o /tmp/mise         \"https://github.com/jdx/mise/releases/download/v${MISE_VERSION}/mise-v${MISE_VERSION}-linux-${MISE_ARCH}\"     && install -o root -g root -m 0755 /tmp/mise /usr/bin/mise     && rm -f /tmp/mise     && mise install --yes     && mise ls --installed # buildkit"
+            }
+          ]
+        }
+      }
     }
   ],
   "description": "GitHub Actions runner for Actions Runner Controller, with docker CLI, buildx and a mise-managed CLI toolchain"

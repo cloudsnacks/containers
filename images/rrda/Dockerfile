@@ -1,4 +1,4 @@
-FROM golang:1.26-alpine@sha256:0178a641fbb4858c5f1b48e34bdaabe0350a330a1b1149aabd498d0699ff5fb2 AS build
+FROM golang:1.26-alpine@sha256:30b1e546a9c7fa3b747c2bdba3a0c7bdf3a02ebb4c5b8405d2f948d7e8aac4ec AS build
 
 # renovate: datasource=github-releases depName=fcambus/rrda
 ARG RRDA_VERSION=1.4.1

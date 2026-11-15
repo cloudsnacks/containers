@@ -19,6 +19,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     ACTIONS_RUNNER_PRINT_LOG_TO_STDOUT=1 \
     LANG=C.UTF-8
 
+# gcc, libc6-dev: cgo. actions/setup-go brings the Go toolchain but no C
+# compiler, and without one `go test -race` refuses to run
 # libatomic1: the Node that actions/setup-node installs links libatomic.so.1
 # make: repos that drive CI through Makefiles
 # tmux: workflows that drive a real tmux session
@@ -41,6 +43,7 @@ RUN apt-get update \
         fonts-tlwg-loma-otf \
         fonts-unifont \
         fonts-wqy-zenhei \
+        gcc \
         git \
         git-lfs \
         jq \
@@ -49,6 +52,7 @@ RUN apt-get update \
         libatk1.0-0t64 \
         libatomic1 \
         libatspi2.0-0t64 \
+        libc6-dev \
         libcairo2 \
         libcups2t64 \
         libdbus-1-3 \

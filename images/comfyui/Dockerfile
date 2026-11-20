@@ -1,5 +1,5 @@
 # renovate: datasource=docker depName=python
-FROM python:3.12-slim@sha256:09f7da3bc104798d0afb40bc08d23ab2da20a76130cec1f2ef170848f5d85217
+FROM python:3.12-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
 
 # renovate: datasource=github-releases depName=comfyanonymous/ComfyUI
 ARG COMFYUI_VERSION=0.38.0
